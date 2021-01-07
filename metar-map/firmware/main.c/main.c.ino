@@ -40,7 +40,7 @@
 /*********
   Rui Santos
   Complete project details at https://randomnerdtutorials.com/esp8266-nodemcu-access-point-ap-web-server/
-  
+
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files.
   The above copyright notice and this permission notice shall be included in all
@@ -57,21 +57,8 @@
 const char *ssid = "metar_map";
 const char *password = "qwerty";
 
-#define DHTPIN 5 // Digital pin connected to the DHT sensor
-
-// Uncomment the type of sensor in use:
-#define DHTTYPE DHT22 // DHT 22 (AM2302)
-
-// current temperature & humidity, updated in loop()
-float t = 0.0;
-float h = 0.0;
-
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
-
-// Generally, you should use "unsigned long" for variables that hold time
-// The value will quickly become too large for an int to store
-unsigned long previousMillis = 0; // will store last time DHT was updated
 
 // Updates DHT readings every 10 seconds
 const long interval = 10000;
@@ -138,16 +125,7 @@ setInterval(function ( ) {
 // Replaces placeholder with DHT values
 String processor(const String &var)
 {
-  //Serial.println(var);
-  if (var == "TEMPERATURE")
-  {
-    return String(t);
-  }
-  else if (var == "HUMIDITY")
-  {
-    return String(h);
-  }
-  return String();
+  return "ok";
 }
 
 void setup()
@@ -157,7 +135,7 @@ void setup()
 
   Serial.print("Setting AP (Access Point)…");
   // Remove the password parameter, if you want the AP (Access Point) to be open
-  WiFi.softAP(ssid, password);
+  WiFi.softAP(ssid);
 
   IPAddress IP = WiFi.softAPIP();
   Serial.print("AP IP address: ");
@@ -167,14 +145,8 @@ void setup()
   Serial.println(WiFi.localIP());
 
   // Route for root / web page
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send_P(200, "text/html", index_html, processor);
-  });
-  server.on("/temperature", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send_P(200, "text/plain", String(t).c_str());
-  });
-  server.on("/humidity", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send_P(200, "text/plain", String(h).c_str());
   });
 
   // Start server
@@ -183,15 +155,6 @@ void setup()
 
 void loop()
 {
-  unsigned long currentMillis = millis();
-  if (currentMillis - previousMillis >= interval)
-  {
-    // save the last time you updated the DHT values
-    previousMillis = currentMillis;
-    // Read temperature as Celsius (the default)
-
-    // Read temperature as Fahrenheit (isFahrenheit = true)
-    //float newT = dht.readTemperature(true);
-    // if temperature read failed, don't change t value
-  }
+  Serial.printf("Stations connected = %d\n", WiFi.softAPgetStationNum());
+  delay(3000);
 }
