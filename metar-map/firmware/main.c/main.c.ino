@@ -151,6 +151,30 @@ void setup()
 
   // Start server
   server.begin();
+  
+      int sta_connected = 0;
+    if (ESPConf.mode == WIFI_STA)
+    {
+        WiFi.mode((WiFiMode)ESPConf.mode);  //WIFI_AP, WIFI_STA, WIFI_AP_STA, WIFI_OFF
+        local_ip = IPAddress(0,0,0,0);
+        WiFi.config(local_ip, local_ip, local_ip);    //Reset to use DHCP
+        WiFi.hostname(ESPConf.host); //This is the hostrname that should be supplied to the DHCP server
+        WiFi.begin(ESPConf.ssid, ESPConf.passwd);
+        if(WiFi.waitForConnectResult() == WL_CONNECTED)
+        {
+            IP2str(ipbuf, WiFi.localIP());
+            MsgDbg = "STA ADDR = " + String(ipbuf);
+            sta_connected = 1;
+        }
+        else
+            MsgDbg = "WiFi connection to " + String(ESPConf.ssid) + " failed! Starting SoftAP instead";
+        SerialDebug.println(MsgDbg);
+    }
+    if ((ESPConf.mode == WIFI_AP) || (!sta_connected)) //Mode WIFI_AP or failed to connect WIFI_STA
+    {
+        WiFi.mode(WIFI_AP);  //WIFI_OFF, WIFI_STA, WIFI_AP, WIFI_AP_STA
+        WiFi.softAPConfig((IPAddress)ESPConf.addr, (IPAddress)ESPConf.addr, netmask);
+        WiFi.softAP(ESPConf.ssid, ESPConf.passwd, ESPConf.wichannel, true);
 }
 
 void loop()
