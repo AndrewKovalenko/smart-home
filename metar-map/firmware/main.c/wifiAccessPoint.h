@@ -88,3 +88,16 @@ const char *wifiCredentialsPage PROGMEM = R"htmlcode(
 
 </html>
 )htmlcode";
+
+void startWiFiAccessPoint() {
+  Serial.print("Setting AP (Access Point)…");
+  
+  WiFi.softAPConfig(local_IP, gateway, subnet);
+  WiFi.softAP(ssid, password, channel, false, maxConnections);
+
+  IPAddress IP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(IP);
+
+  Serial.println(WiFi.localIP());
+}
