@@ -1,13 +1,5 @@
 #include <ESP8266WiFi.h>
-
-const char *ssid = "metar_map";
-const char *password = "metarmappass";
-const int channel = 12;
-const int maxConnections = 1;
-
-IPAddress local_IP(192,168,0,2);
-IPAddress gateway(192,168,0,1);
-IPAddress subnet(255,255,255,254);
+#include "wifiAccessPoint.h"
 
 void setup()
 {
