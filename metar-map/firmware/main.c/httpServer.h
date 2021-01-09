@@ -3,6 +3,7 @@
 const int HTTP_OK = 200;
 
 const char ROOT_URL[] = "/";
+const char RESPONSE_MIME_TYPE[] = "text/html";
 const int HTTP_SERVER_PORT = 80;
 ESP8266WebServer httpServer(HTTP_SERVER_PORT);
 
@@ -89,11 +90,11 @@ const char wifiCredentialsPage[] PROGMEM = R"htmlcode(
 
 void handleHttpRootCall()
 {
-    httpServer.send(HTTP_OK, wifiCredentialsPage);
+    httpServer.send(HTTP_OK, RESPONSE_MIME_TYPE, wifiCredentialsPage);
 }
 
 void startAccessPointConfigWebServer()
 {
-    httpServer.on(ROOT_URL, handleHttpRootCall);
+    httpServer.on("/", handleHttpRootCall);
     httpServer.begin();
 }
