@@ -1,8 +1,8 @@
 
-const char *ssid = "metar_map";
-const char *password = "metarmappass";
-const int channel = 12;
-const int maxConnections = 1;
+const char *SSID = "metar_map";
+const char *PASSWORD = "metarmappass";
+const int ACCESS_POINT_CHANEL = 12;
+const int MAX_ACCESS_POINT_CONNECTIONS = 1;
 
 const IPAddress local_IP(192, 168, 0, 2);
 const IPAddress gateway(192, 168, 0, 1);
@@ -13,11 +13,12 @@ void startWiFiAccessPoint()
     Serial.print("Setting AP (Access Point)…");
 
     WiFi.softAPConfig(local_IP, gateway, subnet);
-    WiFi.softAP(ssid, password, channel, false, maxConnections);
+    WiFi.softAP(SSID, PASSWORD, ACCESS_POINT_CHANEL, false, MAX_ACCESS_POINT_CONNECTIONS);
 
     IPAddress IP = WiFi.softAPIP();
     Serial.print("AP IP address: ");
     Serial.println(IP);
 
+    Serial.print("Local IP address: ");
     Serial.println(WiFi.localIP());
 }
