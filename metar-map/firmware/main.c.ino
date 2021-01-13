@@ -1,10 +1,9 @@
 #include "wifiAccessPoint.h"
 #include "httpServer.h"
+#include "settingsStorage.h"
 
-void setup()
+void startCongigurationAccessPoint()
 {
-  Serial.begin(115200);
-
   Serial.println("Setting AP (Access Point)…");
 
   IPAddress localIpAddress = startWiFiAccessPoint();
@@ -14,6 +13,22 @@ void setup()
 
   Serial.println("Starting HTTP Server");
   startAccessPointConfigWebServer();
+}
+
+void setup()
+{
+  Serial.begin(115200);
+
+  WiFiCredentials savedCredentials = readCredentials();
+
+  if (savedCredentials.ssid == "" || savedCredentials.password == "")
+  {
+    startCongigurationAccessPoint();
+  }
+  else
+  {
+    Serial.println("SSID: " + savedCredentials.ssid + ", Password: " + savedCredentials.password);
+  }
 }
 
 void loop()
