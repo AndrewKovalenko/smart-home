@@ -3,8 +3,8 @@
 const uint EEPROM_CREDENTIALS_ADDRESS = 0;
 struct WiFiCredentials
 {
-    char ssid[20] = "";
-    char password[20] = "";
+    String ssid = "";
+    String password = "";
 };
 
 void saveWiFiCredentials(WiFiCredentials credentials)
