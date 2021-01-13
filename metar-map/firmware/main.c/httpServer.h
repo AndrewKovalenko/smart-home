@@ -1,7 +1,7 @@
 #include <ESP8266WebServer.h>
 
 const int HTTP_OK = 200;
-const char SSID[] = "network-ssid", PASSWORD[] = "wifi-password";
+const char SSID_ARGUMENT[] = "network-ssid", PASSWORD_ARGUMENT[] = "wifi-password";
 
 const char ROOT_URL[] = "/";
 const char RESPONSE_MIME_TYPE[] = "text/html";
@@ -96,18 +96,18 @@ void handleHttpRootCall()
 
 void handleSavingWiFiCredentials()
 {
-    if (!httpServer.hasArg(SSID) || !httpServer.hasArg(PASSWORD) || httpServer.arg(SSID) == NULL || httpServer.arg(PASSWORD) == NULL)
+    if (!httpServer.hasArg(SSID_ARGUMENT) || !httpServer.hasArg(PASSWORD_ARGUMENT) || httpServer.arg(SSID_ARGUMENT) == NULL || httpServer.arg(PASSWORD_ARGUMENT) == NULL)
     {
         httpServer.send(400, "text/plain", "400: Invalid Request");
         return;
     }
 
     WiFiCredentials credentials;
-    credentials.ssid = httpServer.arg(SSID);
-    credentials.password = httpServer.arg(PASSWORD);
+    credentials.ssid = httpServer.arg(SSID_ARGUMENT);
+    credentials.password = httpServer.arg(PASSWORD_ARGUMENT);
 
     saveWiFiCredentials(credentials);
-    httpServer.send(200, "text/html", "<h1>Welcome, " + server.arg("username") + "!</h1><p>Login successful</p>");
+    httpServer.send(200, "text/html", "<h1>Welcome, " + httpServer.arg(SSID_ARGUMENT) + "!</h1><p>Login successful</p>");
 }
 
 void startAccessPointConfigWebServer()
