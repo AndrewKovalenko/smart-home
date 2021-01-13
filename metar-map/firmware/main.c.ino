@@ -1,6 +1,6 @@
+#include "settingsStorage.h"
 #include "wifiAccessPoint.h"
 #include "httpServer.h"
-#include "settingsStorage.h"
 
 void startCongigurationAccessPoint()
 {
@@ -19,7 +19,7 @@ void setup()
 {
   Serial.begin(115200);
 
-  WiFiCredentials savedCredentials = readCredentials();
+  WiFiCredentials savedCredentials = readWifiCredentials();
 
   if (savedCredentials.ssid == "" || savedCredentials.password == "")
   {
