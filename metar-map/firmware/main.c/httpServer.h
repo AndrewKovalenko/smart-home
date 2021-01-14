@@ -106,6 +106,8 @@ void handleSavingWiFiCredentials()
     credentials.ssid = httpServer.arg(SSID_ARGUMENT);
     credentials.password = httpServer.arg(PASSWORD_ARGUMENT);
 
+    Serial.println("SSID:" + credentials.ssid + ", password: " + credentials.password);
+
     saveWiFiCredentials(credentials);
     httpServer.send(200, "text/html", "<h1>Welcome, " + httpServer.arg(SSID_ARGUMENT) + "!</h1><p>Login successful</p>");
 }
