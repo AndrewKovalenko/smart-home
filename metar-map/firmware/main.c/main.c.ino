@@ -21,7 +21,7 @@ void setup()
 
   WiFiCredentials savedCredentials = readWifiCredentials();
 
-  if (savedCredentials.ssid == "" || savedCredentials.password == "")
+  if (blancCredentialsRecord(savedCredentials))
   {
     startCongigurationAccessPoint();
   }
