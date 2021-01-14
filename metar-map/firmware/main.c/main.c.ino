@@ -21,12 +21,17 @@ void setup()
 
   WiFiCredentials savedCredentials = readWifiCredentials();
 
+  Serial.println("Saved SSID: " + savedCredentials.ssid);
+
   if (blancCredentialsRecord(savedCredentials))
   {
+    uint16_t calculatedCRC = calculateCRC(savedCredentials.ssid + savedCredentials.password);
+    Serial.printf("crc didn't match: %d vs %d", calculatedCRC, savedCredentials.crc);
     startCongigurationAccessPoint();
   }
   else
   {
+    Serial.println("crc matched, starting WiFI client!");
     Serial.println("SSID: " + savedCredentials.ssid + ", Password: " + savedCredentials.password);
   }
 }

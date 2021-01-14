@@ -1,18 +1,18 @@
 #include <EEPROM.h>
-#include <util/crc16.h>
+#include "crc16.h"
 
 const uint EEPROM_CREDENTIALS_ADDRESS = 0;
 struct WiFiCredentials
 {
-    String ssid = NULL;
-    String password = NULL;
+    String ssid = "";
+    String password = "";
     uint16_t crc;
 };
 
 uint16_t calculateCRC(String str)
 {
     uint16_t crc = 0;
-    for (int i = 0; i < strlen(str); i++)
+    for (int i = 0; i < str.length(); i++)
     {
         crc = _crc16_update(crc, str[i]);
     }
