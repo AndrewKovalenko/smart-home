@@ -1,6 +1,7 @@
 #include "settingsStorage.h"
 #include "wifiAccessPoint.h"
 #include "httpServer.h"
+#include "wifiStation.h"
 
 void startCongigurationAccessPoint()
 {
