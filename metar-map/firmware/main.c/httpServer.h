@@ -110,9 +110,11 @@ void handleSavingWiFiCredentials()
 
     saveWiFiCredentials(credentials);
     httpServer.send(200, "text/html", "<h1>Welcome, " + httpServer.arg(SSID_ARGUMENT) + "!</h1><p>Login successful</p>");
+    delay(TEN_SECONDS);
+    ESP.restart();
 }
 
-void startAccessPointConfigWebServer()
+void startAccessPointConfigWebServer(void (*f)())
 {
     httpServer.on("/", HTTP_GET, handleHttpRootCall);
     httpServer.on("/connect", HTTP_POST, handleSavingWiFiCredentials);

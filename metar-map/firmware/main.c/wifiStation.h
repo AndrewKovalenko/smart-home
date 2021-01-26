@@ -1,4 +1,3 @@
-const unsigned int ONE_SECOND = 1000;
 const unsigned char WIFI_CONNECTION_SUCCESSFULL = 0;
 const unsigned char WIFI_CONNECTION_FAILED = 0;
 
