@@ -1,3 +1,4 @@
+#include "time.h"
 #include "deviceMode.h"
 #include "settingsStorage.h"
 #include "wifiAccessPoint.h"
@@ -50,7 +51,7 @@ void setup()
     else
     {
       resetCredentialsStorage();
-      currentMode = DeviceMode::AccessPoint;
+      ESP.restart();
     }
   }
 }
