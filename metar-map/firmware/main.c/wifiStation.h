@@ -1,6 +1,8 @@
-const int ONE_SECOND = 1000;
+const unsigned int ONE_SECOND = 1000;
+const unsigned char WIFI_CONNECTION_SUCCESSFULL = 0;
+const unsigned char WIFI_CONNECTION_FAILED = 0;
 
-void startWiFiStation(WiFiCredentials credentials, int numberOfReconnects)
+unsigned char startWiFiClient(WiFiCredentials credentials, int numberOfReconnects)
 {
     WiFi.disconnect();
     WiFi.mode(WIFI_STA);
@@ -15,7 +17,9 @@ void startWiFiStation(WiFiCredentials credentials, int numberOfReconnects)
         }
         else
         {
-            return;
+            return WIFI_CONNECTION_SUCCESSFULL;
         }
     }
+
+    return WIFI_CONNECTION_FAILED;
 }

@@ -1,7 +1,9 @@
 #include <EEPROM.h>
 #include "crc16.h"
 
-const uint EEPROM_CREDENTIALS_ADDRESS = 0;
+const unsigned int EEPROM_CREDENTIALS_ADDRESS = 0;
+const char BLANK[] = "BLANK";
+
 struct WiFiCredentials
 {
     String ssid = "";
@@ -42,4 +44,16 @@ WiFiCredentials readWifiCredentials()
     EEPROM.end();
 
     return credentials;
+}
+
+void resetCredentialsStorage()
+{
+    WiFiCredentials credentials;
+    credentials.crc = 0;
+    credentials.ssid = BLANK;
+    credentials.password = BLANK;
+
+    EEPROM.begin(sizeof(WiFiCredentials));
+    EEPROM.put(EEPROM_CREDENTIALS_ADDRESS, credentials);
+    EEPROM.end();
 }
