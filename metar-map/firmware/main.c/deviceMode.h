@@ -1,0 +1,5 @@
+enum DeviceMode
+{
+    AccessPoint,
+    WiFiClient
+}
