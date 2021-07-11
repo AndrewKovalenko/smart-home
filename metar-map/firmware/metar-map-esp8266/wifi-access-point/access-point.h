@@ -13,9 +13,6 @@ private:
     const IPAddress subnet = IPAddress(255, 255, 255, 0);
 
 public:
-    WiFiAccessPoint(/* args */);
-    ~WiFiAccessPoint();
-
     IPAddress startAccessPoint()
     {
         WiFi.softAPConfig(local_IP, gateway, subnet);
