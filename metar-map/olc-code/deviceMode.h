@@ -2,4 +2,4 @@ enum DeviceMode
 {
     AccessPoint,
     WiFiClient
-}
+};

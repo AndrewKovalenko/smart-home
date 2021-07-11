@@ -1,7 +1,7 @@
-const unsigned char WIFI_CONNECTION_SUCCESSFULL = 0;
-const unsigned char WIFI_CONNECTION_FAILED = 0;
+const uint16 WIFI_CONNECTION_SUCCESSFULL = 0;
+const uint16 WIFI_CONNECTION_FAILED = 1;
 
-unsigned char startWiFiClient(WiFiCredentials credentials, int numberOfReconnects)
+uint16 startWiFiClient(WiFiCredentials credentials, int numberOfReconnects)
 {
     WiFi.disconnect();
     WiFi.mode(WIFI_STA);

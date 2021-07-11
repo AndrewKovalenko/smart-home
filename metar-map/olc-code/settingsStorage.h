@@ -1,7 +1,7 @@
 #include <EEPROM.h>
 #include "crc16.h"
 
-const unsigned int EEPROM_CREDENTIALS_ADDRESS = 0;
+const uint8 EEPROM_CREDENTIALS_ADDRESS = 0;
 const char BLANK[] = "BLANK";
 
 struct WiFiCredentials
@@ -49,6 +49,7 @@ WiFiCredentials readWifiCredentials()
 void resetCredentialsStorage()
 {
     WiFiCredentials credentials;
+
     credentials.crc = 0;
     credentials.ssid = BLANK;
     credentials.password = BLANK;

@@ -114,7 +114,7 @@ void handleSavingWiFiCredentials()
     ESP.restart();
 }
 
-void startAccessPointConfigWebServer(void (*f)())
+void startAccessPointConfigWebServer()
 {
     httpServer.on("/", HTTP_GET, handleHttpRootCall);
     httpServer.on("/connect", HTTP_POST, handleSavingWiFiCredentials);

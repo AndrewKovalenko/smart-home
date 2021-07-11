@@ -1,0 +1,2 @@
+const uint16 ONE_SECOND = 1000;
+const uint16 TEN_SECONDS = ONE_SECOND * 10;
