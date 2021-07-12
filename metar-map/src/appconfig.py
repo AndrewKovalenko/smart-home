@@ -8,3 +8,5 @@ ACCESS_POINT_CREDENTIALS = {
     'ssid': 'MetarMap',
     'password': 'Hola123456'
 }
+
+HTTP_SERVER_PORT = 80

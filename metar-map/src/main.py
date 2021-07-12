@@ -1,7 +1,6 @@
 # main.py
 import importmodules
-import accesspoint 
-import appconfig
+from metarmapcontroller import MetarMapController
 
-accessPoint = accesspoint.AccessPoint(appconfig.ACCESS_POINT_CREDENTIALS ,appconfig.ACCESS_POINT_NETWORK)
-accessPoint.start()
+metarMapController = MetarMapController()
+metarMapController.start()
