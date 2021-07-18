@@ -2,7 +2,7 @@ import basehttpserver as base
 
 IP_KEY = 'ip_address'
 PORT_KEY = 'port'
-ENCODING = 'iso-8859-1'
+REQUEST_FRAME_SIZE = 1024
 
 class NetworkSetupServer(base.BaseHttpServer):
     def __init__(self, serverConfig):
@@ -19,26 +19,56 @@ class NetworkSetupServer(base.BaseHttpServer):
 
         self.__runServer = True
 
+    def __getRespond(self, connection):
+        def respond(response):
+            connection.sendall(str.encode("HTTP/1.0 200 OK\n", self.ENCODING))
+            connection.sendall(str.encode('Content-Type: text/html\n', self.ENCODING))
+            connection.send(str.encode('\r\n'))
+
+            if isinstance(response, list):
+                for stringLine in response:
+                    connection.sendall(str.encode(""+stringLine+"", self.ENCODING))
+            elif isinstance(response, str):
+                connection.sendall(str.encode(""+response+"", self.ENCODING))
+            else:
+                connection.close()
+                raise TypeError('Unsuported response type')
+
+            connection.close()
+
+        return respond
+
     def start(self):
         server = self.__httpServer
 
         server.listen(0)
 
         while self.__runServer:
-            csock, caddr = server.accept()
+            request, caddr = server.accept()
             print("request from: " + str(caddr))
-            req = csock.recv(1024)  # get the request, 1kB max
+            req = request.recv(REQUEST_FRAME_SIZE)  # get the request, 1kB max
             (method, url) = super().__passeRequest(req)
             print('Parse results:',method, url)
-            # Look in the first line of the request for a move command
-            # A move command should be e.g. 'http://server/move?a=90'
 
-            csock.sendall(str.encode("HTTP/1.0 200 OK\n", ENCODING))
-            csock.sendall(str.encode('Content-Type: text/html\n', ENCODING))
-            csock.send(str.encode('\r\n'))
-            # send data per line
-            for htmlLine in self.__credentialsPageLines:
-                csock.sendall(str.encode(""+htmlLine+"", ENCODING))
+            try:
+                if method in self.__httpHandlers and \
+                    url in self.__httpHandlers[method]:
+                    respondFunction = self.__getRespond(request)
+                    print(respondFunction)
+                    handlerFunction = self.__httpHandlers[method][url]
+                    handlerFunction(self, respondFunction)
+                else:
+                    super().__returnNotFound(request)
 
-            csock.close()
+            finally:
+                request.close()
+    
+    def __homePage(self, respond):
+        print(self, respond)
+        respond(self.__credentialsPageLines)
 
+    __httpHandlers = {
+        'GET': {
+            '/': __homePage
+        }
+    }

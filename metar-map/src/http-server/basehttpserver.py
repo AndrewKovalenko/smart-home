@@ -12,6 +12,8 @@ URL_GROUP = 2
 REQUEST_SECTIONS_SEPARATOR = '\\r\\n'
 
 class BaseHttpServer:
+    ENCODING = 'iso-8859-1'
+
     def __init__(self, serverConfig):
         serverIp = serverConfig[IP_KEY]
         serverPort = serverConfig[PORT_KEY]
@@ -36,3 +38,8 @@ class BaseHttpServer:
 
         errorMessage = 'Unknown request format: ' + requestTypeAndUrl
         raise RequestParsingError(errorMessage)
+
+    def __returnNotFound(self, connection):
+        connection.sendall(str.encode("HTTP/1.0 404 Not Found\n", self.ENCODING))
+        connection.sendall(str.encode('Content-Type: text/html\n', self.ENCODING))
+        connection.close()
