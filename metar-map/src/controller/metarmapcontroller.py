@@ -18,6 +18,6 @@ class MetarMapController:
                 'ip_address': appconfig.ACCESS_POINT_NETWORK['loacl_ip'],
                 'port': appconfig.HTTP_SERVER_PORT
             })
-            apHttpServer.start()
+            apHttpServer.startServer()
 
 
