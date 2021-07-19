@@ -6,9 +6,14 @@ IP_KEY = 'ip_address'
 PORT_KEY = 'port'
 ENCODING = 'iso-8859-1'
 DEFAULT_REQUEST_SIZE = 1024
-REQUEST_PARSING_REFEXP_PATTERN = "^b'([A-Z]+)\s([\/\._\-?&=a-zA-Z0-9]+)\sHTTP\/1\.1$"
+
+REQUEST_PARSING_REFEXP_PATTERN = r"^b'([A-Z]+)\s([\/\._\-?&=a-zA-Z0-9]+)\sHTTP\/1\.1$"
+CONTENT_LENGTH_PATTERN = r".*Content-Length:\s(\d+)\\r\\n.*"
+
 HTTP_METHOD_GROUP = 1
 URL_GROUP = 2
+CONTENT_LENGTH_GROUP = 1
+
 REQUEST_SECTIONS_SEPARATOR = '\\r\\n'
 REQUEST_FRAME_SIZE = 1024
 IP_KEY = 'ip_address'
@@ -21,14 +26,26 @@ class BaseHttpServer:
         serverIp = serverConfig[IP_KEY]
         serverPort = serverConfig[PORT_KEY]
 
-        serverAddress = socket.getaddrinfo(serverIp, serverPort)[0][-1] 
+        serverAddress = socket.getaddrinfo(serverIp, serverPort)[0][-1]
         httpServer = socket.socket()
         httpServer.bind(serverAddress)
         self.__httpServer = httpServer
         self.__requestParsingRegexp = ure.compile(REQUEST_PARSING_REFEXP_PATTERN)
+        self.__contentLengthRegexp = ure.compile(CONTENT_LENGTH_PATTERN)
         self.__runServer = True
 
-    def __passeRequest(self, request):
+    def __readBody(self, headers, request):
+        requestText = repr(headers)
+        print(requestText)
+        matchObject = self.__contentLengthRegexp.match(requestText)
+        contentLength = matchObject.group(CONTENT_LENGTH_GROUP)
+        bodyContent = int(contentLength)
+        bodyContent = request.read(contentLength)
+
+        return bodyContent
+
+
+    def __parseUrl(self, request):
         requestSections = repr(request).split(REQUEST_SECTIONS_SEPARATOR)
         requestTypeAndUrl = requestSections[0]
         matchObject = self.__requestParsingRegexp.match(requestTypeAndUrl)
@@ -75,9 +92,13 @@ class BaseHttpServer:
         while self.__runServer:
             request, caddr = server.accept()
             print("request from: " + str(caddr))
-            req = request.recv(REQUEST_FRAME_SIZE)  # get the request, 1kB max
-            (method, url) = self.__passeRequest(req)
+            headers = request.recv(REQUEST_FRAME_SIZE)  # get the request, 1kB max
+            (method, url) = self.__parseUrl(headers)
             print('Parse results:',method, url)
+
+            if method == 'POST':
+                body = self.__readBody(headers, request)
+                print(body)
 
             try:
                 if method in httpHandlers and \
