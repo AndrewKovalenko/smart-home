@@ -15,11 +15,10 @@ class NetworkSetupServer(base.BaseHttpServer):
         credentialsPageFile.close()
 
     def __homePage(self, respond):
-        print(self, respond)
         respond(self.__credentialsPageLines)
 
     def __saveWiFiCredentials(self, respond):
-        print('Hello')
+        respond(self.__credentialsPageLines)
 
     __httpHandlers = {
         'GET': {

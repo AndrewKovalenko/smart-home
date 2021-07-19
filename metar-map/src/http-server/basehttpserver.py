@@ -8,7 +8,7 @@ ENCODING = 'iso-8859-1'
 DEFAULT_REQUEST_SIZE = 1024
 
 REQUEST_PARSING_REFEXP_PATTERN = r"^b'([A-Z]+)\s([\/\._\-?&=a-zA-Z0-9]+)\sHTTP\/1\.1$"
-CONTENT_LENGTH_PATTERN = r".*Content-Length:\s(\d+)\\r\\n.*"
+CONTENT_LENGTH_PATTERN = r".+?Content-Length:\s(\d+)"
 
 HTTP_METHOD_GROUP = 1
 URL_GROUP = 2
@@ -37,10 +37,11 @@ class BaseHttpServer:
     def __readBody(self, headers, request):
         requestText = repr(headers)
         print(requestText)
+        print(CONTENT_LENGTH_PATTERN)
         matchObject = self.__contentLengthRegexp.match(requestText)
         contentLength = matchObject.group(CONTENT_LENGTH_GROUP)
-        bodyContent = int(contentLength)
-        bodyContent = request.read(contentLength)
+        print("Content length: ", contentLength)
+        bodyContent = request.read(int(contentLength))
 
         return bodyContent
 
