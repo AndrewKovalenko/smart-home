@@ -37,10 +37,8 @@ class BaseHttpServer:
     def __readBody(self, headers, request):
         requestText = repr(headers)
         print(requestText)
-        print(CONTENT_LENGTH_PATTERN)
         matchObject = self.__contentLengthRegexp.match(requestText)
         contentLength = matchObject.group(CONTENT_LENGTH_GROUP)
-        print("Content length: ", contentLength)
         bodyContent = request.read(int(contentLength))
 
         return bodyContent
@@ -92,10 +90,9 @@ class BaseHttpServer:
 
         while self.__runServer:
             request, caddr = server.accept()
-            print("request from: " + str(caddr))
-            headers = request.recv(REQUEST_FRAME_SIZE)  # get the request, 1kB max
+            headers = request.recv(REQUEST_FRAME_SIZE)
             (method, url) = self.__parseUrl(headers)
-            print('Parse results:',method, url)
+            print('Request:',method, url)
 
             if method == 'POST':
                 body = self.__readBody(headers, request)
@@ -105,7 +102,6 @@ class BaseHttpServer:
                 if method in httpHandlers and \
                     url in httpHandlers[method]:
                     respondFunction = self.__getRespond(request)
-                    print(respondFunction)
                     handlerFunction = httpHandlers[method][url]
                     handlerFunction(self, respondFunction)
                 else:
