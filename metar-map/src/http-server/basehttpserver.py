@@ -1,10 +1,12 @@
 import socket
 import ure
 from httperrors import RequestParsingError
+from parsehelpers import parseBody
 
 IP_KEY = 'ip_address'
 PORT_KEY = 'port'
 ENCODING = 'iso-8859-1'
+REGULAR_STRING_ENCODING = 'utf-8'
 DEFAULT_REQUEST_SIZE = 1024
 
 REQUEST_PARSING_REFEXP_PATTERN = r"^b'([A-Z]+)\s([\/\._\-?&=a-zA-Z0-9]+)\sHTTP\/1\.1$"
@@ -19,6 +21,7 @@ REQUEST_FRAME_SIZE = 1024
 IP_KEY = 'ip_address'
 PORT_KEY = 'port'
 
+
 class BaseHttpServer:
     ENCODING = 'iso-8859-1'
 
@@ -30,19 +33,22 @@ class BaseHttpServer:
         httpServer = socket.socket()
         httpServer.bind(serverAddress)
         self.__httpServer = httpServer
-        self.__requestParsingRegexp = ure.compile(REQUEST_PARSING_REFEXP_PATTERN)
+        self.__requestParsingRegexp = ure.compile(
+            REQUEST_PARSING_REFEXP_PATTERN)
         self.__contentLengthRegexp = ure.compile(CONTENT_LENGTH_PATTERN)
         self.__runServer = True
 
     def __readBody(self, headers, request):
         requestText = repr(headers)
-        print(requestText)
+        print('Headers: ', requestText)
         matchObject = self.__contentLengthRegexp.match(requestText)
         contentLength = matchObject.group(CONTENT_LENGTH_GROUP)
-        bodyContent = request.read(int(contentLength))
+        print('Content length: ', contentLength)
+        print('Bytes to read: ', int(contentLength.strip()))
+        bodyContentString = request.read(int(contentLength.strip())).decode(REGULAR_STRING_ENCODING)
 
-        return bodyContent
-
+        print('Content: ', bodyContentString)
+        return parseBody(bodyContentString)
 
     def __parseUrl(self, request):
         requestSections = repr(request).split(REQUEST_SECTIONS_SEPARATOR)
@@ -53,7 +59,7 @@ class BaseHttpServer:
             method = matchObject.group(HTTP_METHOD_GROUP)
             path = matchObject.group(URL_GROUP)
 
-            if(method is not None and path is not None):
+            if (method is not None and path is not None):
                 return (method, path)
 
         errorMessage = 'Unknown request format: ' + requestTypeAndUrl
@@ -62,14 +68,17 @@ class BaseHttpServer:
     def __getRespond(self, connection):
         def respond(response):
             connection.sendall(str.encode("HTTP/1.0 200 OK\n", self.ENCODING))
-            connection.sendall(str.encode('Content-Type: text/html\n', self.ENCODING))
+            connection.sendall(
+                str.encode('Content-Type: text/html\n', self.ENCODING))
             connection.send(str.encode('\r\n'))
 
             if isinstance(response, list):
                 for stringLine in response:
-                    connection.sendall(str.encode(""+stringLine+"", self.ENCODING))
+                    connection.sendall(
+                        str.encode("" + stringLine + "", self.ENCODING))
             elif isinstance(response, str):
-                connection.sendall(str.encode(""+response+"", self.ENCODING))
+                connection.sendall(
+                    str.encode("" + response + "", self.ENCODING))
             else:
                 connection.close()
                 raise TypeError('Unsuported response type')
@@ -79,8 +88,10 @@ class BaseHttpServer:
         return respond
 
     def __returnNotFound(self, connection):
-        connection.sendall(str.encode("HTTP/1.0 404 Not Found\n", self.ENCODING))
-        connection.sendall(str.encode('Content-Type: text/html\n', self.ENCODING))
+        connection.sendall(
+            str.encode("HTTP/1.0 404 Not Found\n", self.ENCODING))
+        connection.sendall(
+            str.encode('Content-Type: text/html\n', self.ENCODING))
         connection.close()
 
     def start(self, httpHandlers):
@@ -92,7 +103,7 @@ class BaseHttpServer:
             request, caddr = server.accept()
             headers = request.recv(REQUEST_FRAME_SIZE)
             (method, url) = self.__parseUrl(headers)
-            print('Request:',method, url)
+            print('Request:', method, url)
 
             if method == 'POST':
                 body = self.__readBody(headers, request)
@@ -109,5 +120,3 @@ class BaseHttpServer:
 
             finally:
                 request.close()
-
-
