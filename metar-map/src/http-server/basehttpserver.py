@@ -38,14 +38,16 @@ class BaseHttpServer:
         self.__contentLengthRegexp = ure.compile(CONTENT_LENGTH_PATTERN)
         self.__runServer = True
 
-    def __readBody(self, headers, request):
+    def __readContentLength(self, headers):
         requestText = repr(headers)
         print('Headers: ', requestText)
         matchObject = self.__contentLengthRegexp.match(requestText)
         contentLength = matchObject.group(CONTENT_LENGTH_GROUP)
+        return int(contentLength.strip())
+
+    def __readBody(self, contentLength, request):
         print('Content length: ', contentLength)
-        print('Bytes to read: ', int(contentLength.strip()))
-        bodyContentString = request.read(int(contentLength.strip())).decode(REGULAR_STRING_ENCODING)
+        bodyContentString = request.read(contentLength).decode(REGULAR_STRING_ENCODING)
 
         print('Content: ', bodyContentString)
         return parseBody(bodyContentString)
@@ -100,13 +102,14 @@ class BaseHttpServer:
         server.listen(0)
 
         while self.__runServer:
-            request, caddr = server.accept()
+            request, _ = server.accept()
             headers = request.recv(REQUEST_FRAME_SIZE)
             (method, url) = self.__parseUrl(headers)
             print('Request:', method, url)
 
             if method == 'POST':
-                body = self.__readBody(headers, request)
+                contentLength = self.__readContentLength(headers)
+                body = self.__readBody(contentLength, request)
                 print(body)
 
             try:
