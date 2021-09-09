@@ -47,7 +47,7 @@ class BaseHttpServer:
 
     def __readBody(self, contentLength, request):
         print('Content length: ', contentLength)
-        bodyContentString = request.read(contentLength).decode(REGULAR_STRING_ENCODING)
+        bodyContentString = str(request.read(contentLength)) #.decode(REGULAR_STRING_ENCODING)
 
         print('Content: ', bodyContentString)
         return parseBody(bodyContentString)
