@@ -52,8 +52,8 @@ class BaseHttpServer:
         print('Content: ', bodyContentString)
         return parseBody(bodyContentString)
 
-    def __parseUrl(self, request):
-        requestSections = repr(request).split(REQUEST_SECTIONS_SEPARATOR)
+    def __parseUrl(self, headersString):
+        requestSections = headersString.split(REQUEST_SECTIONS_SEPARATOR)
         requestTypeAndUrl = requestSections[0]
         matchObject = self.__requestParsingRegexp.match(requestTypeAndUrl)
 
@@ -66,6 +66,20 @@ class BaseHttpServer:
 
         errorMessage = 'Unknown request format: ' + requestTypeAndUrl
         raise RequestParsingError(errorMessage)
+
+    def __readHeaders(self, request):
+        headersString = ''
+
+        while True:
+            line = request.readline()
+            if not line or line == b'\r\n':
+                break
+
+            headersString = headersString + line.decode(REGULAR_STRING_ENCODING)
+
+        return headersString
+
+
 
     def __getRespond(self, connection):
         def respond(response):
@@ -103,7 +117,7 @@ class BaseHttpServer:
 
         while self.__runServer:
             request, _ = server.accept()
-            headers = request.recv(REQUEST_FRAME_SIZE)
+            headers = self.__readHeaders(request)
             (method, url) = self.__parseUrl(headers)
             print('Request:', method, url)
 
