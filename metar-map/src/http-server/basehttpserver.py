@@ -9,15 +9,13 @@ ENCODING = 'iso-8859-1'
 REGULAR_STRING_ENCODING = 'utf-8'
 DEFAULT_REQUEST_SIZE = 1024
 
-REQUEST_PARSING_REFEXP_PATTERN = r"^b'([A-Z]+)\s([\/\._\-?&=a-zA-Z0-9]+)\sHTTP\/1\.1$"
+REQUEST_PARSING_REFEXP_PATTERN = r"([A-Z]+)\s([\/\._\-?&=a-zA-Z0-9]+)\sHTTP\/1\.1"
 CONTENT_LENGTH_PATTERN = r".+?Content-Length:\s(\d+)"
 
 HTTP_METHOD_GROUP = 1
 URL_GROUP = 2
 CONTENT_LENGTH_GROUP = 1
 
-REQUEST_SECTIONS_SEPARATOR = '\\r\\n'
-REQUEST_FRAME_SIZE = 1024
 IP_KEY = 'ip_address'
 PORT_KEY = 'port'
 
@@ -53,18 +51,17 @@ class BaseHttpServer:
         return parseBody(bodyContentString)
 
     def __parseUrl(self, headersString):
-        requestSections = headersString.split(REQUEST_SECTIONS_SEPARATOR)
-        requestTypeAndUrl = requestSections[0]
-        matchObject = self.__requestParsingRegexp.match(requestTypeAndUrl)
+        matchObject = self.__requestParsingRegexp.match(headersString)
 
         if matchObject is not None:
             method = matchObject.group(HTTP_METHOD_GROUP)
             path = matchObject.group(URL_GROUP)
+            print(matchObject)
 
             if (method is not None and path is not None):
                 return (method, path)
 
-        errorMessage = 'Unknown request format: ' + requestTypeAndUrl
+        errorMessage = 'Unknown request format: ' + headersString
         raise RequestParsingError(errorMessage)
 
     def __readHeaders(self, request):
@@ -76,7 +73,8 @@ class BaseHttpServer:
                 break
 
             headersString = headersString + line.decode(REGULAR_STRING_ENCODING)
-
+        
+        print(headersString)
         return headersString
 
 
