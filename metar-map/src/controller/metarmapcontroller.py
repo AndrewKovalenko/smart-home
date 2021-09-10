@@ -2,6 +2,7 @@ from modes import MetarMapControllerModes
 import accesspoint 
 import appconfig
 from networksetupserver import NetworkSetupServer
+import networkcredentials as networkCredentialsRepository
 
 
 class MetarMapController:
@@ -18,6 +19,7 @@ class MetarMapController:
                 'ip_address': appconfig.ACCESS_POINT_NETWORK['loacl_ip'],
                 'port': appconfig.HTTP_SERVER_PORT
             })
+            print('Credentials saved: ', networkCredentialsRepository.areCredentialsSet())
             apHttpServer.startServer()
 
 

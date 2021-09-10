@@ -108,11 +108,11 @@ class BaseHttpServer:
             request, _ = server.accept()
             headers = self.__readHeaders(request)
             (method, url) = self.__parseUrl(headers[URL])
+            body = {}
 
             if method == 'POST':
                 contentLength = int(headers[CONTENT_LENGTH])
                 body = self.__readBody(contentLength, request)
-                print('Body: ', body)
 
             try:
                 if method in httpHandlers and \
