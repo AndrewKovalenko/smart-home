@@ -1,15 +1,23 @@
 import os
 
-CREDENTIALS_STORAGE = './storage/netwok-credentials'
+CREDENTIALS_STORAGE = './netwok-credentials'
+CREDENTIALS_SEPARATOR = '@'
 
 def saveNetworkCredentials(ssid, password):
-    credentialsFile = open(CREDENTIALS_STORAGE, 'w')
-    credentialsFile.writelines([ssid, password])
-    credentialsFile.close()
+    try:
+        credentialsFile = open(CREDENTIALS_STORAGE, 'w')
+        credentialsFile.write(ssid + CREDENTIALS_SEPARATOR + password)
+    finally:
+        credentialsFile.close()
 
 def readNetworkCredentials():
-    credentialsFile = open(CREDENTIALS_STORAGE, 'r')
-    [ssid, password] = credentialsFile.readlines()
+    try:
+        credentialsFile = open(CREDENTIALS_STORAGE, 'r')
+        credentialsString = credentialsFile.read()
+    finally:
+        credentialsFile.close()
+
+    [ssid, password] = credentialsString.split(CREDENTIALS_SEPARATOR, 1)
 
     return {'ssid': ssid, 'password': password}
 

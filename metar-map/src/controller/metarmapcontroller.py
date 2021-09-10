@@ -19,7 +19,11 @@ class MetarMapController:
                 'ip_address': appconfig.ACCESS_POINT_NETWORK['loacl_ip'],
                 'port': appconfig.HTTP_SERVER_PORT
             })
-            print('Credentials saved: ', networkCredentialsRepository.areCredentialsSet())
+            if networkCredentialsRepository.areCredentialsSet():
+                print("Network credentials are: ", networkCredentialsRepository.readNetworkCredentials())
+            else:
+                print('Credentials are not set')
+
             apHttpServer.startServer()
 
 
