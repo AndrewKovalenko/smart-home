@@ -7,10 +7,12 @@ IP_KEY = 'ip_address'
 PORT_KEY = 'port'
 ENCODING = 'iso-8859-1'
 REGULAR_STRING_ENCODING = 'utf-8'
-DEFAULT_REQUEST_SIZE = 1024
+URL = 'URL'
+CONTENT_LENGTH = 'Content-Length'
+HTTP_HEADER_SEPARATOR = ':'
 
 REQUEST_PARSING_REFEXP_PATTERN = r"([A-Z]+)\s([\/\._\-?&=a-zA-Z0-9]+)\sHTTP\/1\.1"
-CONTENT_LENGTH_PATTERN = r".+?Content-Length:\s(\d+)"
+CONTENT_LENGTH_PATTERN = r"(Content-Length)"
 
 HTTP_METHOD_GROUP = 1
 URL_GROUP = 2
@@ -36,11 +38,17 @@ class BaseHttpServer:
         self.__contentLengthRegexp = ure.compile(CONTENT_LENGTH_PATTERN)
         self.__runServer = True
 
-    def __readContentLength(self, headers):
-        requestText = repr(headers)
-        print('Headers: ', requestText)
-        matchObject = self.__contentLengthRegexp.match(requestText)
+    def __readContentLength(self, headersString):
+        print('Headers passed: ', headersString)
+        matchObject = self.__contentLengthRegexp.match(headersString)
+        print('Match: ', matchObject)
+        
+        if matchObject is None:
+            errorMessage = 'Content-Length header required'
+            raise RequestParsingError(errorMessage)
+
         contentLength = matchObject.group(CONTENT_LENGTH_GROUP)
+        print('Content length: ', contentLength)
         return int(contentLength.strip())
 
     def __readBody(self, contentLength, request):
@@ -56,7 +64,6 @@ class BaseHttpServer:
         if matchObject is not None:
             method = matchObject.group(HTTP_METHOD_GROUP)
             path = matchObject.group(URL_GROUP)
-            print(matchObject)
 
             if (method is not None and path is not None):
                 return (method, path)
@@ -65,19 +72,24 @@ class BaseHttpServer:
         raise RequestParsingError(errorMessage)
 
     def __readHeaders(self, request):
-        headersString = ''
+        headers = {}
 
         while True:
             line = request.readline()
+
             if not line or line == b'\r\n':
                 break
 
-            headersString = headersString + line.decode(REGULAR_STRING_ENCODING)
-        
-        print(headersString)
-        return headersString
+            decodedLine = line.decode(REGULAR_STRING_ENCODING)
 
+            if HTTP_HEADER_SEPARATOR not in decodedLine:
+                headers[URL] = decodedLine
+            else:
+                print(decodedLine)
+                [headerName, headerValue] = decodedLine.split(HTTP_HEADER_SEPARATOR, 1)
+                headers[headerName.strip()] = headerValue.strip()
 
+        return headers
 
     def __getRespond(self, connection):
         def respond(response):
@@ -116,11 +128,11 @@ class BaseHttpServer:
         while self.__runServer:
             request, _ = server.accept()
             headers = self.__readHeaders(request)
-            (method, url) = self.__parseUrl(headers)
+            (method, url) = self.__parseUrl(headers[URL])
             print('Request:', method, url)
 
             if method == 'POST':
-                contentLength = self.__readContentLength(headers)
+                contentLength = int(headers[CONTENT_LENGTH])
                 body = self.__readBody(contentLength, request)
                 print(body)
 
