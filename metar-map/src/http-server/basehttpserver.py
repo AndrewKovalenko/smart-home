@@ -34,10 +34,8 @@ class BaseHttpServer:
         self.__runServer = True
 
     def __readBody(self, contentLength, request):
-        print('Content length: ', contentLength)
-        bodyContentString = str(request.read(contentLength)) #.decode(REGULAR_STRING_ENCODING)
+        bodyContentString = request.read(contentLength).decode(REGULAR_STRING_ENCODING)
 
-        print('Content: ', bodyContentString)
         return parseBody(bodyContentString)
 
     def __parseUrl(self, headersString):
@@ -67,7 +65,6 @@ class BaseHttpServer:
             if HTTP_HEADER_SEPARATOR not in decodedLine:
                 headers[URL] = decodedLine
             else:
-                print(decodedLine)
                 [headerName, headerValue] = decodedLine.split(HTTP_HEADER_SEPARATOR, 1)
                 headers[headerName.strip()] = headerValue.strip()
 
@@ -111,19 +108,18 @@ class BaseHttpServer:
             request, _ = server.accept()
             headers = self.__readHeaders(request)
             (method, url) = self.__parseUrl(headers[URL])
-            print('Request:', method, url)
 
             if method == 'POST':
                 contentLength = int(headers[CONTENT_LENGTH])
                 body = self.__readBody(contentLength, request)
-                print(body)
+                print('Body: ', body)
 
             try:
                 if method in httpHandlers and \
                     url in httpHandlers[method]:
                     respondFunction = self.__getRespond(request)
                     handlerFunction = httpHandlers[method][url]
-                    handlerFunction(self, respondFunction)
+                    handlerFunction(self, body, respondFunction)
                 else:
                     self.__returnNotFound(request)
 
