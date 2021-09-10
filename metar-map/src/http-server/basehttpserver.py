@@ -12,19 +12,15 @@ CONTENT_LENGTH = 'Content-Length'
 HTTP_HEADER_SEPARATOR = ':'
 
 REQUEST_PARSING_REFEXP_PATTERN = r"([A-Z]+)\s([\/\._\-?&=a-zA-Z0-9]+)\sHTTP\/1\.1"
-CONTENT_LENGTH_PATTERN = r"(Content-Length)"
 
 HTTP_METHOD_GROUP = 1
 URL_GROUP = 2
-CONTENT_LENGTH_GROUP = 1
 
 IP_KEY = 'ip_address'
 PORT_KEY = 'port'
 
 
 class BaseHttpServer:
-    ENCODING = 'iso-8859-1'
-
     def __init__(self, serverConfig):
         serverIp = serverConfig[IP_KEY]
         serverPort = serverConfig[PORT_KEY]
@@ -35,21 +31,7 @@ class BaseHttpServer:
         self.__httpServer = httpServer
         self.__requestParsingRegexp = ure.compile(
             REQUEST_PARSING_REFEXP_PATTERN)
-        self.__contentLengthRegexp = ure.compile(CONTENT_LENGTH_PATTERN)
         self.__runServer = True
-
-    def __readContentLength(self, headersString):
-        print('Headers passed: ', headersString)
-        matchObject = self.__contentLengthRegexp.match(headersString)
-        print('Match: ', matchObject)
-        
-        if matchObject is None:
-            errorMessage = 'Content-Length header required'
-            raise RequestParsingError(errorMessage)
-
-        contentLength = matchObject.group(CONTENT_LENGTH_GROUP)
-        print('Content length: ', contentLength)
-        return int(contentLength.strip())
 
     def __readBody(self, contentLength, request):
         print('Content length: ', contentLength)
@@ -93,18 +75,18 @@ class BaseHttpServer:
 
     def __getRespond(self, connection):
         def respond(response):
-            connection.sendall(str.encode("HTTP/1.0 200 OK\n", self.ENCODING))
+            connection.sendall(str.encode("HTTP/1.0 200 OK\n", ENCODING))
             connection.sendall(
-                str.encode('Content-Type: text/html\n', self.ENCODING))
+                str.encode('Content-Type: text/html\n', ENCODING))
             connection.send(str.encode('\r\n'))
 
             if isinstance(response, list):
                 for stringLine in response:
                     connection.sendall(
-                        str.encode("" + stringLine + "", self.ENCODING))
+                        str.encode("" + stringLine + "", ENCODING))
             elif isinstance(response, str):
                 connection.sendall(
-                    str.encode("" + response + "", self.ENCODING))
+                    str.encode("" + response + "", ENCODING))
             else:
                 connection.close()
                 raise TypeError('Unsuported response type')
@@ -115,9 +97,9 @@ class BaseHttpServer:
 
     def __returnNotFound(self, connection):
         connection.sendall(
-            str.encode("HTTP/1.0 404 Not Found\n", self.ENCODING))
+            str.encode("HTTP/1.0 404 Not Found\n", ENCODING))
         connection.sendall(
-            str.encode('Content-Type: text/html\n', self.ENCODING))
+            str.encode('Content-Type: text/html\n', ENCODING))
         connection.close()
 
     def start(self, httpHandlers):
