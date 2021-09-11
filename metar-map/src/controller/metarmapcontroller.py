@@ -1,20 +1,10 @@
-from modes import MetarMapControllerModes
 import accesspoint 
 import appconfig
 from networksetupserver import NetworkSetupServer
 import networkcredentials as networkCredentialsRepository
 from host import Host
-import boardapi
-
 
 class MetarMapController:
-    def __init__(self):
-        if networkCredentialsRepository.areCredentialsSet():
-            self.__mode =  MetarMapControllerModes.MAP
-
-        else:
-            self.__mode = MetarMapControllerModes.ACCESS_POINT
-
     def startAccessPoint(self):
         accessPoint = accesspoint.AccessPoint(appconfig.ACCESS_POINT_CREDENTIALS ,appconfig.ACCESS_POINT_NETWORK)
         accessPoint.start()
@@ -25,8 +15,10 @@ class MetarMapController:
         })
 
         apHttpServer.startServer()
+        print('ACCESS POINT server stoped')
+        self.start()
 
-    def startMap():
+    def startMap(self):
         networkCredentials = networkCredentialsRepository.readNetworkCredentials()
         host = Host(
             networkCredentials['ssid'],
@@ -35,13 +27,19 @@ class MetarMapController:
         )
 
         if not host.connect():
+            print('Cant connect to ', networkCredentials['ssid'] + '@' + networkCredentials['password'])
             networkCredentialsRepository.whipeOutCredentials()
-            boardapi.softReset()
+            print('Credentials storage cleaned out')
+            self.start()
 
     def start(self):
-        if self.__mode == MetarMapControllerModes.ACCESS_POINT:
-            self.startAccessPoint()
-        else:
+        if networkCredentialsRepository.areCredentialsSet():
+            print('Starting controller at "MAP" mode')
             self.startMap()
+
+        else:
+            print('Starting controller at "ACCESS POINT" mode')
+            self.startAccessPoint()
+
 
 

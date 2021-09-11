@@ -16,8 +16,18 @@ class Host:
         if not self.__host.isconnected():
             self.__host.connect(self.__ssid, self.__password)
 
-            attemptsMade = 0
+            attemptsMade = 1
             while attemptsMade <= self.__retries and not self.__host.isconnected():
-                time.sleep(5 * attemptsMade)
+                reconnectingInterval = 5 * attemptsMade
+                print(
+                    'Reconnecting to ', 
+                    self.__ssid, 
+                    ' with ', 
+                    self.__password, 
+                    ' at ', 
+                    reconnectingInterval
+                    )
+                time.sleep(reconnectingInterval)
+                attemptsMade = attemptsMade + 1
 
             return self.__host.isconnected()

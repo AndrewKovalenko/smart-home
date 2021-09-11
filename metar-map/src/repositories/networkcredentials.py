@@ -12,7 +12,7 @@ def saveNetworkCredentials(ssid, password):
 
 def readNetworkCredentials():
     try:
-        credentialsFile = open(CREDENTIALS_STORAGE, 'r')
+        credentialsFile = open(CREDENTIALS_STORAGE, 'r', encoding='utf-8')
         credentialsString = credentialsFile.read()
     finally:
         credentialsFile.close()

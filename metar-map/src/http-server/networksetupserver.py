@@ -1,6 +1,5 @@
 import basehttpserver as base
 from networkcredentials import saveNetworkCredentials
-import boardapi
 
 class NetworkSetupServer(base.BaseHttpServer):
     def __init__(self, serverConfig):
@@ -20,9 +19,9 @@ class NetworkSetupServer(base.BaseHttpServer):
 
     def __saveWiFiCredentials(self, requestBody, respond):
         saveNetworkCredentials(requestBody['network-ssid'], requestBody['wifi-password'])
+        print('Credentials are saved')
         respond(self.__credentialsPageLines)
-
-        boardapi.softReset()
+        self.stop()
 
     __httpHandlers = {
         'GET': {

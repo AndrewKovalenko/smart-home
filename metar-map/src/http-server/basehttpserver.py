@@ -125,3 +125,8 @@ class BaseHttpServer:
 
             finally:
                 request.close()
+        print("ACCESS POINT server stopped")
+
+    def stop(self):
+        self.__runServer = False
+        self.__httpServer.close()
