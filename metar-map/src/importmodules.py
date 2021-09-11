@@ -3,6 +3,5 @@ sys.path.append('./access-point')
 sys.path.append('./http-server')
 sys.path.append('./controller')
 sys.path.append('./repositories')
-sys.path.append('./hardware')
-sys.path.append('./http-client')
 sys.path.append('./network-host')
+
