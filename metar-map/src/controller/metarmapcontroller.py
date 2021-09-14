@@ -3,6 +3,7 @@ import appconfig
 from networksetupserver import NetworkSetupServer
 import networkcredentials as networkCredentialsRepository
 from host import Host
+from board import reset
 
 class MetarMapController:
     def startAccessPoint(self):
@@ -16,7 +17,7 @@ class MetarMapController:
 
         apHttpServer.startServer()
         print('ACCESS POINT server stoped')
-        self.start()
+        reset()
 
     def startMap(self):
         networkCredentials = networkCredentialsRepository.readNetworkCredentials()
@@ -30,7 +31,7 @@ class MetarMapController:
             print('Cant connect to ', networkCredentials['ssid'] + '@' + networkCredentials['password'])
             networkCredentialsRepository.whipeOutCredentials()
             print('Credentials storage cleaned out')
-            self.start()
+            reset()
 
     def start(self):
         if networkCredentialsRepository.areCredentialsSet():

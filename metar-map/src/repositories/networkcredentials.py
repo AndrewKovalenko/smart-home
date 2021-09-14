@@ -1,29 +1,35 @@
 import os
-import ubinascii
 
 CREDENTIALS_STORAGE = './netwok-credentials'
 CREDENTIALS_SEPARATOR = '@'
 ENCODING = 'utf-8'
 
 def saveNetworkCredentials(ssid, password):
+    print('Credentials recieved: ', ssid, ' ', password)
+    ssid = ssid.encode(ENCODING)
+    password = password.encode(ENCODING)
+    print('Credentials after encoding: ', ssid, ' ', password)
+
     try:
-        credentialsFile = open(CREDENTIALS_STORAGE, 'w')
+        credentialsFile = open(CREDENTIALS_STORAGE, 'w', encoding=ENCODING)
         stringToSave = ssid + CREDENTIALS_SEPARATOR + password
-        credentialsFile.write(ubinascii.b2a_base64(stringToSave))
+        credentialsFile.write(stringToSave)
     finally:
         credentialsFile.close()
+
+        print('Saved credentials: ', stringToSave)
 
 def readNetworkCredentials():
     try:
         credentialsFile = open(CREDENTIALS_STORAGE, 'r', encoding=ENCODING)
         credentialsString = credentialsFile.read()
-        print('Encoded credentials: ', credentialsString)
-        decodedCredentials = ubinascii.a2b_base64(credentialsString)
-        print('Decoded credentials: ', decodedCredentials)
+        print('Credentials read from storage: ', credentialsString)
+    except OSError:
+        return None
     finally:
         credentialsFile.close()
 
-    [ssid, password] = decodedCredentials.decode(ENCODING).split(CREDENTIALS_SEPARATOR, 1)
+    [ssid, password] = credentialsString.split(CREDENTIALS_SEPARATOR, 1)
 
     return {'ssid': ssid, 'password': password}
 

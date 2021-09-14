@@ -20,11 +20,11 @@ class Host:
             while attemptsMade <= self.__retries and not self.__host.isconnected():
                 reconnectingInterval = 5 * attemptsMade
                 print(
-                    'Reconnecting to ', 
-                    self.__ssid, 
-                    ' with ', 
-                    self.__password, 
-                    ' at ', 
+                    'Reconnecting to ',
+                    self.__ssid,
+                    ' with ',
+                    self.__password,
+                    ' at ',
                     reconnectingInterval
                     )
                 time.sleep(reconnectingInterval)
