@@ -1,4 +1,5 @@
 import os
+from parse import unquote
 
 CREDENTIALS_STORAGE = './netwok-credentials'
 CREDENTIALS_SEPARATOR = '@'
@@ -6,9 +7,9 @@ ENCODING = 'utf-8'
 
 def saveNetworkCredentials(ssid, password):
     print('Credentials recieved: ', ssid, ' ', password)
-    ssid = ssid.encode(ENCODING)
-    password = password.encode(ENCODING)
-    print('Credentials after encoding: ', ssid, ' ', password)
+    ssid = unquote(ssid)
+    password = unquote(password)
+    print('Credentials after decoding: ', ssid, ' ', password)
 
     try:
         credentialsFile = open(CREDENTIALS_STORAGE, 'w', encoding=ENCODING)
