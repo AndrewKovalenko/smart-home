@@ -5,7 +5,8 @@ WEATHER_SOURCE_URL = 'https://www.aviationweather.gov/adds/dataserver_current/ht
 WEATHER_STATIONS = [
     'KPAE',
     'KAWO',
-    'KRNT'
+    'KRNT',
+    'KPWT'
 ]
 
 def getWeatherSourceUrl():
@@ -15,5 +16,5 @@ def getWeatherSourceUrl():
         stations += station + ' '
 
     encodedStations = parse.quote(stations.strip())
-    return WEATHER_STATIONS + encodedStations
+    return WEATHER_SOURCE_URL + encodedStations
     

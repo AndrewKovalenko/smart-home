@@ -4,7 +4,7 @@ from networksetupserver import NetworkSetupServer
 import networkcredentials as networkCredentialsRepository
 from host import Host
 from board import reset
-import metarmap
+from weather import getWeatherData
 
 class MetarMapController:
     def startAccessPoint(self):
@@ -21,30 +21,33 @@ class MetarMapController:
         reset()
 
     def startMap(self):
-        networkCredentials = networkCredentialsRepository.readNetworkCredentials()
+        # networkCredentials = networkCredentialsRepository.readNetworkCredentials()
         host = Host(
-            networkCredentials['ssid'],
-            networkCredentials['password'],
+            # networkCredentials['ssid'],
+            # networkCredentials['password'],
+            'BrainBurner',
+            'Sw6%H0mE!',
             appconfig.CONNECTION_RETRIES
         )
 
         if not host.connect():
-            print('Cant connect to ', networkCredentials['ssid'] + '@' + networkCredentials['password'])
+            # print('Cant connect to ', networkCredentials['ssid'] + '@' + networkCredentials['password'])
             networkCredentialsRepository.whipeOutCredentials()
             print('Credentials storage cleaned out')
             reset()
 
-        print(metarmap.getWeatherData())
+        weatherData = getWeatherData()
+        print(weatherData)
 
 
     def start(self):
-        if networkCredentialsRepository.areCredentialsSet():
+        # if networkCredentialsRepository.areCredentialsSet():
             print('Starting controller at "MAP" mode')
             self.startMap()
 
-        else:
-            print('Starting controller at "ACCESS POINT" mode')
-            self.startAccessPoint()
+        # else:
+            # print('Starting controller at "ACCESS POINT" mode')
+            # self.startAccessPoint()
 
 
 

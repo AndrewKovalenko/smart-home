@@ -12,6 +12,10 @@ def unquote(s):
             res[i] = '%' + item
     return "".join(res)
 
+def unquote_plus(s):
+    s = s.replace('+', ' ')
+    return unquote(s)
+
 def quote(s):
     res = []
     for c in s:
@@ -25,3 +29,4 @@ def quote_plus(s):
     if ' ' in s:
         s = s.replace(' ', '+')
     return quote(s)
+    
