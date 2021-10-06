@@ -5,7 +5,7 @@ class NetworkSetupServer(base.BaseHttpServer):
     def __init__(self, serverConfig):
         super().__init__(serverConfig)
 
-        credentialsPageFile = open('html-ui/access-point.html', 'r')
+        credentialsPageFile = open('views/access-point.html', 'r')
 
         self.__credentialsPageLines = []
 

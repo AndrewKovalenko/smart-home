@@ -1,5 +1,4 @@
 import ure
-from repositories.weathersourceconfig import WEATHER_STATIONS
 import urequests
 
 class WeatherRepository:

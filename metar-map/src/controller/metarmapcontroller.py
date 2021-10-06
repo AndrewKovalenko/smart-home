@@ -4,7 +4,8 @@ from networksetupserver import NetworkSetupServer
 import networkcredentials as networkCredentialsRepository
 from host import Host
 from board import reset
-from weather import getWeatherData
+from weather import WeatherRepository
+from weathersourceconfig import WEATHER_DATA_URL, WEATHER_STATIONS
 
 class MetarMapController:
     def startAccessPoint(self):
@@ -36,14 +37,14 @@ class MetarMapController:
             print('Credentials storage cleaned out')
             reset()
 
-        weatherData = getWeatherData()
+        weatherDataRepository = WeatherRepository(WEATHER_STATIONS, WEATHER_DATA_URL)
+        weatherData = weatherDataRepository.getWeatherData()
         print(weatherData)
-
 
     def start(self):
         # if networkCredentialsRepository.areCredentialsSet():
-            print('Starting controller at "MAP" mode')
-            self.startMap()
+        print('Starting controller at "MAP" mode')
+        self.startMap()
 
         # else:
             # print('Starting controller at "ACCESS POINT" mode')
