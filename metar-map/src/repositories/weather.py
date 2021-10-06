@@ -1,35 +1,37 @@
 import ure
 from repositories.weathersourceconfig import WEATHER_STATIONS
 import urequests
-from weathersourceconfig import getWeatherSourceUrl
 
-APRPORT_DATA_ROW = ure.compile(r"^(K[A-Z][A-Z][A-Z]|[A-Z\d][A-Z\d][A-Z\d])\s")
-AIRPORT_CODE_INDEX = 1
-WEATHER_SATUS_INDEX = 30
+class WeatherRepository:
+    __STARION_SEPARATOR = '%20'
+    __RESPONSE_ROW_SEPARATOR = '\n'
 
-def parseWeatherData(data):
-    airportStatuses = {}
+    __AIRPORT_DATA_ROW_REGEX = ure.compile(r"^(K[A-Z][A-Z][A-Z]|[A-Z\d][A-Z\d][A-Z\d])\s")
+    __AIRPORT_CODE_INDEX = 1
+    __WEATHER_SATUS_INDEX = 30
 
-    rows = data.split('\n')
+    def __init__(self, stations, weatherSourceUrl) -> None:
+        self.__requestWeatherDataUrl = self.__buildWeatherDataRequestUrl(weatherSourceUrl, stations)
 
-    print('rows: ', rows)
+    def __buildWeatherDataRequestUrl(self, weatherSourceUrl, stations) -> str:
+        stationsParameterValue = self.__STARION_SEPARATOR.join(stations)
+        return weatherSourceUrl + stationsParameterValue
 
-    for row in rows:
-        print('looking at: ', row, '\n\r')
-        march = APRPORT_DATA_ROW.search(row.strip())
-        if march is not None:
-            print('row ', row, ' tested positive\n\r')
-            metarParameters = row.split(',')
-            print(metarParameters[AIRPORT_CODE_INDEX], metarParameters[WEATHER_SATUS_INDEX])
-            airportStatuses[metarParameters[AIRPORT_CODE_INDEX]] = metarParameters[WEATHER_SATUS_INDEX]
-    
-    return airportStatuses
+    def __parseWeatherData(self, data):
+        airportStatuses = {}
+        rows = data.split(self.__RESPONSE_ROW_SEPARATOR)
 
+        for row in rows:
+            march = self.__AIRPORT_DATA_ROW_REGEX.search(row.strip())
+            if march is not None:
+                metarParameters = row.split(',')
+                airportStatuses[metarParameters[self.__AIRPORT_CODE_INDEX]] = \
+                    metarParameters[self.__WEATHER_SATUS_INDEX]
+        
+        return airportStatuses
 
+    #TODO: handle errors requesting data
+    def getWeatherData(self):
+        response = urequests.get(self.__requestWeatherDataUrl)
 
-
-def getWeatherData():
-    weatherUrl = getWeatherSourceUrl()
-    response = urequests.get(weatherUrl)
-
-    return parseWeatherData(response.text)
+        return self.__parseWeatherData(response.text)
