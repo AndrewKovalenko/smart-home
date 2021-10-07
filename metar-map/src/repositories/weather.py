@@ -2,6 +2,7 @@ import ure
 import urequests
 
 class WeatherRepository:
+    __MAX_STATIONS_IN_REQUEST = 15
     __STARION_SEPARATOR = '%20'
     __RESPONSE_ROW_SEPARATOR = '\n'
 
@@ -10,7 +11,23 @@ class WeatherRepository:
     __WEATHER_SATUS_INDEX = 30
 
     def __init__(self, stations, weatherSourceUrl) -> None:
-        self.__requestWeatherDataUrl = self.__buildWeatherDataRequestUrl(weatherSourceUrl, stations)
+        chunk_number = 0
+        stationChunks = []
+
+        while True:
+            startElement = chunk_number * self.__MAX_STATIONS_IN_REQUEST
+            endElement = (chunk_number + 1) * self.__MAX_STATIONS_IN_REQUEST
+
+            stationsChunk = stations[startElement:endElement]
+            chunk_number += 1
+            stationChunks.append(stationsChunk)
+
+            if len(stations) <= chunk_number*self.__MAX_STATIONS_IN_REQUEST:
+                break
+
+        self.__requestWeatherDataUrls = []
+        for chunk in stationChunks:
+            self.__requestWeatherDataUrls.append(self.__buildWeatherDataRequestUrl(weatherSourceUrl, chunk))
 
     def __buildWeatherDataRequestUrl(self, weatherSourceUrl, stations) -> str:
         stationsParameterValue = self.__STARION_SEPARATOR.join(stations)
@@ -26,14 +43,17 @@ class WeatherRepository:
                 metarParameters = row.split(',')
                 airportStatuses[metarParameters[self.__AIRPORT_CODE_INDEX]] = \
                     metarParameters[self.__WEATHER_SATUS_INDEX]
-            else:
-                print('----- ', row, ' tested negative')
-        
+
         return airportStatuses
 
     #TODO: handle errors requesting data
     def getWeatherData(self):
-        print('Weather request: ', self.__requestWeatherDataUrl)
-        response = urequests.get(self.__requestWeatherDataUrl)
+        weatherForStations = {}
 
-        return self.__parseWeatherData(response.text)
+        for url in self.__requestWeatherDataUrls:
+            print('Weather request: ', url)
+            response = urequests.get(url)
+            weatherForChunk = self.__parseWeatherData(response.text)
+            weatherForStations.update(weatherForChunk)
+
+        return weatherForStations
