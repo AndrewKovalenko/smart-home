@@ -5,7 +5,7 @@ import networkcredentials as networkCredentialsRepository
 from host import Host
 from board import reset
 from weather import WeatherRepository
-from weathersourceconfig import WEATHER_DATA_URL, WEATHER_STATIONS
+from weathersourceconfig import WEATHER_DATA_URL, WEATHER_STATIONS_LED_MAP
 
 class MetarMapController:
     def startAccessPoint(self):
@@ -37,7 +37,7 @@ class MetarMapController:
             print('Credentials storage cleaned out')
             reset()
 
-        weatherDataRepository = WeatherRepository(WEATHER_STATIONS, WEATHER_DATA_URL)
+        weatherDataRepository = WeatherRepository(WEATHER_STATIONS_LED_MAP.keys(), WEATHER_DATA_URL)
         weatherData = weatherDataRepository.getWeatherData()
         print(weatherData)
 
