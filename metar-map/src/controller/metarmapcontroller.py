@@ -33,9 +33,10 @@ class MetarMapController:
 
         if not host.connect():
             # print('Cant connect to ', networkCredentials['ssid'] + '@' + networkCredentials['password'])
-            networkCredentialsRepository.whipeOutCredentials()
+            # networkCredentialsRepository.whipeOutCredentials()
             print('Credentials storage cleaned out')
-            reset()
+            # reset()
+            return
 
         weatherDataRepository = WeatherRepository(WEATHER_STATIONS_LED_MAP.keys(), WEATHER_DATA_URL)
         weatherData = weatherDataRepository.getWeatherData()

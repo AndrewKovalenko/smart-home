@@ -5,7 +5,7 @@ class WeatherRepository:
     __STARION_SEPARATOR = '%20'
     __RESPONSE_ROW_SEPARATOR = '\n'
 
-    __AIRPORT_DATA_ROW_REGEX = ure.compile(r"^(K[A-Z][A-Z][A-Z]|[A-Z\d][A-Z\d][A-Z\d])\s")
+    __AIRPORT_DATA_ROW_REGEX = ure.compile(r"^([KC]\w\w\w)\s")
     __AIRPORT_CODE_INDEX = 1
     __WEATHER_SATUS_INDEX = 30
 
@@ -26,11 +26,14 @@ class WeatherRepository:
                 metarParameters = row.split(',')
                 airportStatuses[metarParameters[self.__AIRPORT_CODE_INDEX]] = \
                     metarParameters[self.__WEATHER_SATUS_INDEX]
+            else:
+                print('----- ', row, ' tested negative')
         
         return airportStatuses
 
     #TODO: handle errors requesting data
     def getWeatherData(self):
+        print('Weather request: ', self.__requestWeatherDataUrl)
         response = urequests.get(self.__requestWeatherDataUrl)
 
         return self.__parseWeatherData(response.text)
