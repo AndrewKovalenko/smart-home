@@ -38,7 +38,7 @@ class MetarMapController:
             # reset()
             return
 
-        weatherDataRepository = WeatherRepository(WEATHER_STATIONS_LED_MAP.keys(), WEATHER_DATA_URL)
+        weatherDataRepository = WeatherRepository(list(WEATHER_STATIONS_LED_MAP.keys()), WEATHER_DATA_URL)
         weatherData = weatherDataRepository.getWeatherData()
         print(weatherData)
 

@@ -1,8 +1,9 @@
 import ure
 import urequests
+import gc
 
 class WeatherRepository:
-    __MAX_STATIONS_IN_REQUEST = 15
+    __MAX_STATIONS_IN_REQUEST = 35
     __STARION_SEPARATOR = '%20'
     __RESPONSE_ROW_SEPARATOR = '\n'
 
@@ -53,7 +54,10 @@ class WeatherRepository:
         for url in self.__requestWeatherDataUrls:
             print('Weather request: ', url)
             response = urequests.get(url)
+            print(response.text)
             weatherForChunk = self.__parseWeatherData(response.text)
             weatherForStations.update(weatherForChunk)
+            print(weatherForStations)
+            gc.collect()
 
         return weatherForStations
