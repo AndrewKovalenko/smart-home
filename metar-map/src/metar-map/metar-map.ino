@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "ledController/ws2811.h"
+#include "ws2811.h"
 
 void setup() {
 
@@ -14,9 +14,7 @@ void loop() {
      {
        LedColor rgbColor = {color, color, color};
        setLed(i, rgbColor);
-       FastLED.delay(33);
+       applyLedSettings();
      }    
-
-     leds.fadeToBlackBy(NUMBER_OF_LEDS);
    }
 }

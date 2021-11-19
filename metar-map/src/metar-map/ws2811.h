@@ -7,3 +7,4 @@ struct LedColor
 
 void initializeLedStrip();
 void setLed(int ledNumber, LedColor color);
+void applyLedSettings();
