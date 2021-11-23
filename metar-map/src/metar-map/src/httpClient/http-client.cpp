@@ -1,16 +1,10 @@
-#include <Arduino.h>
-
-#include <ESP8266HTTPClient.h>
-
-#include <WiFiClientSecureBearSSL.h>
+#include "http-client.h"
 
 String makeGetCall(String url)
 {
-  std::unique_ptr<BearSSL::WiFiClientSecure>client(new BearSSL::WiFiClientSecure);
+  std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
   String result;
 
-  //client->setFingerprint(fingerprint);
-  // Or, if you happy to ignore the SSL certificate, then use the following line instead:
   client->setInsecure();
 
   HTTPClient https;

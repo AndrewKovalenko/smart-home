@@ -4,6 +4,11 @@ typedef struct WeatherStation
    uint8_t ledNumber;
 };
 
+WeatherStation stations[25] = {
+   {"KUIL", 6},
+}; 
+
+
 // const WeatherStation[] WEATHER_STATIONS_LED_MAP = [
 //     {'KHQM': 1}
 //     // 'KUIL': 6,
