@@ -1,20 +1,33 @@
 #include <Arduino.h>
-#include "ws2811.h"
+#include "src/ledController/ws2811.h"
+#include "src/weatherColorCodes.h"
 
-void setup() {
+WS2811LedStrip ledStrip;
 
+void setup()
+{
   Serial.begin(115200);
-  initializeLedStrip();
 }
 
-void loop() {
-   for (uint8_t color = 0; color < 255; color++)
-   {
-     for (int i = 1; i <= 50; i++)
-     {
-       LedColor rgbColor = {color, color, color};
-       setLed(i, rgbColor);
-       applyLedSettings();
-     }    
-   }
+void loop()
+{
+  for (uint8_t i = 1; i <= 50; i++)
+  {
+    ledStrip.setLedColor(i, LIFR);
+  }
+
+  for (uint8_t i = 1; i <= 50; i++)
+  {
+    ledStrip.setLedColor(i, IFR);
+  }
+
+  for (uint8_t i = 1; i <= 50; i++)
+  {
+    ledStrip.setLedColor(i, MVFR);
+  }
+
+  for (uint8_t i = 1; i <= 50; i++)
+  {
+    ledStrip.setLedColor(i, VFR);
+  }
 }
