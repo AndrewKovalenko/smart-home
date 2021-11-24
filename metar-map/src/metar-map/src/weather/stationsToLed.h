@@ -4,7 +4,7 @@ typedef struct WeatherStation
    uint8_t ledNumber;
 };
 
-WeatherStation stations[25] = {
+WeatherStation metarStations[25] = {
    {"KHQM", 1},
    {"KUIL", 6},
    {"KCLM", 9},
