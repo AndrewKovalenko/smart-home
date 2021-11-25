@@ -36,7 +36,8 @@ void loop()
     String result = makeGetCall(weatherUrl);
 
     Serial.print(result);
-    delay(1000 * 60 * 5); // 5 min
+    // delay(1000 * 60 * 5); // 5 min
+    delay(1000 * 5); // 5 sec
 //  for (uint8_t i = 1; i <= 50; i++)
 //  {
 //    ledStrip.setLedColor(i, LIFR);

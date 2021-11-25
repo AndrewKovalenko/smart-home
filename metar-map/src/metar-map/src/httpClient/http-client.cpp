@@ -24,7 +24,6 @@ String makeGetCall(String url)
       // file found at server
       if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
         result = https.getString();
-        
       }
     } else {
       result = "[HTTPS] GET... failed, error: %s\n", https.errorToString(httpCode).c_str();

@@ -2,4 +2,4 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecureBearSSL.h>
 
-String makeGetCall(String url);
+String makeGetCall(String);
