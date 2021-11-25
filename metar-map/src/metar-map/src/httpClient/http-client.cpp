@@ -1,5 +1,32 @@
 #include "http-client.h"
 
+String* parseResponse(String response)
+{
+  String result[31];
+  const char sepratorCode = 10;
+  const uint responseSize = response.length();
+
+  Serial.print("Size of response: ");
+  Serial.println(responseSize);
+
+  uint from = 0;
+  uint8_t stringCounter = 0;
+
+  for (uint i=0; i<responseSize; i++)
+  {
+    if (response[i] == sepratorCode || i == responseSize - 1) {
+      String responseLine = response.substring(from, i);
+      result[stringCounter] = responseLine;
+      from = i + 1;
+      stringCounter++;
+    }
+  }
+
+  Serial.println("Loop has finished");
+
+  return result;
+}
+
 String makeGetCall(String url)
 {
   std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);

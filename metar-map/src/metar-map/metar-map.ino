@@ -33,9 +33,16 @@ void setup()
 
 void loop()
 {
+    Serial.println(weatherUrl);
     String result = makeGetCall(weatherUrl);
+    String* response = parseResponse(result);
+    Serial.println("Result recieved");
 
-    Serial.print(result);
+    for(uint8_t i=0; i<31; i++)
+    {
+      Serial.print(response[i]);
+    }
+
     // delay(1000 * 60 * 5); // 5 min
     delay(1000 * 5); // 5 sec
 //  for (uint8_t i = 1; i <= 50; i++)
