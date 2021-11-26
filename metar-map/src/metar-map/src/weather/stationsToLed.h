@@ -6,7 +6,7 @@ typedef struct WeatherStation
 
 WeatherStation metarStations[25] = {
    {"KHQM", 1},
-   {"KUIL", 6},
+   // {"KUIL", 6}, //no metar so far
    {"KCLM", 9},
    {"CYYJ", 11},
    {"KFHR", 13},
