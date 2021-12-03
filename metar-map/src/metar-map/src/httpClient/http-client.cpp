@@ -1,8 +1,7 @@
 #include "http-client.h"
 
-String* parseResponse(String response)
+void parseResponse(String response, String (&responseLines)[31])
 {
-  String result[31];
   const char sepratorCode = 10;
   const uint responseSize = response.length();
 
@@ -16,15 +15,13 @@ String* parseResponse(String response)
   {
     if (response[i] == sepratorCode || i == responseSize - 1) {
       String responseLine = response.substring(from, i);
-      result[stringCounter] = responseLine;
+      responseLines[stringCounter] = responseLine;
       from = i + 1;
       stringCounter++;
     }
   }
 
   Serial.println("Loop has finished");
-
-  return result;
 }
 
 String makeGetCall(String url)

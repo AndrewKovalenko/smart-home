@@ -33,7 +33,8 @@ void loop()
 {
     Serial.println(weatherUrl);
     String result = makeGetCall(weatherUrl);
-    String* response = parseResponse(result);
+    String response[31];
+    parseResponse(result, response);
     // Serial.println("Result recieved");
     // Serial.println(*response);
 
