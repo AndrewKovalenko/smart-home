@@ -11,7 +11,7 @@ WS2811LedStrip ledStrip;
 const char* ssid     = "BrainBurner";
 const char* password = "Sw6%H0mE!";
 String weatherUrl;
-uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
+const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
 
 void setup()
 {
@@ -34,12 +34,14 @@ void loop()
 {
     Serial.println(weatherUrl);
     String result = makeGetCall(weatherUrl);
-    String response[numberOfStations];
+    Serial.println("Number of stations");
+    Serial.println(numberOfStations);
+    StationWeather response[numberOfStations];
     parseResponse(result, response);
 
     for (uint8_t i = 0; i < numberOfStations; i++)
     {
-      Serial.println(response[i]);
+      Serial.println(response[i].stationName + " " + response[i].weather);
     }
     
     // Serial.println("Result recieved");

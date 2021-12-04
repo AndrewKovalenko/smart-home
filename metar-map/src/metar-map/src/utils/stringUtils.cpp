@@ -1,3 +1,5 @@
+#include "stringUtils.h"
+
 void split(String response, char separator, String (&responseLines)[])
 {
   const uint responseSize = response.length();

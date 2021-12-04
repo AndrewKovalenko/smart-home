@@ -3,8 +3,9 @@
 uint8_t countLines(String text, char lineSeparator)
 {
   uint8_t result = 0;
+  uint textLength = text.length();
 
-  for(uint8_t i = 0; i < text.length; i++)
+  for(uint i = 0; i < textLength; i++)
   {
     if(text[i] == lineSeparator) 
     {
@@ -15,7 +16,7 @@ uint8_t countLines(String text, char lineSeparator)
   return result;
 }
 
-void parseResponse(String response, String (&metars)[]) 
+void parseResponse(String response, StationWeather (&metars)[]) 
 {
   const char separatorCode = 10;
   uint8_t linesInResponse = countLines(response, separatorCode);
@@ -24,11 +25,18 @@ void parseResponse(String response, String (&metars)[])
 
   split(response, separatorCode, responseLines);
 
+  const uint8_t expectedMetarValues = 44;
+
   for (uint8_t i = 0; i < linesInResponse; i++)
   {
     if (responseLines[i][0] == 'K' || responseLines[i][0] == 'C') 
     {
-      metars[metarsCount] = responseLines[i];
+
+      String metarValues[expectedMetarValues];
+      split(responseLines[i], ',', metarValues);
+
+      metars[metarsCount].stationName = metarValues[1];
+      metars[metarsCount].weather = metarValues[30];
       metarsCount++;
     }
   }
@@ -43,7 +51,6 @@ String makeGetCall(String url)
 
   HTTPClient https;
 
-  Serial.print("[HTTPS] begin...\n");
   if (https.begin(*client, url)) {  // HTTPS
 
     Serial.print("[HTTPS] GET...\n");

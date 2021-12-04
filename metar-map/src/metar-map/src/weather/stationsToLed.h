@@ -15,7 +15,7 @@ WeatherStation metarStations[25] = {
    {"KBVS", 17},
    {"KNUW", 18},
    {"KAWO", 20},
-   {"K0S9", 22},
+   // {"K0S9", 22}, broken metar format
    {"KPAE", 24},
    {"KRNT", 26},
    {"KBFI", 27},
