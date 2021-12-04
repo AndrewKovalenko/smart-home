@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
+#include "src/utils/stringUtils.h"
 #include "src/ledController/ws2811.h"
 #include "src/weather/weatherColorCodes.h"
 #include "src/httpClient/http-client.h"
@@ -10,11 +11,11 @@ WS2811LedStrip ledStrip;
 const char* ssid     = "BrainBurner";
 const char* password = "Sw6%H0mE!";
 String weatherUrl;
+uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
 
 void setup()
 {
   Serial.begin(115200);
-  uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
   weatherUrl = buildWeatherRetrievingUrl(
     "https://www.aviationweather.gov/adds/dataserver_current/httpparam?datasource=metars&requestType=retrieve&format=csv&mostRecentForEachStation=constraint&hoursBeforeNow=1.25&stationString=",
     metarStations,
@@ -33,8 +34,14 @@ void loop()
 {
     Serial.println(weatherUrl);
     String result = makeGetCall(weatherUrl);
-    String response[31];
+    String response[numberOfStations];
     parseResponse(result, response);
+
+    for (uint8_t i = 0; i < numberOfStations; i++)
+    {
+      Serial.println(response[i]);
+    }
+    
     // Serial.println("Result recieved");
     // Serial.println(*response);
 

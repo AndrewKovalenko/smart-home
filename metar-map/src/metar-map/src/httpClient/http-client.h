@@ -3,4 +3,4 @@
 #include <WiFiClientSecureBearSSL.h>
 
 String makeGetCall(String);
-void parseResponse(String response, String (&responseLines)[31]);
+void parseResponse(String, String (&)[]);

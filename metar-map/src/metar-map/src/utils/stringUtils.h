@@ -1,0 +1,1 @@
+void split(String, char, String (&)[]);

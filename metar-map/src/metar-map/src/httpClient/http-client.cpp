@@ -1,27 +1,37 @@
 #include "http-client.h"
 
-void parseResponse(String response, String (&responseLines)[31])
+uint8_t countLines(String text, char lineSeparator)
 {
-  const char sepratorCode = 10;
-  const uint responseSize = response.length();
+  uint8_t result = 0;
 
-  Serial.print("Size of response: ");
-  Serial.println(responseSize);
-
-  uint from = 0;
-  uint8_t stringCounter = 0;
-
-  for (uint i=0; i<responseSize; i++)
+  for(uint8_t i = 0; i < text.length; i++)
   {
-    if (response[i] == sepratorCode || i == responseSize - 1) {
-      String responseLine = response.substring(from, i);
-      responseLines[stringCounter] = responseLine;
-      from = i + 1;
-      stringCounter++;
+    if(text[i] == lineSeparator) 
+    {
+      result++;
     }
   }
 
-  Serial.println("Loop has finished");
+  return result;
+}
+
+void parseResponse(String response, String (&metars)[]) 
+{
+  const char separatorCode = 10;
+  uint8_t linesInResponse = countLines(response, separatorCode);
+  uint8_t metarsCount = 0;
+  String responseLines[linesInResponse];
+
+  split(response, separatorCode, responseLines);
+
+  for (uint8_t i = 0; i < linesInResponse; i++)
+  {
+    if (responseLines[i][0] == 'K' || responseLines[i][0] == 'C') 
+    {
+      metars[metarsCount] = responseLines[i];
+      metarsCount++;
+    }
+  }
 }
 
 String makeGetCall(String url)
