@@ -8,6 +8,34 @@
 
 WS2811LedStrip ledStrip;
 
+WeatherStation metarStations[25] = {
+   {"KHQM", 1, ""},
+   {"KUIL", 6, ""},
+   {"KCLM", 9, ""},
+   {"CYYJ", 11, ""},
+   {"KFHR", 13, ""},
+   {"KORS", 14, ""},
+   {"KBLI", 15, ""},
+   {"KBVS", 17, ""},
+   {"KNUW", 18, ""},
+   {"KAWO", 20, ""},
+   {"K0S9", 22, ""},
+   {"KPAE", 24, ""},
+   {"KRNT", 26, ""},
+   {"KBFI", 27, ""},
+   {"KSEA", 28, ""},
+   {"KPWT", 30, ""},
+   {"KSHN", 32, ""},
+   {"KOLM", 33, ""},
+   {"KGRF", 34, ""},
+   {"KTIW", 35, ""},
+   {"KTCM", 36, ""},
+   {"KPLU", 37, ""},
+   {"KENL", 41, ""},
+   {"KEAT", 43, ""},
+   {"KS52", 48, ""}
+}; 
+
 const char* ssid     = "BrainBurner";
 const char* password = "Sw6%H0mE!";
 String weatherUrl;
@@ -36,36 +64,38 @@ void loop()
     String result = makeGetCall(weatherUrl);
     Serial.println("Number of stations");
     Serial.println(numberOfStations);
-    StationWeather response[numberOfStations];
-    parseResponse(result, response);
+    parseResponse(result, metarStations, numberOfStations);
 
     for (uint8_t i = 0; i < numberOfStations; i++)
     {
-      Serial.println(response[i].stationName + " " + response[i].weather);
+      Serial.println(metarStations[i].stationName + " " + metarStations[i].weather);
+
+      LedColor colorForCurrentStation;
+
+      switch (metarStations[i].weather[0])
+      {
+        case 'V':
+          colorForCurrentStation = VFR;
+          break;
+
+        case 'M':
+          colorForCurrentStation = MVFR;
+          break;
+
+        case 'I':
+          colorForCurrentStation = IFR;
+          break;
+
+        case 'L':
+          colorForCurrentStation = LIFR;
+          break;
+
+        default:
+          colorForCurrentStation = NO_DATA;
+      }
+
+      ledStrip.setLedColor(i, colorForCurrentStation);
     }
     
-    // Serial.println("Result recieved");
-    // Serial.println(*response);
-
-    // delay(1000 * 60 * 5); // 5 min
     delay(1000 * 5); // 5 sec
-//  for (uint8_t i = 1; i <= 50; i++)
-//  {
-//    ledStrip.setLedColor(i, LIFR);
-//  }
-
-//  for (uint8_t i = 1; i <= 50; i++)
-//  {
-//    ledStrip.setLedColor(i, IFR);
-//  }
-
-//  for (uint8_t i = 1; i <= 50; i++)
-//  {
-//    ledStrip.setLedColor(i, MVFR);
-//  }
-
-//  for (uint8_t i = 1; i <= 50; i++)
-//  {
-//    ledStrip.setLedColor(i, VFR);
-//  }
 }

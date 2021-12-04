@@ -16,11 +16,10 @@ uint8_t countLines(String text, char lineSeparator)
   return result;
 }
 
-void parseResponse(String response, StationWeather (&metars)[]) 
+void parseResponse(String response, WeatherStation (&metars)[], uint8_t numberOfStations) 
 {
   const char separatorCode = 10;
   uint8_t linesInResponse = countLines(response, separatorCode);
-  uint8_t metarsCount = 0;
   String responseLines[linesInResponse];
 
   split(response, separatorCode, responseLines);
@@ -35,9 +34,16 @@ void parseResponse(String response, StationWeather (&metars)[])
       String metarValues[expectedMetarValues];
       split(responseLines[i], ',', metarValues);
 
-      metars[metarsCount].stationName = metarValues[1];
-      metars[metarsCount].weather = metarValues[30];
-      metarsCount++;
+      String stationName = metarValues[1];
+
+      for (uint8_t j = 0; j < numberOfStations; j++)
+      {
+        if(metars[j].stationName == stationName) 
+        {
+          metars[j].weather = metarValues[30];
+          break;
+        }
+      }
     }
   }
 }

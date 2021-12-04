@@ -2,13 +2,7 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecureBearSSL.h>
 #include "../utils/stringUtils.h"
-
-typedef struct StationWeather
-{
-    String stationName;
-    String weather;
-};
-
+#include "../weather/stationsToLed.h"
 
 String makeGetCall(String);
-void parseResponse(String, StationWeather (&)[]);
+void parseResponse(String, WeatherStation (&)[], uint8_t);
