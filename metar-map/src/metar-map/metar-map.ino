@@ -94,8 +94,8 @@ void loop()
           colorForCurrentStation = NO_DATA;
       }
 
-      ledStrip.setLedColor(i, colorForCurrentStation);
+      ledStrip.setLedColor(metarStations[i].ledNumber, colorForCurrentStation);
     }
     
-    delay(1000 * 5); // 5 sec
+    delay(1000 * 60 * 15); // 15 min
 }
