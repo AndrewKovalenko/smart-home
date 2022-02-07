@@ -36,6 +36,7 @@ WeatherStation metarStations[25] = {
    {"KS52", 48, ""}
 }; 
 
+const uint8_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
 const char* ssid     = "BrainBurner";
 const char* password = "Sw6%H0mE!";
 String weatherUrl;
@@ -94,8 +95,8 @@ void loop()
           colorForCurrentStation = NO_DATA;
       }
 
-      ledStrip.setLedColor(metarStations[i].ledNumber - 1, colorForCurrentStation);
+      ledStrip.setLedColor(metarStations[i].ledNumber, colorForCurrentStation);
     }
     
-    delay(1000 * 5); // 5 sec
+    delay(WEATHER_REFRESH_RATE); 
 }
