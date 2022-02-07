@@ -8,32 +8,33 @@
 
 WS2811LedStrip ledStrip;
 
-WeatherStation metarStations[25] = {
-   {"KHQM", 1, ""},
-   {"KUIL", 6, ""},
-   {"KCLM", 9, ""},
-   {"CYYJ", 11, ""},
-   {"KFHR", 13, ""},
-   {"KORS", 14, ""},
-   {"KBLI", 15, ""},
-   {"KBVS", 17, ""},
-   {"KNUW", 18, ""},
-   {"KAWO", 20, ""},
-   {"K0S9", 22, ""},
-   {"KPAE", 24, ""},
-   {"KRNT", 26, ""},
-   {"KBFI", 27, ""},
-   {"KSEA", 28, ""},
-   {"KPWT", 30, ""},
-   {"KSHN", 32, ""},
-   {"KOLM", 33, ""},
-   {"KGRF", 34, ""},
-   {"KTIW", 35, ""},
-   {"KTCM", 36, ""},
-   {"KPLU", 37, ""},
-   {"KENL", 41, ""},
-   {"KEAT", 43, ""},
-   {"KS52", 48, ""}
+WeatherStation metarStations[26] = {
+   {"KEAT", 0, ""},  
+   {"KENL", 2, ""},  
+   {"KSMP", 4, ""},  
+   {"KPLU", 6, ""},  
+   {"KSEA", 8, ""},  
+   {"KRNT", 9, ""},  
+   {"KBFI", 10, ""}, 
+   {"KTIW", 11, ""}, 
+   {"KTCM", 12, ""}, 
+   {"KGRF", 13, ""}, 
+   {"KPWT", 15, ""}, 
+   {"KSHN", 17, ""}, 
+   {"KOLM", 18, ""}, 
+   {"KHQM", 21, ""}, 
+   {"KUIL", 25, ""}, 
+   {"KCLM", 28, ""}, 
+   {"CYYJ", 30, ""}, 
+   {"KFHR", 31, ""}, 
+   {"KORS", 32, ""}, 
+   {"KBLI", 33, ""}, 
+   {"KBVS", 35, ""}, 
+   {"KNUW", 36, ""}, 
+   {"K0S9", 38, ""}, 
+   {"KPAE", 40, ""}, 
+   {"KAWO", 41, ""}, 
+   {"KS52", 47, ""}  
 }; 
 
 const uint8_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
@@ -97,6 +98,8 @@ void loop()
 
       ledStrip.setLedColor(metarStations[i].ledNumber, colorForCurrentStation);
     }
+
+    ledStrip.apply();
     
     delay(WEATHER_REFRESH_RATE); 
 }

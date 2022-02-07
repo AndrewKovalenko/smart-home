@@ -17,4 +17,5 @@ private:
 public:
     WS2811LedStrip();
     void setLedColor(int ledNumber, LedColor color);
+    void apply();
 };
