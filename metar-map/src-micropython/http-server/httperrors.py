@@ -1,2 +1,0 @@
-class RequestParsingError(Exception):
-    pass
