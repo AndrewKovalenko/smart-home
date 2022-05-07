@@ -13,7 +13,7 @@ uint16_t calculateCRC(String str)
     return crc;
 }
 
-bool isCredentialsBlank(WiFiCredentials credentials)
+bool areCredentialsBlank(WiFiCredentials credentials)
 {
     uint16_t crc = calculateCRC(credentials.ssid + credentials.password);
     return crc != credentials.crc;
