@@ -13,8 +13,19 @@ enum BoardMode {
   WiFiSetup
 };
 
-BoardMode readMode();
-void startInWeatherClientMode();
-void startInWiFiSetupMode();
+class BoardManager
+{
+private:
+  String weatherReadingUrl;
+  WS2811LedStrip ledStrip;
 
-void connectToWiFiNetwork(String baseUrl);
+public:
+  static BoardMode readMode();
+
+  BoardManager(String);
+
+  void startInWeatherClientMode();
+  void startInWiFiSetupMode();
+  void connectToWiFiNetwork();
+  void displayWeatherOnTheMap();
+};

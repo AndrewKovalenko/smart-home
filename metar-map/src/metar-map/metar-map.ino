@@ -5,10 +5,10 @@
 
 #define BOARD_BAUD 115200
 
-WS2811LedStrip ledStrip;
 BoardMode mode = WiFiSetup;
+BoardManager boardManager = BoardManager(WEATHER_URL_BASE);
 
-// const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
+const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
 // const char *ssid = "BrainBurner";
 // const char *password = "Sw6%H0mE!";
 // String weatherUrl;
@@ -17,17 +17,21 @@ BoardMode mode = WiFiSetup;
 void setup()
 {
   Serial.begin(BOARD_BAUD);
-
-  mode = readMode();
+  mode = BoardManager::readMode();
 
   if (mode == WeatherClient)
   {
-    connectToWiFiNetwork(WEATHER_URL_BASE);
+    boardManager.connectToWiFiNetwork();
   }
 }
 
 void loop()
 {
+  if(mode == WeatherClient)
+  {
+    boardManager.displayWeatherOnTheMap();
+    delay(WEATHER_REFRESH_RATE);
+  }
   // Serial.println(weatherUrl);
   // String result = makeGetCall(weatherUrl);
   // Serial.println("Number of stations");

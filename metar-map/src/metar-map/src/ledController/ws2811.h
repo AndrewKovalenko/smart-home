@@ -12,7 +12,6 @@ struct LedColor
     uint8_t green;
 };
 
-#endif
 class WS2811LedStrip
 {
 private:
@@ -23,3 +22,5 @@ public:
     void setLedColor(int ledNumber, LedColor color);
     void apply();
 };
+
+#endif
