@@ -1,5 +1,8 @@
 #include <FastLED.h>
 
+#ifndef LEDSTRIP_H
+#define LEDSTRIP_H
+
 #define NUMBER_OF_LEDS 50
 
 struct LedColor
@@ -9,6 +12,7 @@ struct LedColor
     uint8_t green;
 };
 
+#endif
 class WS2811LedStrip
 {
 private:
