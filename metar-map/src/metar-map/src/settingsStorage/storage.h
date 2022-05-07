@@ -1,9 +1,8 @@
+#ifndef STORAGE_H
+#define STORAGE_H
 #include <EEPROM.h>
 #include <Arduino.h>
 #include "crc16.h"
-
-#ifndef STORAGE_H
-#define STORAGE_H
 
 struct WiFiCredentials
 {
@@ -12,9 +11,10 @@ struct WiFiCredentials
     uint16_t crc;
 };
 
-#endif 
 
 bool areCredentialsBlank(WiFiCredentials credentials);
 void resetCredentialsStorage();
 WiFiCredentials readWifiCredentials();
 void saveWiFiCredentials(WiFiCredentials credentials);
+
+#endif 

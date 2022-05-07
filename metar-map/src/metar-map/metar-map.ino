@@ -20,6 +20,9 @@ void setup()
   if (boardManager.boardMode() == WeatherClient)
   {
     boardManager.connectToWiFiNetwork();
+  } else
+  {
+    boardManager.startInWiFiSetupMode();
   }
 }
 
@@ -29,6 +32,9 @@ void loop()
   {
     boardManager.displayWeatherOnTheMap();
     delay(WEATHER_REFRESH_RATE);
+  } else
+  {
+    boardManager.startHttpServer();
   }
   // Serial.println(weatherUrl);
   // String result = makeGetCall(weatherUrl);

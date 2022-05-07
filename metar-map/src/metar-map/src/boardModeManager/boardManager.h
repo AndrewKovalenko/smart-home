@@ -7,6 +7,8 @@
 #include "../settingsStorage/storage.h"
 #include "../settingsStorage/storage.h"
 #include "../weather/weatherStation.h"
+#include "../wifiAccessPoint/accessPoint.h"
+#include "../wifiAccessPoint/configurationHttpServer.h"
 
 enum BoardMode {
   WeatherClient, 
@@ -28,6 +30,7 @@ public:
   BoardMode boardMode();
 
   void startInWiFiSetupMode();
+  void startHttpServer();
   void connectToWiFiNetwork();
   void displayWeatherOnTheMap();
 };

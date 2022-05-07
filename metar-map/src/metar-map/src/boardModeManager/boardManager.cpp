@@ -24,6 +24,7 @@ BoardMode BoardManager::boardMode()
 
 void BoardManager::startInWiFiSetupMode()
 {
+    startWiFiAccessPoint();
 }
 
 void BoardManager::connectToWiFiNetwork()
@@ -37,6 +38,11 @@ void BoardManager::connectToWiFiNetwork()
         delay(WIFI_RECONNECT_DELAY);
         Serial.print(".");
     }
+}
+
+void BoardManager::startHttpServer()
+{
+    startAccessPointConfigWebServer();
 }
 
 void BoardManager::displayWeatherOnTheMap()
