@@ -5,7 +5,6 @@
 
 #define BOARD_BAUD 115200
 
-BoardMode mode = WiFiSetup;
 BoardManager boardManager = BoardManager(WEATHER_URL_BASE);
 
 const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
@@ -17,9 +16,8 @@ const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
 void setup()
 {
   Serial.begin(BOARD_BAUD);
-  mode = BoardManager::readMode();
 
-  if (mode == WeatherClient)
+  if (boardManager.boardMode() == WeatherClient)
   {
     boardManager.connectToWiFiNetwork();
   }
@@ -27,7 +25,7 @@ void setup()
 
 void loop()
 {
-  if(mode == WeatherClient)
+  if(boardManager.boardMode() == WeatherClient)
   {
     boardManager.displayWeatherOnTheMap();
     delay(WEATHER_REFRESH_RATE);

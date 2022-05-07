@@ -18,13 +18,15 @@ class BoardManager
 private:
   String weatherReadingUrl;
   WS2811LedStrip ledStrip;
+  BoardMode _boardMode;
+
+  BoardMode readMode();
 
 public:
-  static BoardMode readMode();
-
   BoardManager(String);
+  
+  BoardMode boardMode();
 
-  void startInWeatherClientMode();
   void startInWiFiSetupMode();
   void connectToWiFiNetwork();
   void displayWeatherOnTheMap();

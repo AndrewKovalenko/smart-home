@@ -7,6 +7,7 @@ BoardManager::BoardManager(String baseUrl)
 {
     weatherReadingUrl = buildWeatherRetrievingUrl(baseUrl, metarStations);
     ledStrip = WS2811LedStrip();
+    _boardMode = readMode();
 }
 
 BoardMode BoardManager::readMode()
@@ -16,8 +17,9 @@ BoardMode BoardManager::readMode()
     return areCredentialsBlank(credentialsSaved) ? WiFiSetup : WeatherClient;
 }
 
-void BoardManager::startInWeatherClientMode()
+BoardMode BoardManager::boardMode()
 {
+    return _boardMode;
 }
 
 void BoardManager::startInWiFiSetupMode()
