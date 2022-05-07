@@ -1,6 +1,6 @@
 #include "storage.h"
 
-const uint8 EEPROM_CREDENTIALS_ADDRESS = 0;
+const uint8_t EEPROM_CREDENTIALS_ADDRESS = 0;
 const char BLANK[] = "BLANK";
 
 uint16_t calculateCRC(String str)

@@ -1,4 +1,5 @@
 #include <EEPROM.h>
+#include <Arduino.h>
 #include "crc16.h"
 
 struct WiFiCredentials
