@@ -5,37 +5,18 @@
 #include "src/weather/weatherColorCodes.h"
 #include "src/httpClient/http-client.h"
 #include "src/weather/weatherDataRetriever.h"
+#include "src/settingsStorage/storage.h"
+#include "src/ledToWeatherStationsMapping.h"
+
+#define BOARD_BAUD 115200
+
+enum BoardMode {
+  WeatherClient, 
+  WiFiSetup
+};
 
 WS2811LedStrip ledStrip;
-
-WeatherStation metarStations[26] = {
-   {"KEAT", 0, ""},  
-   {"KENL", 2, ""},  
-   {"KSMP", 4, ""},  
-   {"KPLU", 6, ""},  
-   {"KRNT", 8, ""},  
-   {"KBFI", 9, ""},  
-   {"KSEA", 10, ""}, 
-   {"KTIW", 11, ""}, 
-   {"KTCM", 12, ""}, 
-   {"KGRF", 13, ""}, 
-   {"KPWT", 15, ""}, 
-   {"KOLM", 17, ""}, 
-   {"KSHN", 18, ""}, 
-   {"KHQM", 20, ""}, 
-   {"KUIL", 24, ""}, 
-   {"KCLM", 27, ""}, 
-   {"CYYJ", 29, ""}, 
-   {"KFHR", 30, ""}, 
-   {"KORS", 31, ""}, 
-   {"KBLI", 32, ""}, 
-   {"KBVS", 34, ""}, 
-   {"KNUW", 35, ""}, 
-   {"K0S9", 36, ""}, 
-   {"KPAE", 38, ""}, 
-   {"KAWO", 39, ""}, 
-   {"KS52", 44, ""}  
-}; 
+BoardMode mode = WiFiSetup;
 
 const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
 const char* ssid     = "BrainBurner";
@@ -45,7 +26,7 @@ const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarS
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(BOARD_BAUD);
   weatherUrl = buildWeatherRetrievingUrl(
     "https://www.aviationweather.gov/adds/dataserver_current/httpparam?datasource=metars&requestType=retrieve&format=csv&mostRecentForEachStation=constraint&hoursBeforeNow=1.25&stationString=",
     metarStations,
