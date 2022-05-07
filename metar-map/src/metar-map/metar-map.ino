@@ -37,7 +37,7 @@ WeatherStation metarStations[26] = {
    {"KS52", 44, ""}  
 }; 
 
-const uint8_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
+const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
 const char* ssid     = "BrainBurner";
 const char* password = "Sw6%H0mE!";
 String weatherUrl;
@@ -70,36 +70,34 @@ void loop()
 
     for (uint8_t i = 0; i < numberOfStations; i++)
     {
-      Serial.println(metarStations[i].stationName + " " + metarStations[i].weather);
-
       LedColor colorForCurrentStation;
 
       switch (metarStations[i].weather[0])
       {
         case 'V':
-          colorForCurrentStation = VFR;
+          colorForCurrentStation = VFR_COLOR;
           break;
 
         case 'M':
-          colorForCurrentStation = MVFR;
+          colorForCurrentStation = MVFR_COLOR;
           break;
 
         case 'I':
-          colorForCurrentStation = IFR;
+          colorForCurrentStation = IFR_COLOR;
           break;
 
         case 'L':
-          colorForCurrentStation = LIFR;
+          colorForCurrentStation = LIFR_COLOR;
           break;
 
         default:
-          colorForCurrentStation = NO_DATA;
+          colorForCurrentStation = NO_DATA_COLOR;
       }
-
+      
+      Serial.println("|" + metarStations[i].stationName + "|" + metarStations[i].weather + "|");
       ledStrip.setLedColor(metarStations[i].ledNumber, colorForCurrentStation);
+      ledStrip.apply();
     }
 
-    ledStrip.apply();
-    
     delay(WEATHER_REFRESH_RATE); 
 }
