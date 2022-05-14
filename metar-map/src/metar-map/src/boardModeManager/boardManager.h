@@ -1,14 +1,8 @@
-#include <ESP8266WiFi.h>
-#include "../utils/stringUtils.h"
+#ifndef _BOARD_MANAGER_
+
 #include "../ledController/ws2811.h"
-#include "../weather/weatherColorCodes.h"
-#include "../httpClient/http-client.h"
-#include "../weather/weatherDataRetriever.h"
-#include "../settingsStorage/storage.h"
-#include "../settingsStorage/storage.h"
-#include "../weather/weatherStation.h"
-#include "../wifiAccessPoint/accessPoint.h"
-#include "../wifiAccessPoint/configurationHttpServer.h"
+
+#define _BOARD_MANAGER_
 
 enum BoardMode {
   WeatherClient, 
@@ -34,3 +28,4 @@ public:
   void connectToWiFiNetwork();
   void displayWeatherOnTheMap();
 };
+#endif

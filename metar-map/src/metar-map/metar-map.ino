@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#define WEATHER_URL_BASE "https://www.aviationweather.gov/adds/dataserver_current/httpparam?datasource=metars&requestType=retrieve&format=csv&mostRecentForEachStation=constraint&hoursBeforeNow=1.25&stationString="
 
+#include "src/configuration.h"
 #include "src/boardModeManager/boardManager.h"
 
 #define BOARD_BAUD 115200
@@ -8,8 +8,6 @@
 BoardManager boardManager = BoardManager(WEATHER_URL_BASE);
 
 const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
-// const char *ssid = "BrainBurner";
-// const char *password = "Sw6%H0mE!";
 // String weatherUrl;
 // const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
 
@@ -17,7 +15,7 @@ void setup()
 {
   Serial.begin(BOARD_BAUD);
 
-  if (boardManager.boardMode() == WeatherClient)
+  if (boardManager.boardMode() == WeatherClient) 
   {
     boardManager.connectToWiFiNetwork();
   } else
@@ -28,14 +26,14 @@ void setup()
 
 void loop()
 {
-  if(boardManager.boardMode() == WeatherClient)
-  {
-    boardManager.displayWeatherOnTheMap();
-    delay(WEATHER_REFRESH_RATE);
-  } else
-  {
-    boardManager.startHttpServer();
-  }
+  // if(boardManager.boardMode() == WeatherClient)
+  // {
+  //   boardManager.displayWeatherOnTheMap();
+  //   delay(WEATHER_REFRESH_RATE);
+  // } else
+  // {
+  //   boardManager.startHttpServer();
+  // }
   // Serial.println(weatherUrl);
   // String result = makeGetCall(weatherUrl);
   // Serial.println("Number of stations");
