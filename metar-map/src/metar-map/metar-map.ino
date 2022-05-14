@@ -18,9 +18,11 @@ void setup()
 
   if (boardManager.boardMode() == WeatherClient) 
   {
+    Serial.println("Credentials set");
     boardManager.connectToWiFiNetwork();
   } else
   {
+    Serial.println("Credentials NOT set");
     boardManager.startInWiFiSetupMode();
   }
 }

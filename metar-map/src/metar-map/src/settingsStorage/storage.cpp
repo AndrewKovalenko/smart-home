@@ -24,6 +24,7 @@ void saveWiFiCredentials(WiFiCredentials credentials)
     credentials.crc = calculateCRC(credentials.ssid + credentials.password);
     EEPROM.begin(sizeof(WiFiCredentials));
     EEPROM.put(EEPROM_CREDENTIALS_ADDRESS, credentials);
+    EEPROM.commit();
     EEPROM.end();
 }
 

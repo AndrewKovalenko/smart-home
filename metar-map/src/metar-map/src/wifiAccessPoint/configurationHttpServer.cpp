@@ -113,8 +113,8 @@ void handleSavingWiFiCredentials()
     saveWiFiCredentials(credentials);
     httpServer.send(200, "text/html", "<h1>Welcome, " + httpServer.arg(SSID_ARGUMENT) + "!</h1><p>Login successful</p>");
     delay(TEN_SECONDS);
-    // ESP.restart();
-    httpServer.~ESP8266WebServer();
+    ESP.restart();
+    // httpServer.~ESP8266WebServer();
 }
 
 ESP8266WebServer* startAccessPointConfigWebServer()
