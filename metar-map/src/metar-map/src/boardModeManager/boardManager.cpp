@@ -22,10 +22,8 @@ BoardManager::BoardManager(String baseUrl)
 
 BoardMode BoardManager::readMode()
 {
-    // WiFiCredentials credentialsSaved = readWifiCredentials();
-    // Serial.println("Credentials read");
-    // return areCredentialsBlank(credentialsSaved) ? WiFiSetup : WeatherClient;
-    return WiFiSetup;
+    WiFiCredentials credentialsSaved = readWifiCredentials();
+    return areCredentialsBlank(credentialsSaved) ? WiFiSetup : WeatherClient;
 }
 
 BoardMode BoardManager::boardMode()
@@ -36,11 +34,12 @@ BoardMode BoardManager::boardMode()
 void BoardManager::startInWiFiSetupMode()
 {
     Serial.println("Starting AP");
-    // startWiFiAccessPoint();
+    startWiFiAccessPoint();
 }
 
 void BoardManager::connectToWiFiNetwork()
 {
+      Serial.println("Connecting to network");
     // WiFiCredentials savedCredentials = readWifiCredentials();
 
     // WiFi.begin(savedCredentials.ssid, savedCredentials.password);
