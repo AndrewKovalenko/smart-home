@@ -117,9 +117,11 @@ void handleSavingWiFiCredentials()
     httpServer.~ESP8266WebServer();
 }
 
-void startAccessPointConfigWebServer()
+ESP8266WebServer* startAccessPointConfigWebServer()
 {
     httpServer.on("/", HTTP_GET, handleHttpRootCall);
     httpServer.on("/connect", HTTP_POST, handleSavingWiFiCredentials);
     httpServer.begin();
+
+    return &httpServer;
 }

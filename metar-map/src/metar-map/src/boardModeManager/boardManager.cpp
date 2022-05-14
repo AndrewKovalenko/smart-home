@@ -33,8 +33,13 @@ BoardMode BoardManager::boardMode()
 
 void BoardManager::startInWiFiSetupMode()
 {
-    Serial.println("Starting AP");
     startWiFiAccessPoint();
+    httpServer = startAccessPointConfigWebServer();
+}
+
+void BoardManager::handleHttpClient()
+{
+    httpServer->handleClient();
 }
 
 void BoardManager::connectToWiFiNetwork()
@@ -53,7 +58,6 @@ void BoardManager::connectToWiFiNetwork()
 
 void BoardManager::startHttpServer()
 {
-    // startAccessPointConfigWebServer();
 }
 
 void BoardManager::displayWeatherOnTheMap()

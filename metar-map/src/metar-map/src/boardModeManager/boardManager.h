@@ -1,5 +1,6 @@
 #ifndef _BOARD_MANAGER_
 
+#include <ESP8266WebServer.h>
 #include "../ledController/ws2811.h"
 
 #define _BOARD_MANAGER_
@@ -15,6 +16,7 @@ private:
   String weatherReadingUrl;
   WS2811LedStrip ledStrip;
   BoardMode _boardMode;
+  ESP8266WebServer *httpServer;
 
   BoardMode readMode();
 
@@ -25,6 +27,7 @@ public:
 
   void startInWiFiSetupMode();
   void startHttpServer();
+  void handleHttpClient();
   void connectToWiFiNetwork();
   void displayWeatherOnTheMap();
 };

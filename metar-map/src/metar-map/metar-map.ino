@@ -1,11 +1,10 @@
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
 
 #include "src/configuration.h"
 #include "src/boardModeManager/boardManager.h"
 #include "src/wifiAccessPoint/accessPointSettings.h"
 
-#define BOARD_BAUD 115200
+#define BOARD_BAUD 9600
 
 BoardManager boardManager = BoardManager(WEATHER_URL_BASE);
 
@@ -28,7 +27,15 @@ void setup()
 
 void loop()
 {
-  Serial.println("Looping...");
+  if (boardManager.boardMode() == WeatherClient) 
+  {
+    Serial.println("Looping...");
+  } 
+  else
+  {
+    Serial.println("Handling http...");
+    boardManager.handleHttpClient();
+  }
   delay(2000);
   // if(boardManager.boardMode() == WeatherClient)
   // {
