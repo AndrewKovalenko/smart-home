@@ -23,9 +23,15 @@ BoardManager::BoardManager(String baseUrl)
 
 BoardMode BoardManager::readMode()
 {
-    resetCredentialsStorage();
-    WiFiCredentials credentialsSaved = readWifiCredentials();
-    return areCredentialsBlank(credentialsSaved) ? WiFiSetup : WeatherClient;
+    WiFiCredentials* credentialsSaved = readWifiCredentials();
+    
+    Serial.println("SSID: " + String(credentialsSaved->ssid));
+    Serial.println("Password: " + String(credentialsSaved->password));
+    Serial.println("Crc: " + String(credentialsSaved->crc));
+
+    BoardMode boardMode = areCredentialsBlank(*credentialsSaved) ? WiFiSetup : WeatherClient;
+    delete credentialsSaved;
+    return boardMode;
 }
 
 BoardMode BoardManager::boardMode()

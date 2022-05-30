@@ -18,11 +18,11 @@ private:
   BoardMode _boardMode;
   ESP8266WebServer *httpServer;
 
-  BoardMode readMode();
 
 public:
   BoardManager(String);
   
+  BoardMode readMode();
   BoardMode boardMode();
 
   void startInWiFiSetupMode();

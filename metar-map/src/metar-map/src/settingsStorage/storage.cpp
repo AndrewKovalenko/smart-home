@@ -1,7 +1,7 @@
 #include "storage.h"
 
 const uint8_t EEPROM_CREDENTIALS_ADDRESS = 0;
-const char BLANK[] = "BLANK";
+char BLANK[] = "BLANK";
 
 uint16_t calculateCRC(String str)
 {
@@ -15,26 +15,37 @@ uint16_t calculateCRC(String str)
 
 bool areCredentialsBlank(WiFiCredentials credentials)
 {
-    uint16_t crc = calculateCRC(credentials.ssid + credentials.password);
+    uint16_t crc = calculateCRC(String(credentials.ssid) + String(credentials.password));
     return crc != credentials.crc;
 }
 
 void saveWiFiCredentials(WiFiCredentials credentials)
 {
-    credentials.crc = calculateCRC(credentials.ssid + credentials.password);
-    EEPROM.begin(sizeof(WiFiCredentials));
-    EEPROM.put(EEPROM_CREDENTIALS_ADDRESS, credentials);
-    EEPROM.commit();
-    EEPROM.end();
+  EEPROM.begin(READ_BUFFER_SIZE);
+  credentials.crc = calculateCRC(String(credentials.ssid) + String(credentials.password));
+
+  EEPROM.put(EEPROM_CREDENTIALS_ADDRESS, credentials);
+
+  EEPROM.commit();
+  EEPROM.end();  
+
+    Serial.println("Saving SSID: " + String(credentials.ssid));
+    Serial.println("Saving Password: " + String(credentials.password));
+    Serial.println("Saving Crc: " + String(credentials.crc));
 }
 
-WiFiCredentials readWifiCredentials()
+WiFiCredentials* readWifiCredentials()
 {
-    WiFiCredentials credentials;
+    Serial.println("Reading credentials");
+    WiFiCredentials* credentials = new WiFiCredentials();
+    Serial.println("Allocated memory");
 
-    EEPROM.begin(sizeof(WiFiCredentials));
-    EEPROM.get(EEPROM_CREDENTIALS_ADDRESS, credentials);
+    EEPROM.begin(READ_BUFFER_SIZE);
+    Serial.println("Allocated buffer");
+    EEPROM.get(EEPROM_CREDENTIALS_ADDRESS, *credentials);
+    Serial.println("Read credentials");
     EEPROM.end();
+    Serial.println("Freed buffer");
 
     return credentials;
 }
@@ -47,7 +58,8 @@ void resetCredentialsStorage()
     credentials.ssid = BLANK;
     credentials.password = BLANK;
 
-    EEPROM.begin(sizeof(WiFiCredentials));
+    EEPROM.begin(READ_BUFFER_SIZE);
     EEPROM.put(EEPROM_CREDENTIALS_ADDRESS, credentials);
+    EEPROM.commit();
     EEPROM.end();
 }

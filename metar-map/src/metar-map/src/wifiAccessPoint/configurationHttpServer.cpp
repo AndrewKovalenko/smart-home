@@ -6,7 +6,7 @@ const char SSID_ARGUMENT[] = "network-ssid", PASSWORD_ARGUMENT[] = "wifi-passwor
 const char ROOT_URL[] = "/";
 const char RESPONSE_MIME_TYPE[] = "text/html";
 const int HTTP_SERVER_PORT = 80;
-const uint32_t TEN_SECONDS = 10000;
+const uint32_t TEN_SECONDS = 3000;
 
 ESP8266WebServer httpServer(HTTP_SERVER_PORT);
 
@@ -105,16 +105,22 @@ void handleSavingWiFiCredentials()
     }
 
     WiFiCredentials credentials;
-    credentials.ssid = httpServer.arg(SSID_ARGUMENT);
-    credentials.password = httpServer.arg(PASSWORD_ARGUMENT);
+    String ssid = httpServer.arg(SSID_ARGUMENT);
+    String password = httpServer.arg(PASSWORD_ARGUMENT);
 
-    Serial.println("SSID:" + credentials.ssid + ", password: " + credentials.password);
+    credentials.ssid = new char[ssid.length()];
+    ssid.toCharArray(credentials.ssid, ssid.length());
+
+    credentials.password = new char[password.length()];
+    password.toCharArray(credentials.password, password.length());
 
     saveWiFiCredentials(credentials);
+    Serial.println("Credentials saved");
+
     httpServer.send(200, "text/html", "<h1>Welcome, " + httpServer.arg(SSID_ARGUMENT) + "!</h1><p>Login successful</p>");
     delay(TEN_SECONDS);
+    Serial.println("Restarting");
     ESP.restart();
-    // httpServer.~ESP8266WebServer();
 }
 
 ESP8266WebServer* startAccessPointConfigWebServer()
