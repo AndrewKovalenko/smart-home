@@ -1,7 +1,7 @@
 #include "storage.h"
 
 const uint8_t EEPROM_CREDENTIALS_ADDRESS = 0;
-char BLANK[] = "BLANK";
+const char BLANK[] = "BLANK";
 
 uint16_t calculateCRC(String str)
 {
@@ -55,8 +55,8 @@ void resetCredentialsStorage()
     WiFiCredentials credentials;
 
     credentials.crc = 0;
-    credentials.ssid = BLANK;
-    credentials.password = BLANK;
+    strcpy(credentials.ssid, BLANK);
+    strcpy(credentials.password, BLANK);
 
     EEPROM.begin(READ_BUFFER_SIZE);
     EEPROM.put(EEPROM_CREDENTIALS_ADDRESS, credentials);

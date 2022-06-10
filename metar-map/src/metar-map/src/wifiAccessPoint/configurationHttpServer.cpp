@@ -108,10 +108,10 @@ void handleSavingWiFiCredentials()
     String ssid = httpServer.arg(SSID_ARGUMENT);
     String password = httpServer.arg(PASSWORD_ARGUMENT);
 
-    credentials.ssid = new char[ssid.length()];
+    // credentials.ssid = new char[ssid.length()];
     ssid.toCharArray(credentials.ssid, ssid.length());
 
-    credentials.password = new char[password.length()];
+    // credentials.password = new char[password.length()];
     password.toCharArray(credentials.password, password.length());
 
     saveWiFiCredentials(credentials);

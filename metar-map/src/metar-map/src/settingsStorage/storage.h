@@ -5,11 +5,12 @@
 #include "crc16.h"
 
 #define READ_BUFFER_SIZE 512
+#define MAX_CREDENTIAL_SIZE 50
 
 struct WiFiCredentials
 {
-    char* ssid = "";
-    char* password = "";
+    char ssid[MAX_CREDENTIAL_SIZE];
+    char password[MAX_CREDENTIAL_SIZE];
     uint16_t crc;
 };
 
