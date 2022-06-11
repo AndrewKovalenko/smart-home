@@ -35,7 +35,7 @@ void loop()
 {
   if (boardManager.boardMode() == WeatherClient) 
   {
-    Serial.println("Looping...");
+    boardManager.displayWeatherOnTheMap();
     delay(WEATHER_REFRESH_RATE);
   } 
   else

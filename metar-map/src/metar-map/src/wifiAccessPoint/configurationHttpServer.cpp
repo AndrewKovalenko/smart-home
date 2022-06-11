@@ -108,11 +108,11 @@ void handleSavingWiFiCredentials()
     String ssid = httpServer.arg(SSID_ARGUMENT);
     String password = httpServer.arg(PASSWORD_ARGUMENT);
 
-    // credentials.ssid = new char[ssid.length()];
-    ssid.toCharArray(credentials.ssid, ssid.length());
+    ssid.toCharArray(credentials.ssid, ssid.length() + 1);
+    password.toCharArray(credentials.password, password.length() + 1);
 
-    // credentials.password = new char[password.length()];
-    password.toCharArray(credentials.password, password.length());
+    Serial.println("Credentials before saving: " + String(credentials.ssid));
+    Serial.println("Credentials before saving: " + String(credentials.password));
 
     saveWiFiCredentials(credentials);
     Serial.println("Credentials saved");

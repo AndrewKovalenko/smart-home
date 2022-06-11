@@ -11,8 +11,8 @@
 #include "boardManager.h"
 #include "stationsToLedsMapping.h"
 
-#define WIFI_RECONNECT_DELAY 500
-#define MAX_CONNECTION_ATTEMPTS 3
+#define WIFI_RECONNECT_DELAY 1000
+#define MAX_CONNECTION_ATTEMPTS 15
 
 BoardManager::BoardManager(String baseUrl)
 {
@@ -64,7 +64,7 @@ void BoardManager::connectToWiFiNetwork()
 
     while (WiFi.status() != WL_CONNECTED)
     {
-        delay(WIFI_RECONNECT_DELAY * connectionAttempts);
+        delay(WIFI_RECONNECT_DELAY);
         Serial.print(".");
         connectionAttempts++;
 
