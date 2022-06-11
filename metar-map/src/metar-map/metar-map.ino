@@ -19,6 +19,7 @@ void setup()
 
   if(boardManager.readMode() == WeatherClient) 
   {
+    boardManager.connectToWiFiNetwork();
     Serial.println("Starting weather client");
   }
   else

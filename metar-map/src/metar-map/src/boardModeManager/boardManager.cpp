@@ -12,12 +12,13 @@
 #include "stationsToLedsMapping.h"
 
 #define WIFI_RECONNECT_DELAY 500
+#define MAX_CONNECTION_ATTEMPTS 3
 
 BoardManager::BoardManager(String baseUrl)
 {
     weatherReadingUrl = buildWeatherRetrievingUrl(baseUrl, metarStations);
     httpServer = NULL;
-    // ledStrip = WS2811LedStrip();
+    ledStrip = WS2811LedStrip();
     _boardMode = readMode();
 }
 
@@ -55,16 +56,30 @@ void BoardManager::handleHttpClient()
 
 void BoardManager::connectToWiFiNetwork()
 {
-      Serial.println("Connecting to network");
-    // WiFiCredentials savedCredentials = readWifiCredentials();
+    Serial.println("Connecting to network");
+    uint8_t connectionAttempts = 0;
+    WiFiCredentials *savedCredentials = readWifiCredentials();
 
-    // WiFi.begin(savedCredentials.ssid, savedCredentials.password);
+    WiFi.begin(savedCredentials->ssid, savedCredentials->password);
 
-    // while (WiFi.status() != WL_CONNECTED)
-    // {
-        // delay(WIFI_RECONNECT_DELAY);
-        // Serial.print(".");
-    // }
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(WIFI_RECONNECT_DELAY * connectionAttempts);
+        Serial.print(".");
+        connectionAttempts++;
+
+        if (connectionAttempts > MAX_CONNECTION_ATTEMPTS)
+        {
+            Serial.println("Unable to connect to WiFi network " + String(savedCredentials->ssid) +
+                           " with password" + String(savedCredentials->password));
+            resetCredentialsStorage();
+
+            delete savedCredentials;
+
+            Serial.println("Restarting...");
+            ESP.restart();
+        }
+    }
 }
 
 void BoardManager::startHttpServer()
@@ -73,41 +88,41 @@ void BoardManager::startHttpServer()
 
 void BoardManager::displayWeatherOnTheMap()
 {
-  // Serial.println(weatherReadingUrl);
-  // String result = makeGetCall(weatherReadingUrl);
-  // const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
-  // Serial.println("Number of stations");
-  // Serial.println(numberOfStations);
-  // parseResponse(result, metarStations, numberOfStations);
+  Serial.println(weatherReadingUrl);
+  String result = makeGetCall(weatherReadingUrl);
+  const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
+  Serial.println("Number of stations");
+  Serial.println(numberOfStations);
+  parseResponse(result, metarStations, numberOfStations);
 
-  // for (uint8_t i = 0; i < numberOfStations; i++)
-  // {
-  //   LedColor colorForCurrentStation;
+  for (uint8_t i = 0; i < numberOfStations; i++)
+  {
+    LedColor colorForCurrentStation;
 
-  //   switch (metarStations[i].weather[0])
-  //   {
-  //   case 'V':
-  //     colorForCurrentStation = VFR_COLOR;
-  //     break;
+    switch (metarStations[i].weather[0])
+    {
+    case 'V':
+      colorForCurrentStation = VFR_COLOR;
+      break;
 
-  //   case 'M':
-  //     colorForCurrentStation = MVFR_COLOR;
-  //     break;
+    case 'M':
+      colorForCurrentStation = MVFR_COLOR;
+      break;
 
-  //   case 'I':
-  //     colorForCurrentStation = IFR_COLOR;
-  //     break;
+    case 'I':
+      colorForCurrentStation = IFR_COLOR;
+      break;
 
-  //   case 'L':
-  //     colorForCurrentStation = LIFR_COLOR;
-  //     break;
+    case 'L':
+      colorForCurrentStation = LIFR_COLOR;
+      break;
 
-  //   default:
-  //     colorForCurrentStation = NO_DATA_COLOR;
-  //   }
+    default:
+      colorForCurrentStation = NO_DATA_COLOR;
+    }
 
-  //   Serial.println("|" + metarStations[i].stationName + "|" + metarStations[i].weather + "|");
-  //   ledStrip.setLedColor(metarStations[i].ledNumber, colorForCurrentStation);
-  //   ledStrip.apply();
-  // }
+    Serial.println("|" + metarStations[i].stationName + "|" + metarStations[i].weather + "|");
+    ledStrip.setLedColor(metarStations[i].ledNumber, colorForCurrentStation);
+    ledStrip.apply();
+  }
 }
