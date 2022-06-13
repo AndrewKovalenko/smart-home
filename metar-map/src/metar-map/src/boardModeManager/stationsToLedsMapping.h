@@ -3,7 +3,9 @@
 
 #include "../weather/weatherStation.h"
 
-WeatherStation metarStations[26] = {
+#define NUMBER_OF_STATIONS 26
+
+WeatherStation metarStations[NUMBER_OF_STATIONS] = {
     {"KEAT", 0, ""},
     {"KENL", 2, ""},
     {"KSMP", 4, ""},

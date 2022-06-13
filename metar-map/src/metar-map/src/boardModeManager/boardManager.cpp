@@ -16,7 +16,7 @@
 
 BoardManager::BoardManager(String baseUrl)
 {
-    weatherReadingUrl = buildWeatherRetrievingUrl(baseUrl, metarStations);
+    weatherReadingUrl = buildWeatherRetrievingUrl(baseUrl, metarStations, NUMBER_OF_STATIONS);
     httpServer = NULL;
     ledStrip = WS2811LedStrip();
     _boardMode = readMode();
@@ -58,9 +58,10 @@ void BoardManager::connectToWiFiNetwork()
 {
     Serial.println("Connecting to network");
     uint8_t connectionAttempts = 0;
-    WiFiCredentials *savedCredentials = readWifiCredentials();
+    // WiFiCredentials *savedCredentials = readWifiCredentials();
 
-    WiFi.begin(savedCredentials->ssid, savedCredentials->password);
+    // WiFi.begin(savedCredentials->ssid, savedCredentials->password);
+    WiFi.begin("BrainBurner", "Sw6%H0mE!");
 
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -70,11 +71,11 @@ void BoardManager::connectToWiFiNetwork()
 
         if (connectionAttempts > MAX_CONNECTION_ATTEMPTS)
         {
-            Serial.println("Unable to connect to WiFi network " + String(savedCredentials->ssid) +
-                           " with password" + String(savedCredentials->password));
+            // Serial.println("Unable to connect to WiFi network " + String(savedCredentials->ssid) +
+                          //  " with password" + String(savedCredentials->password));
             resetCredentialsStorage();
 
-            delete savedCredentials;
+            // delete savedCredentials;
 
             Serial.println("Restarting...");
             ESP.restart();
@@ -88,11 +89,12 @@ void BoardManager::startHttpServer()
 
 void BoardManager::displayWeatherOnTheMap()
 {
-  Serial.println(weatherReadingUrl);
+  Serial.println("Url: " + weatherReadingUrl);
   String result = makeGetCall(weatherReadingUrl);
   const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
   Serial.println("Number of stations");
   Serial.println(numberOfStations);
+  Serial.println(result);
   parseResponse(result, metarStations, numberOfStations);
 
   for (uint8_t i = 0; i < numberOfStations; i++)

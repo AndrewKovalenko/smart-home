@@ -40,6 +40,7 @@ void parseResponse(String response, WeatherStation (&metars)[], uint8_t numberOf
       {
         if(metars[j].stationName == stationName) 
         {
+          Serial.println(metarValues[30]);
           metars[j].weather = metarValues[30];
           break;
         }

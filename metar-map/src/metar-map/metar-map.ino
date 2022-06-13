@@ -7,34 +7,36 @@
 #define BOARD_BAUD 115200
 
 BoardManager boardManager = BoardManager(WEATHER_URL_BASE);
-const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
+// const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
+const uint32_t WEATHER_REFRESH_RATE = 1000 * 5; // 15 minutess
 
 void setup()
 {
   Serial.begin(BOARD_BAUD);
   Serial.println();
 
-  if(boardManager.readMode() == WeatherClient) 
-  {
-    boardManager.connectToWiFiNetwork();
-  }
-  else
-  {
-    boardManager.startInWiFiSetupMode();
-  }
+  // if(boardManager.readMode() == WeatherClient) 
+  // {
+  BoardManager boardManager1 = BoardManager(WEATHER_URL_BASE);
+  boardManager.connectToWiFiNetwork();
+  // }
+  // else
+  // {
+    // boardManager.startInWiFiSetupMode();
+  // }
 }
 
 void loop()
 {
-  if (boardManager.boardMode() == WeatherClient) 
-  {
+  // if (boardManager.boardMode() == WeatherClient) 
+  // {
     boardManager.displayWeatherOnTheMap();
     delay(WEATHER_REFRESH_RATE);
-  } 
-  else
-  {
-    boardManager.handleHttpClient();
-  }
+  // } 
+  // else
+  // {
+    // boardManager.handleHttpClient();
+  // }
 
 
 }

@@ -11,7 +11,7 @@ WS2811LedStrip::WS2811LedStrip()
 
 void WS2811LedStrip::setLedColor(int ledNumber, LedColor color)
 {
-    Serial.println(String(ledNumber) + " | Red: " + color.red + " | Blue: " + color.blue + " | Green: " + color.green);
+    // Serial.println(String(ledNumber) + " | Red: " + color.red + " | Blue: " + color.blue + " | Green: " + color.green);
     leds[ledNumber] = CRGB(color.red, color.blue, color.green);
 }
 
