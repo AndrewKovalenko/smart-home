@@ -28,24 +28,15 @@ void saveWiFiCredentials(WiFiCredentials credentials)
 
   EEPROM.commit();
   EEPROM.end();  
-
-    Serial.println("Saving SSID: " + String(credentials.ssid));
-    Serial.println("Saving Password: " + String(credentials.password));
-    Serial.println("Saving Crc: " + String(credentials.crc));
 }
 
 WiFiCredentials* readWifiCredentials()
 {
-    Serial.println("Reading credentials");
     WiFiCredentials* credentials = new WiFiCredentials();
-    Serial.println("Allocated memory");
 
     EEPROM.begin(READ_BUFFER_SIZE);
-    Serial.println("Allocated buffer");
     EEPROM.get(EEPROM_CREDENTIALS_ADDRESS, *credentials);
-    Serial.println("Read credentials");
     EEPROM.end();
-    Serial.println("Freed buffer");
 
     return credentials;
 }

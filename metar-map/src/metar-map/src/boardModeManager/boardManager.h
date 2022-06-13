@@ -26,7 +26,6 @@ public:
   BoardMode boardMode();
 
   void startInWiFiSetupMode();
-  void startHttpServer();
   void handleHttpClient();
   void connectToWiFiNetwork();
   void displayWeatherOnTheMap();

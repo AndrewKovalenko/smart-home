@@ -26,10 +26,6 @@ BoardMode BoardManager::readMode()
 {
     WiFiCredentials* credentialsSaved = readWifiCredentials();
     
-    Serial.println("SSID: " + String(credentialsSaved->ssid));
-    Serial.println("Password: " + String(credentialsSaved->password));
-    Serial.println("Crc: " + String(credentialsSaved->crc));
-
     BoardMode boardMode = areCredentialsBlank(*credentialsSaved) ? WiFiSetup : WeatherClient;
     delete credentialsSaved;
     return boardMode;
@@ -58,10 +54,9 @@ void BoardManager::connectToWiFiNetwork()
 {
     Serial.println("Connecting to network");
     uint8_t connectionAttempts = 0;
-    // WiFiCredentials *savedCredentials = readWifiCredentials();
+    WiFiCredentials *savedCredentials = readWifiCredentials();
 
-    // WiFi.begin(savedCredentials->ssid, savedCredentials->password);
-    WiFi.begin("BrainBurner", "Sw6%H0mE!");
+    WiFi.begin(savedCredentials->ssid, savedCredentials->password);
 
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -71,30 +66,17 @@ void BoardManager::connectToWiFiNetwork()
 
         if (connectionAttempts > MAX_CONNECTION_ATTEMPTS)
         {
-            // Serial.println("Unable to connect to WiFi network " + String(savedCredentials->ssid) +
-                          //  " with password" + String(savedCredentials->password));
             resetCredentialsStorage();
-
-            // delete savedCredentials;
-
-            Serial.println("Restarting...");
+            delete savedCredentials;
             ESP.restart();
         }
     }
 }
 
-void BoardManager::startHttpServer()
-{
-}
-
 void BoardManager::displayWeatherOnTheMap()
 {
-  Serial.println("Url: " + weatherReadingUrl);
   String result = makeGetCall(weatherReadingUrl);
   const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
-  Serial.println("Number of stations");
-  Serial.println(numberOfStations);
-  Serial.println(result);
   parseResponse(result, metarStations, numberOfStations);
 
   for (uint8_t i = 0; i < numberOfStations; i++)
@@ -123,7 +105,6 @@ void BoardManager::displayWeatherOnTheMap()
       colorForCurrentStation = NO_DATA_COLOR;
     }
 
-    Serial.println("|" + metarStations[i].stationName + "|" + metarStations[i].weather + "|");
     ledStrip.setLedColor(metarStations[i].ledNumber, colorForCurrentStation);
     ledStrip.apply();
   }
