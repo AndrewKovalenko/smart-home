@@ -1,5 +1,4 @@
 #include <ESP8266WiFi.h>
-#include "../utils/stringUtils.h"
 #include "../weather/weatherColorCodes.h"
 #include "../httpClient/http-client.h"
 #include "../weather/weatherDataRetriever.h"
@@ -16,68 +15,69 @@
 
 BoardManager::BoardManager(String baseUrl)
 {
-    weatherReadingUrl = buildWeatherRetrievingUrl(baseUrl, metarStations, NUMBER_OF_STATIONS);
-    httpServer = NULL;
-    ledStrip = WS2811LedStrip();
-    _boardMode = readMode();
+  weatherReadingUrl = buildWeatherRetrievingUrl(baseUrl, metarStations, NUMBER_OF_STATIONS);
+  httpServer = NULL;
+  ledStrip = WS2811LedStrip();
+  _boardMode = readMode();
 }
 
 BoardMode BoardManager::readMode()
 {
-    WiFiCredentials* credentialsSaved = readWifiCredentials();
-    
-    BoardMode boardMode = areCredentialsBlank(*credentialsSaved) ? WiFiSetup : WeatherClient;
-    delete credentialsSaved;
-    return boardMode;
+  WiFiCredentials *credentialsSaved = readWifiCredentials();
+
+  BoardMode boardMode = areCredentialsBlank(*credentialsSaved) ? WiFiSetup : WeatherClient;
+  delete credentialsSaved;
+  return boardMode;
 }
 
 BoardMode BoardManager::boardMode()
 {
-    return _boardMode;
+  return _boardMode;
 }
 
 void BoardManager::startInWiFiSetupMode()
 {
-    startWiFiAccessPoint();
-    httpServer = startAccessPointConfigWebServer();
+  startWiFiAccessPoint();
+  httpServer = startAccessPointConfigWebServer();
 }
 
 void BoardManager::handleHttpClient()
 {
-    if(httpServer != NULL)
-    {
-      httpServer->handleClient();
-    }
+  if (httpServer != NULL)
+  {
+    httpServer->handleClient();
+  }
 }
 
 void BoardManager::connectToWiFiNetwork()
 {
-    Serial.println("Connecting to network");
-    uint8_t connectionAttempts = 0;
-    WiFiCredentials *savedCredentials = readWifiCredentials();
+  Serial.println("Connecting to network");
+  uint8_t connectionAttempts = 0;
+  WiFiCredentials *savedCredentials = readWifiCredentials();
 
-    WiFi.begin(savedCredentials->ssid, savedCredentials->password);
+  WiFi.begin(savedCredentials->ssid, savedCredentials->password);
 
-    while (WiFi.status() != WL_CONNECTED)
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(WIFI_RECONNECT_DELAY);
+    Serial.print(".");
+    connectionAttempts++;
+
+    if (connectionAttempts > MAX_CONNECTION_ATTEMPTS)
     {
-        delay(WIFI_RECONNECT_DELAY);
-        Serial.print(".");
-        connectionAttempts++;
-
-        if (connectionAttempts > MAX_CONNECTION_ATTEMPTS)
-        {
-            resetCredentialsStorage();
-            delete savedCredentials;
-            ESP.restart();
-        }
+      resetCredentialsStorage();
+      delete savedCredentials;
+      ESP.restart();
     }
+  }
 }
 
 void BoardManager::displayWeatherOnTheMap()
 {
-  String result = makeGetCall(weatherReadingUrl);
+  Serial.println("Weather URL: " + weatherReadingUrl);
+  String weatherDataJson = makeGetCall(weatherReadingUrl);
   const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
-  parseResponse(result, metarStations, numberOfStations);
+  parseResponse(weatherDataJson, metarStations, numberOfStations);
 
   for (uint8_t i = 0; i < numberOfStations; i++)
   {
