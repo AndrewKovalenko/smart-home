@@ -15,7 +15,7 @@
 
 BoardManager::BoardManager(String baseUrl)
 {
-  weatherReadingUrl = buildWeatherRetrievingUrl(baseUrl, metarStations, NUMBER_OF_STATIONS);
+  weatherReadingUrl = baseUrl; // buildWeatherRetrievingUrl(baseUrl, metarStations, NUMBER_OF_STATIONS);
   httpServer = NULL;
   ledStrip = WS2811LedStrip();
   _boardMode = readMode();

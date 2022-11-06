@@ -11,7 +11,12 @@ void parseResponse(String response, WeatherStation (&metars)[], uint8_t numberOf
   Serial.println("Data deserialized");
   for (uint8_t i = 0; i < numberOfStations; i++)
   {
-    String stationName = weatherData[i][STATION_NAME];
+    if (weatherData["features"][i]["properties"] == NULL || weatherData["features"][i]["properties"]["id"] == NULL)
+    {
+      continue;
+    }
+
+    String stationName = weatherData["features"][i]["properties"]["id"];
 
     Serial.println("Reading station " + stationName);
 
@@ -19,7 +24,7 @@ void parseResponse(String response, WeatherStation (&metars)[], uint8_t numberOf
     {
       if (metars[j].stationName == stationName)
       {
-        const char *visibility = weatherData[i]["visib"];
+        const char *visibility = weatherData["features"][i]["properties"]["fltcat"];
         Serial.println(visibility);
         metars[j].weather = "VFR";
         break;
@@ -31,7 +36,6 @@ void parseResponse(String response, WeatherStation (&metars)[], uint8_t numberOf
 String makeGetCall(String url)
 {
   std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
-  String result;
 
   client->setInsecure();
 
@@ -49,7 +53,9 @@ String makeGetCall(String url)
 
       if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
       {
-        result = https.getString();
+        String result = https.getString();
+        https.end();
+        return result;
         Serial.println("[HTTPS] result: " + result);
       }
     }
@@ -59,10 +65,12 @@ String makeGetCall(String url)
     }
 
     https.end();
+    delete client;
     return result;
   }
   else
   {
+    delete client;
     return "[HTTPS] Unable to connect\n";
   }
 }
