@@ -19,25 +19,25 @@ void setup()
   Serial.begin(BOARD_BAUD);
   Serial.println();
 
-  if (boardManager.readMode() == WeatherClient)
-  {
-    boardManager.connectToWiFiNetwork();
-  }
-  else
-  {
-    boardManager.startInWiFiSetupMode();
-  }
+  // if (boardManager.readMode() == WeatherClient)
+  // {
+  boardManager.connectToWiFiNetwork();
+  // }
+  // else
+  // {
+  // boardManager.startInWiFiSetupMode();
+  // }
 }
 
 void loop()
 {
-  if (boardManager.boardMode() == WeatherClient)
-  {
-    boardManager.displayWeatherOnTheMap();
-    delay(WEATHER_REFRESH_RATE);
-  }
-  else
-  {
-    boardManager.handleHttpClient();
-  }
+  // if (boardManager.boardMode() == WeatherClient)
+  // {
+  boardManager.displayWeatherOnTheMap();
+  delay(WEATHER_REFRESH_RATE);
+  // }
+  // else
+  // {
+  // boardManager.handleHttpClient();
+  // }
 }

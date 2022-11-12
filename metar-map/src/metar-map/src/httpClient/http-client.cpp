@@ -1,7 +1,7 @@
 #include <ArduinoJson.h>
 #include "http-client.h"
 
-void parseResponse(String response, WeatherStation (&metars)[], uint8_t numberOfStations)
+void parseResponse(String response, WeatherStation *metars, uint8_t numberOfStations)
 {
   Serial.println("Response is:");
   Serial.println(response);
@@ -41,7 +41,10 @@ String makeGetCall(String url)
 
   HTTPClient https;
 
-  if (https.begin(*client, url))
+  const char *testUrl = "https://beta.aviationweather.gov/cgi-bin/data/metar.php?format=json&ids=KEAT,KELN,KSMP,KPLU,KRNT,KBFI,KSEA,KTIW,KTCM,KGRF,KPWT"; //,KOLM";
+  String result;
+
+  if (https.begin(*client, testUrl))
   { // HTTPS
 
     Serial.print("[HTTPS] GET...\n");
@@ -53,7 +56,7 @@ String makeGetCall(String url)
 
       if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
       {
-        String result = https.getString();
+        result = https.getString();
         https.end();
         return result;
         Serial.println("[HTTPS] result: " + result);
@@ -61,16 +64,15 @@ String makeGetCall(String url)
     }
     else
     {
-      result = "[HTTPS] GET... failed, error: %s\n", https.errorToString(httpCode).c_str();
+      result = "";
+      Serial.printf("[HTTPS] GET... failed, error: %s\n", https.errorToString(httpCode).c_str());
     }
 
     https.end();
-    delete client;
     return result;
   }
   else
   {
-    delete client;
     return "[HTTPS] Unable to connect\n";
   }
 }

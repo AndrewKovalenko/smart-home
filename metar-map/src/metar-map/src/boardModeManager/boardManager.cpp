@@ -53,9 +53,10 @@ void BoardManager::connectToWiFiNetwork()
 {
   Serial.println("Connecting to network");
   uint8_t connectionAttempts = 0;
-  WiFiCredentials *savedCredentials = readWifiCredentials();
+  // WiFiCredentials *savedCredentials = readWifiCredentials();
 
-  WiFi.begin(savedCredentials->ssid, savedCredentials->password);
+  // WiFi.begin(savedCredentials->ssid, savedCredentials->password);
+  WiFi.begin("BrainBurner", "Sw6%H0mE!");
 
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -65,8 +66,8 @@ void BoardManager::connectToWiFiNetwork()
 
     if (connectionAttempts > MAX_CONNECTION_ATTEMPTS)
     {
-      resetCredentialsStorage();
-      delete savedCredentials;
+      // resetCredentialsStorage();
+      // delete savedCredentials;
       ESP.restart();
     }
   }
