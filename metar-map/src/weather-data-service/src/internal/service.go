@@ -11,6 +11,7 @@ import (
 const boxDataUrl = "https://aviationweather.gov/cgi-bin/json/MetarJSON.php?zoom=7&filter=prior&density=all&taf=0&bbox=-124.57,46.96,-120.14,48.8"
 const stationNameProperty = "id"
 const flightCategoryProperty = "fltcat"
+const undefinedFlightCategory = "undefined"
 
 func contains(sl []string, name string) bool {
 	for _, value := range sl {
@@ -21,7 +22,7 @@ func contains(sl []string, name string) bool {
 	return false
 }
 
-func GetWeather(stations []string) ([]models.StationFlightCategory, error) {
+func getWeatherData() ([]byte, error) {
 	response, err := http.Get(boxDataUrl)
 
 	if err != nil {
@@ -36,26 +37,30 @@ func GetWeather(stations []string) ([]models.StationFlightCategory, error) {
 		return nil, errors.New("unabel to read aw data response")
 	}
 
+	return body, nil
+}
+
+func parseWeatherData(response []byte, requestedStations []string) ([]models.StationFlightCategory, error) {
 	var weatherData AviationWeatherAPIResponse
-	parsingError := json.Unmarshal(body, &weatherData)
+	parsingError := json.Unmarshal(response, &weatherData)
 
 	if parsingError != nil {
 		return nil, errors.New("unable to parse aw response")
 	}
 
-	result := make([]models.StationFlightCategory, len(stations))
+	result := make([]models.StationFlightCategory, len(requestedStations))
 
 	for _, stationData := range weatherData.StationsData {
 		stationName, stationNamePresent := stationData.Properties[stationNameProperty]
 
-		if !stationNamePresent || !contains(stations, stationName) {
+		if !stationNamePresent || !contains(requestedStations, stationName) {
 			continue
 		}
 
 		flightCategory, flightCategoryPresent := stationData.Properties[flightCategoryProperty]
 
 		if !flightCategoryPresent {
-			flightCategory = "undefined"
+			flightCategory = undefinedFlightCategory
 		}
 
 		weatherStation := models.StationFlightCategory{
@@ -67,4 +72,14 @@ func GetWeather(stations []string) ([]models.StationFlightCategory, error) {
 	}
 
 	return result, nil
+}
+
+func GetWeather(requestedStations []string) ([]models.StationFlightCategory, error) {
+	response, err := getWeatherData()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return parseWeatherData(response, requestedStations)
 }
