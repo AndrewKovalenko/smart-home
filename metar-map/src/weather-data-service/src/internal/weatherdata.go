@@ -5,5 +5,5 @@ type WeatherStationData struct {
 }
 
 type AviationWeatherAPIResponse struct {
-	StationsData WeatherStationData `json:"features"`
+	StationsData []WeatherStationData `json:"features"`
 }

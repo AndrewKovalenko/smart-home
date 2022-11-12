@@ -5,17 +5,24 @@ import (
 	"errors"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"weatherdataservice/internal/models"
 )
 
-const baseWeatherDataUrl = "https://beta.aviationweather.gov/cgi-bin/data/metar.php?format=json&ids="
+const boxDataUrl = "https://aviationweather.gov/cgi-bin/json/MetarJSON.php?zoom=7&filter=prior&density=all&taf=0&bbox=-124.57,46.96,-120.14,48.8"
+const stationNameProperty = "id"
+const flightCategoryProperty = "fltcat"
+
+func contains(sl []string, name string) bool {
+	for _, value := range sl {
+		if value == name {
+			return true
+		}
+	}
+	return false
+}
 
 func GetWeather(stations []string) ([]models.StationFlightCategory, error) {
-	stationQueryparamter := strings.Join(stations, ",")
-	weatherDataRequestUrl := baseWeatherDataUrl + stationQueryparamter
-
-	response, err := http.Get(weatherDataRequestUrl)
+	response, err := http.Get(boxDataUrl)
 
 	if err != nil {
 		return nil, errors.New("unable to recive weaterh data from aw api")
@@ -30,11 +37,34 @@ func GetWeather(stations []string) ([]models.StationFlightCategory, error) {
 	}
 
 	var weatherData AviationWeatherAPIResponse
-	err := json.Unmarshal(body, &weatherData)
+	parsingError := json.Unmarshal(body, &weatherData)
 
-	if err != nil {
+	if parsingError != nil {
 		return nil, errors.New("unable to parse aw response")
 	}
 
-	return nil, nil
+	result := make([]models.StationFlightCategory, len(stations))
+
+	for _, stationData := range weatherData.StationsData {
+		stationName, stationNamePresent := stationData.Properties[stationNameProperty]
+
+		if !stationNamePresent || !contains(stations, stationName) {
+			continue
+		}
+
+		flightCategory, flightCategoryPresent := stationData.Properties[flightCategoryProperty]
+
+		if !flightCategoryPresent {
+			flightCategory = "undefined"
+		}
+
+		weatherStation := models.StationFlightCategory{
+			StationId:      stationName,
+			FlightCategory: flightCategory,
+		}
+
+		result = append(result, weatherStation)
+	}
+
+	return result, nil
 }
