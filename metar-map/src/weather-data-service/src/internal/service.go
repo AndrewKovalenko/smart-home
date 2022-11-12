@@ -3,6 +3,7 @@ package internal
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"weatherdataservice/internal/models"
@@ -48,12 +49,13 @@ func parseWeatherData(response []byte, requestedStations []string) ([]models.Sta
 		return nil, errors.New("unable to parse aw response")
 	}
 
-	result := make([]models.StationFlightCategory, len(requestedStations))
+	result := make([]models.StationFlightCategory, 0)
 
 	for _, stationData := range weatherData.StationsData {
 		stationName, stationNamePresent := stationData.Properties[stationNameProperty]
 
-		if !stationNamePresent || !contains(requestedStations, stationName) {
+		stationNameString := fmt.Sprintf("%v", stationName)
+		if !stationNamePresent || !contains(requestedStations, stationNameString) {
 			continue
 		}
 
@@ -64,8 +66,8 @@ func parseWeatherData(response []byte, requestedStations []string) ([]models.Sta
 		}
 
 		weatherStation := models.StationFlightCategory{
-			StationId:      stationName,
-			FlightCategory: flightCategory,
+			StationId:      stationNameString,
+			FlightCategory: fmt.Sprintf("%v", flightCategory),
 		}
 
 		result = append(result, weatherStation)

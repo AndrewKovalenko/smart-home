@@ -9,7 +9,15 @@ var stationsToCheckString = "KEAT,KELN,KSMP,KPLU,KRNT,KBFI,KSEA,KTIW,KTCM,KGRF,K
 
 func TestWeatherServiceParsesResponseProperly(t *testing.T) {
 	stationsToCheck := strings.Split(stationsToCheckString, ",")
-	stationsFlightCategories, _ := parseWeatherData([]byte(testResponse), stationsToCheck)
+	stationsFlightCategories, err := parseWeatherData([]byte(testResponse), stationsToCheck)
+
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(stationsToCheck) != len(stationsFlightCategories) {
+		t.Error("not all stations were found")
+	}
 
 	for _, stationData := range stationsFlightCategories {
 		if !contains(stationsToCheck, stationData.StationId) {
@@ -21,5 +29,5 @@ func TestWeatherServiceParsesResponseProperly(t *testing.T) {
 		}
 	}
 
-	t.Log("Passed")
+	t.Log("Passed parsing test")
 }

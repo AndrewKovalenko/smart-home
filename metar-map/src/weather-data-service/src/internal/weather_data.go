@@ -1,7 +1,7 @@
 package internal
 
 type WeatherStationData struct {
-	Properties map[string]string `json:"properties"`
+	Properties map[string]any `json:"properties"`
 }
 
 type AviationWeatherAPIResponse struct {
