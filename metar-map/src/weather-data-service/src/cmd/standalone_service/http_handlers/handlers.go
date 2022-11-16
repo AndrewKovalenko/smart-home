@@ -2,7 +2,6 @@ package httphandlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -18,14 +17,16 @@ func GetStationsFlightCategory(w http.ResponseWriter, r *http.Request) {
 	stations := strings.Split(stationsParameter, ",")
 	flightCategories, err := internal.GetWeather(stations)
 
+	w.Header().Set("Content-Type", "application/json")
+
 	if err != nil {
-		fmt.Println("Error")
+		w.WriteHeader(http.StatusFailedDependency)
+		w.Write([]byte("Unable to fetch flight category data"))
+
 		return
 	}
 
-	for _, flightCategory := range flightCategories {
-		json.NewEncoder(w).Encode(flightCategory)
-	}
+	json.NewEncoder(w).Encode(flightCategories)
 }
 
 func HealthCheck(w http.ResponseWriter, r *http.Request) {

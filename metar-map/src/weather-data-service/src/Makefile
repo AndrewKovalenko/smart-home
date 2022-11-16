@@ -1,7 +1,7 @@
 default: dist
 
 standalone:
-	GOOS=linux CGO_ENABLED=0 go build -o ./build/lambda/getFlightCategory ./cmd/standalone_service/main.go
+	GOOS=linux GOARCH=arm GOARM=5 go build -o build/standalone/flightCategoryService ./cmd/standalone_service/main.go
 
 lambda:
 	GOOS=linux CGO_ENABLED=0 go build -o ./build/lambda/getFlightCategory ./cmd/lambda/main.go &&\
