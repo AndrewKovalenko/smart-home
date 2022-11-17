@@ -5,18 +5,13 @@ void parseResponse(String response, WeatherStation *metars, uint8_t numberOfStat
 {
   Serial.println("Response is:");
   Serial.println(response);
-  DynamicJsonDocument weatherData(30720);
+  DynamicJsonDocument weatherData(MAX_SUPPORTED_REQUEST_SIZE);
   deserializeJson(weatherData, response);
 
   Serial.println("Data deserialized");
   for (uint8_t i = 0; i < numberOfStations; i++)
   {
-    if (weatherData["features"][i]["properties"] == NULL || weatherData["features"][i]["properties"]["id"] == NULL)
-    {
-      continue;
-    }
-
-    String stationName = weatherData["features"][i]["properties"]["id"];
+    String stationName = weatherData[i][STATION_PROPERTY_NAME];
 
     Serial.println("Reading station " + stationName);
 
@@ -24,9 +19,9 @@ void parseResponse(String response, WeatherStation *metars, uint8_t numberOfStat
     {
       if (metars[j].stationName == stationName)
       {
-        const char *visibility = weatherData["features"][i]["properties"]["fltcat"];
-        Serial.println(visibility);
-        metars[j].weather = "VFR";
+        const char *flightCategory = weatherData[i][FLIGHT_CATEGORY_PROPERTY_NAME];
+        Serial.println(flightCategory);
+        sprintf(metars[j].weather, "%s", flightCategory);
         break;
       }
     }
@@ -35,17 +30,18 @@ void parseResponse(String response, WeatherStation *metars, uint8_t numberOfStat
 
 String makeGetCall(String url)
 {
-  std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
+  // std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
 
-  client->setInsecure();
+  // client->setInsecure();
 
+  WiFiClient client;
   HTTPClient https;
-
-  const char *testUrl = "https://beta.aviationweather.gov/cgi-bin/data/metar.php?format=json&ids=KEAT,KELN,KSMP,KPLU,KRNT,KBFI,KSEA,KTIW,KTCM,KGRF,KPWT"; //,KOLM";
   String result;
 
-  if (https.begin(*client, testUrl))
-  { // HTTPS
+  // if (https.begin(*client, url))
+  if (https.begin(client, url))
+  {
+    Serial.println("Url: " + url);
 
     Serial.print("[HTTPS] GET...\n");
     int httpCode = https.GET();
