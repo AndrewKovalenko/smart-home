@@ -7,8 +7,7 @@
 
 WeatherStation metarStations[NUMBER_OF_STATIONS] = {
     {"KEAT", 0, ""},
-    // {"KELN", 2, ""},
-    {"KYKM", 2, ""},
+    {"KELN", 2, ""},
     {"KSMP", 4, ""},
     {"KPLU", 6, ""},
     {"KRNT", 8, ""},
