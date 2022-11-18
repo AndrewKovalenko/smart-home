@@ -53,10 +53,8 @@ void BoardManager::connectToWiFiNetwork()
 {
   Serial.println("Connecting to network");
   uint8_t connectionAttempts = 0;
-  // WiFiCredentials *savedCredentials = readWifiCredentials();
-
-  // WiFi.begin(savedCredentials->ssid, savedCredentials->password);
-  WiFi.begin("BrainBurner", "Sw6%H0mE!");
+  WiFiCredentials *savedCredentials = readWifiCredentials();
+  WiFi.begin(savedCredentials->ssid, savedCredentials->password);
 
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -66,8 +64,8 @@ void BoardManager::connectToWiFiNetwork()
 
     if (connectionAttempts > MAX_CONNECTION_ATTEMPTS)
     {
-      // resetCredentialsStorage();
-      // delete savedCredentials;
+      resetCredentialsStorage();
+      delete savedCredentials;
       ESP.restart();
     }
   }
@@ -75,7 +73,7 @@ void BoardManager::connectToWiFiNetwork()
 
 void BoardManager::displayWeatherOnTheMap()
 {
-  Serial.println("Weather URL: " + weatherReadingUrl);
+  //  Serial.println("Weather URL: " + weatherReadingUrl);
   String weatherDataJson = makeGetCall(weatherReadingUrl);
   const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
   parseResponse(weatherDataJson, metarStations, numberOfStations);
@@ -83,6 +81,8 @@ void BoardManager::displayWeatherOnTheMap()
   for (uint8_t i = 0; i < numberOfStations; i++)
   {
     LedColor colorForCurrentStation;
+
+    //    Serial.println("Weather at " + metarStations[i].stationName + " is " + metarStations[i].weather[0]);
 
     switch (metarStations[i].weather[0])
     {
