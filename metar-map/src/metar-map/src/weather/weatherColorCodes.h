@@ -3,3 +3,4 @@
 #define MVFR_COLOR {31, 112, 219} //rgb(31,112,219), hsl(214.15,75.2%,49.02%)
 #define VFR_COLOR {34, 197, 1} //rgb(34,197,1), hsl(109.9,98.99%,38.82%)
 #define NO_DATA_COLOR {255, 255, 0} //rgb(255,255,0)
+#define OFF_COLOR {0, 0, 0} //rgb(0,0,0)

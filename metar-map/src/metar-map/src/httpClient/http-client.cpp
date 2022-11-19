@@ -1,5 +1,6 @@
 #include <ArduinoJson.h>
 #include "http-client.h"
+#include "../weather/weatherConditions.h"
 
 void parseResponse(String response, WeatherStation *metars, uint8_t numberOfStations)
 {
@@ -15,7 +16,32 @@ void parseResponse(String response, WeatherStation *metars, uint8_t numberOfStat
       if (metars[j].stationName == stationName)
       {
         const char *flightCategory = weatherData[i][FLIGHT_CATEGORY_PROPERTY_NAME];
-        sprintf(metars[j].weather, "%s", flightCategory);
+
+        if (flightCategory[0] == 'V')
+        {
+          metars[j].weather = VFR;
+          break;
+        }
+
+        if (flightCategory[0] == 'M')
+        {
+          metars[j].weather = MVFR;
+          break;
+        }
+
+        if (flightCategory[0] == 'I')
+        {
+          metars[j].weather = IFR;
+          break;
+        }
+
+        if (flightCategory[0] == 'L')
+        {
+          metars[j].weather = LIFR;
+          break;
+        }
+
+        metars[j].weather = UNDEFINED;
         break;
       }
     }

@@ -9,6 +9,7 @@
 #include "../wifiAccessPoint/configurationHttpServer.h"
 #include "boardManager.h"
 #include "stationsToLedsMapping.h"
+#include <FastLED.h>
 
 #define WIFI_RECONNECT_DELAY 1000
 #define MAX_CONNECTION_ATTEMPTS 15
@@ -17,13 +18,15 @@ BoardManager::BoardManager(String baseUrl)
 {
   weatherReadingUrl = buildWeatherRetrievingUrl(baseUrl, metarStations, NUMBER_OF_STATIONS);
   httpServer = NULL;
-  ledStrip = WS2811LedStrip();
+  // ledStrip = WS2811LedStrip();
   _boardMode = readMode();
 }
 
 BoardMode BoardManager::readMode()
 {
   WiFiCredentials *credentialsSaved = readWifiCredentials();
+  Serial.println(credentialsSaved->ssid);
+  Serial.println(credentialsSaved->password);
 
   BoardMode boardMode = areCredentialsBlank(*credentialsSaved) ? WiFiSetup : WeatherClient;
   delete credentialsSaved;
@@ -73,40 +76,100 @@ void BoardManager::connectToWiFiNetwork()
 
 void BoardManager::displayWeatherOnTheMap()
 {
-  //  Serial.println("Weather URL: " + weatherReadingUrl);
+  CRGBArray<50> leds;
+  FastLED.addLeds<WS2811, 5>(leds, 50);
+  FastLED.setBrightness(60);
+  Serial.println("Weather URL: " + weatherReadingUrl);
   String weatherDataJson = makeGetCall(weatherReadingUrl);
   const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
   parseResponse(weatherDataJson, metarStations, numberOfStations);
 
-  for (uint8_t i = 0; i < numberOfStations; i++)
+  for (uint8_t i = 0; i < 50; i++)
   {
-    LedColor colorForCurrentStation;
+    //   bool ledSet = false;
 
-    //    Serial.println("Weather at " + metarStations[i].stationName + " is " + metarStations[i].weather[0]);
+    //   for (uint8_t j = 0; j < numberOfStations; j++)
+    //   {
+    //     if (i == metarStations[j].ledNumber)
+    //     {
+    //       LedColor colorForCurrentStation;
 
-    switch (metarStations[i].weather[0])
+    //       switch (metarStations[j].weather[0])
+    //       {
+    //       case 'V':
+    //         colorForCurrentStation = VFR_COLOR;
+    //         break;
+
+    //       case 'M':
+    //         colorForCurrentStation = MVFR_COLOR;
+    //         break;
+
+    //       case 'I':
+    //         colorForCurrentStation = IFR_COLOR;
+    //         break;
+
+    //       case 'L':
+    //         colorForCurrentStation = LIFR_COLOR;
+    //         break;
+
+    //       default:
+    //         colorForCurrentStation = NO_DATA_COLOR;
+    //       }
+
+    //       ledStrip.setLedColor(i, colorForCurrentStation);
+    //       ledSet = true;
+    //       break;
+    //     }
+    //   }
+
+    //   if (!ledSet)
+    //   {
+    // ledStrip.setLedColor(i, OFF_COLOR);
+    //   }
+  }
+  // ledStrip.apply();
+
+  for (uint8_t i = 0; i < 50; i++)
+  {
+    bool ledSet = false;
+
+    for (uint8_t j = 0; j < 26; j++)
     {
-    case 'V':
-      colorForCurrentStation = VFR_COLOR;
-      break;
+      if (i == metarStations[j].ledNumber)
+      {
+        CRGB colorForCurrentStation;
+        switch (metarStations[j].weather[0])
+        {
+        case 'V':
+          colorForCurrentStation = CRGB(34, 197, 1);
+          break;
 
-    case 'M':
-      colorForCurrentStation = MVFR_COLOR;
-      break;
+        case 'M':
+          colorForCurrentStation = CRGB(31, 112, 219);
+          break;
 
-    case 'I':
-      colorForCurrentStation = IFR_COLOR;
-      break;
+        case 'I':
+          colorForCurrentStation = CRGB(253, 0, 0);
+          break;
 
-    case 'L':
-      colorForCurrentStation = LIFR_COLOR;
-      break;
+        case 'L':
+          colorForCurrentStation = CRGB(251, 63, 255);
+          break;
 
-    default:
-      colorForCurrentStation = NO_DATA_COLOR;
+        default:
+          colorForCurrentStation = CRGB(255, 255, 0);
+        }
+        leds[i] = colorForCurrentStation;
+        ledSet = true;
+        break;
+      }
     }
 
-    ledStrip.setLedColor(metarStations[i].ledNumber, colorForCurrentStation);
-    ledStrip.apply();
+    if (!ledSet)
+    {
+      leds[i] = CRGB(0, 0, 0);
+    }
+
+    FastLED.show();
   }
 }
