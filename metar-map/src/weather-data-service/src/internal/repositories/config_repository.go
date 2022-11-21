@@ -4,15 +4,25 @@ import (
 	"errors"
 	"log"
 	"os"
+	"path"
+	"path/filepath"
 	"weatherdataservice/internal/entities"
 
 	"gopkg.in/yaml.v3"
 )
 
-const configPath = "./weather-data-config.yaml"
+const configFileName = "weather-data-config.yaml"
+
+var executableDirectory, directoryReadingError = filepath.Abs(filepath.Dir(os.Args[0]))
 
 func readConfig() *entities.ServiceConfig {
-	configFile, err := os.ReadFile(configPath)
+	if directoryReadingError != nil {
+		log.Println("error reading config path")
+		return nil
+	}
+
+	configFilePath := path.Join(executableDirectory, configFileName)
+	configFile, err := os.ReadFile(configFilePath)
 	result := entities.ServiceConfig{}
 
 	if err != nil {
