@@ -4,58 +4,29 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"weatherdataservice/internal/models"
+	"weatherdataservice/internal/repositories"
 )
 
-const boxDataUrl = "https://aviationweather.gov/cgi-bin/json/MetarJSON.php?zoom=7&filter=prior&density=all&taf=0&bbox=-124.57,46.96,-120.14,48.8"
 const stationNameProperty = "id"
 const flightCategoryProperty = "fltcat"
 const undefinedFlightCategory = "undefined"
 
-func contains(sl []string, name string) bool {
-	for _, value := range sl {
-		if value == name {
-			return true
-		}
-	}
-	return false
-}
-
-func getWeatherData() ([]byte, error) {
-	response, err := http.Get(boxDataUrl)
-
-	if err != nil {
-		return nil, errors.New("unable to recive weaterh data from aw api")
-	}
-
-	defer response.Body.Close()
-
-	body, err := ioutil.ReadAll(response.Body)
-
-	if err != nil {
-		return nil, errors.New("unabel to read aw data response")
-	}
-
-	return body, nil
-}
-
-func parseWeatherData(response []byte, requestedStations []string) ([]models.StationFlightCategory, error) {
-	var weatherData AviationWeatherAPIResponse
+func parseWeatherData(response []byte) (map[string]string, error) {
+	var weatherData models.AviationWeatherAPIResponse
 	parsingError := json.Unmarshal(response, &weatherData)
 
 	if parsingError != nil {
 		return nil, errors.New("unable to parse aw response")
 	}
 
-	result := make([]models.StationFlightCategory, 0)
+	result := make(map[string]string)
 
 	for _, stationData := range weatherData.StationsData {
 		stationName, stationNamePresent := stationData.Properties[stationNameProperty]
 
 		stationNameString := fmt.Sprintf("%v", stationName)
-		if !stationNamePresent || !contains(requestedStations, stationNameString) {
+		if !stationNamePresent {
 			continue
 		}
 
@@ -65,23 +36,69 @@ func parseWeatherData(response []byte, requestedStations []string) ([]models.Sta
 			flightCategory = undefinedFlightCategory
 		}
 
-		weatherStation := models.StationFlightCategory{
-			StationId:      stationNameString,
-			FlightCategory: fmt.Sprintf("%v", flightCategory),
+		result[stationNameString] = fmt.Sprintf("%v", flightCategory)
+	}
+
+	return result, nil
+}
+
+func extractCategoriesForRequestedStations(
+	flightCategories map[string]string,
+	requestedStations []string,
+	stationOverrides map[string]string,
+) ([]models.StationFlightCategory, error) {
+	result := make([]models.StationFlightCategory, 0)
+
+	for _, stationName := range requestedStations {
+		var categoryToUse string
+
+		if reportedCategory, categoryExist := flightCategories[stationName]; categoryExist {
+			categoryToUse = reportedCategory
+		} else {
+			categoryToUse = undefinedFlightCategory
 		}
 
-		result = append(result, weatherStation)
+		if overrideStation, overrideExist := stationOverrides[stationName]; overrideExist {
+			if overrideStationCategory, recordExists := flightCategories[overrideStation]; recordExists {
+				categoryToUse = overrideStationCategory
+			} else {
+				categoryToUse = undefinedFlightCategory
+			}
+		}
+
+		stationFlightCategoryModel := models.StationFlightCategory{
+			StationId:      stationName,
+			FlightCategory: categoryToUse,
+		}
+
+		result = append(result, stationFlightCategoryModel)
 	}
 
 	return result, nil
 }
 
 func GetWeather(requestedStations []string) ([]models.StationFlightCategory, error) {
-	response, err := getWeatherData()
+	response, err := repositories.GetWeatherData()
 
 	if err != nil {
 		return nil, err
 	}
 
-	return parseWeatherData(response, requestedStations)
+	flightCategories, err := parseWeatherData(response)
+
+	if err != nil {
+		return nil, err
+	}
+
+	serviceConfig, err := repositories.GetServiceConfig()
+
+	if err != nil {
+		return extractCategoriesForRequestedStations(flightCategories, requestedStations, nil)
+	}
+
+	return extractCategoriesForRequestedStations(
+		flightCategories,
+		requestedStations,
+		serviceConfig.StationOverrides,
+	)
 }
