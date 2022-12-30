@@ -7,7 +7,7 @@
 
 WeatherStation metarStations[NUMBER_OF_STATIONS] = {
     {"KEAT", 0, ""},
-    {"KENL", 2, ""},
+    {"KELN", 2, ""},
     {"KSMP", 4, ""},
     {"KPLU", 6, ""},
     {"KRNT", 8, ""},
@@ -31,7 +31,6 @@ WeatherStation metarStations[NUMBER_OF_STATIONS] = {
     {"K0S9", 36, ""},
     {"KPAE", 38, ""},
     {"KAWO", 39, ""},
-    {"KS52", 44, ""}
-};
+    {"KS52", 44, ""}};
 
 #endif
