@@ -1,0 +1,1275 @@
+{
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": {
+				"data": "METAR",
+				"beg_time": "1667529576",
+				"end_time": "1667536776",
+				"wrap": "",
+				"bbox": "-125.8999,44.8001,-114.8587,49.4685"
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983593921",
+			"properties": {
+				"data": "METAR",
+				"id": "KSEA",
+				"site": "Seattle-Tacoma Intl",
+				"prior": 0,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 5.6,
+				"dewp": 3.9,
+				"wspd": 8,
+				"wdir": 190,
+				"ceil": 42,
+				"cover": "OVC",
+				"cldCvg1": "SCT",
+				"cldBas1": "23",
+				"cldCvg2": "SCT",
+				"cldBas2": "29",
+				"cldCvg3": "OVC",
+				"cldBas3": "42",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1015.3,
+				"slp": 1016.2,
+				"wx": "-RA",
+				"rawOb": "KSEA 040353Z 19008KT 10SM -RA SCT023 SCT029 OVC042 06/04 A2998 RMK AO2 RAB01 SLP162 P0000 T00560039 $"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-122.314,
+					47.445
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983594457",
+			"properties": {
+				"data": "METAR",
+				"id": "KGEG",
+				"site": "Spokane Intl",
+				"prior": 1,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 1.1,
+				"dewp": 0.0,
+				"wspd": 9,
+				"wdir": 220,
+				"ceil": 7,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "7",
+				"cldCvg2": "BKN",
+				"cldBas2": "11",
+				"cldCvg3": "OVC",
+				"cldBas3": "20",
+				"visib": 3.00,
+				"fltcat": "IFR",
+				"altim": 1017.4,
+				"slp": 1019.1,
+				"wx": "-SN BR",
+				"rawOb": "KGEG 040353Z 22009KT 3SM -SN BR BKN007 BKN011 OVC020 01/00 A3004 RMK AO2 SNB11 CIG 005V009 SLP191 P0002 T00110000"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-117.528,
+					47.622
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983611995",
+			"properties": {
+				"data": "METAR",
+				"id": "CYVR",
+				"site": "Vancouver Intl",
+				"prior": 2,
+				"obsTime": "2022-11-04T04:16:00Z",
+				"temp": 3.0,
+				"dewp": 3.0,
+				"wspd": 13,
+				"wdir": 70,
+				"ceil": 15,
+				"cover": "OVC",
+				"cldCvg1": "FEW",
+				"cldBas1": "6",
+				"cldCvg2": "FEW",
+				"cldBas2": "9",
+				"cldCvg3": "OVC",
+				"cldBas3": "15",
+				"visib": 4.00,
+				"fltcat": "MVFR",
+				"altim": 1013.6,
+				"slp": 1013.6,
+				"wx": "-RA BR",
+				"rawOb": "CYVR 040416Z 07013KT 4SM -RA BR FEW006 FEW009 OVC015 03/03 A2993 RMK SF1SF1SC6 SLP136"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-123.168,
+					49.183
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983609803",
+			"properties": {
+				"data": "METAR",
+				"id": "KYKM",
+				"site": "Yakima Air Term/McAl",
+				"prior": 2,
+				"obsTime": "2022-11-04T04:13:00Z",
+				"temp": 4.4,
+				"dewp": 1.7,
+				"wspd": 6,
+				"wdir": 50,
+				"ceil": 26,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "26",
+				"cldCvg2": "BKN",
+				"cldBas2": "45",
+				"cldCvg3": "OVC",
+				"cldBas3": "60",
+				"visib": 10.00,
+				"fltcat": "MVFR",
+				"altim": 1017.4,
+				"rawOb": "KYKM 040413Z AUTO 05006KT 10SM BKN026 BKN045 OVC060 04/02 A3004 RMK AO2 RAE01 P0000 T00440017"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-120.535,
+					46.564
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983609031",
+			"properties": {
+				"data": "METAR",
+				"id": "KPDX",
+				"site": "Portland Intl Arpt",
+				"prior": 2,
+				"obsTime": "2022-11-04T04:10:00Z",
+				"temp": 7.8,
+				"dewp": 4.4,
+				"wspd": 10,
+				"wdir": 160,
+				"ceil": 27,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "27",
+				"cldCvg2": "OVC",
+				"cldBas2": "35",
+				"visib": 10.00,
+				"fltcat": "MVFR",
+				"altim": 1020.4,
+				"rawOb": "KPDX 040410Z 16010KT 10SM BKN027 OVC035 08/04 A3013 RMK AO2 T00780044"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-122.609,
+					45.596
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983598341",
+			"properties": {
+				"data": "METAR",
+				"id": "KEAT",
+				"site": "Wenatchee/Pangborn M",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:55:00Z",
+				"temp": 2.8,
+				"dewp": 0.6,
+				"wspd": 3,
+				"wdir": 90,
+				"ceil": 22,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "22",
+				"cldCvg2": "BKN",
+				"cldBas2": "27",
+				"cldCvg3": "OVC",
+				"cldBas3": "50",
+				"visib": 10.00,
+				"fltcat": "MVFR",
+				"altim": 1016.7,
+				"slp": 1017.7,
+				"rawOb": "KEAT 040355Z AUTO 09003KT 10SM BKN022 BKN027 OVC050 03/01 A3002 RMK AO2 RAB03E18 SLP177 P0000 T00280006"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-120.201,
+					47.397
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983607495",
+			"properties": {
+				"data": "METAR",
+				"id": "CYHE",
+				"site": "Hope Rgnl Airpark",
+				"prior": 3,
+				"obsTime": "2022-11-04T04:00:00Z",
+				"temp": 2.0,
+				"dewp": 1.0,
+				"wspd": 6,
+				"wdir": 120,
+				"ceil": 43,
+				"cover": "OVC",
+				"cldCvg1": "FEW",
+				"cldBas1": "27",
+				"cldCvg2": "BKN",
+				"cldBas2": "43",
+				"cldCvg3": "OVC",
+				"cldBas3": "60",
+				"visib": 9.00,
+				"fltcat": "VFR",
+				"altim": 1014.6,
+				"slp": 1014.9,
+				"wx": "-RA",
+				"rawOb": "CYHE 040400Z AUTO 12006KT 9SM -RA FEW027 BKN043 OVC060 02/01 A2996 RMK SLP149"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-121.493,
+					49.370
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983597861",
+			"properties": {
+				"data": "METAR",
+				"id": "KLWS",
+				"site": "Lewiston/Nez Perce C",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:56:00Z",
+				"temp": 6.1,
+				"dewp": -2.2,
+				"wspd": 5,
+				"wdir": 220,
+				"ceil": 90,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "90",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1019.4,
+				"slp": 1020.3,
+				"rawOb": "KLWS 040356Z 22005KT 10SM OVC090 06/M02 A3010 RMK AO2 SLP203 T00611022"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-117.015,
+					46.375
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983595375",
+			"properties": {
+				"data": "METAR",
+				"id": "KPDT",
+				"site": "Pendleton/E Oregon R",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 6.7,
+				"dewp": -1.1,
+				"wspd": 8,
+				"wdir": 220,
+				"ceil": 45,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "45",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1020.1,
+				"slp": 1020.1,
+				"rawOb": "KPDT 040353Z AUTO 22008KT 10SM OVC045 07/M01 A3012 RMK AO2 SLP201 T00671011"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-118.839,
+					45.693
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983594087",
+			"properties": {
+				"data": "METAR",
+				"id": "KDLS",
+				"site": "The Dalles Muni",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 6.7,
+				"dewp": 4.4,
+				"wspd": 0,
+				"wdir": 0,
+				"ceil": 39,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "39",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1020.4,
+				"slp": 1020.6,
+				"wx": "-RA",
+				"rawOb": "KDLS 040353Z AUTO 00000KT 10SM -RA OVC039 07/04 A3013 RMK AO2 SLP206 P0001 T00670044"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-121.166,
+					45.619
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983595509",
+			"properties": {
+				"data": "METAR",
+				"id": "KOMK",
+				"site": "Omak Arpt",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 1.1,
+				"dewp": 0.0,
+				"wspd": 7,
+				"wdir": 190,
+				"ceil": 19,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "19",
+				"visib": 10.00,
+				"fltcat": "MVFR",
+				"altim": 1017.0,
+				"slp": 1018.3,
+				"rawOb": "KOMK 040353Z AUTO 19007KT 10SM OVC019 01/00 A3003 RMK AO2 SNE05 SLP183 P0000 T00110000"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-119.521,
+					48.461
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983595355",
+			"properties": {
+				"data": "METAR",
+				"id": "KBKE",
+				"site": "Baker Muni",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": -0.6,
+				"dewp": -3.9,
+				"wspd": 0,
+				"wdir": 0,
+				"cover": "FEW",
+				"cldCvg1": "FEW",
+				"cldBas1": "110",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1019.4,
+				"slp": 1021.9,
+				"rawOb": "KBKE 040353Z AUTO 00000KT 10SM FEW110 M01/M04 A3010 RMK AO2 SLP219 T10061039"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-117.810,
+					44.843
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983607461",
+			"properties": {
+				"data": "METAR",
+				"id": "CYCG",
+				"site": "Castlegar Rgnl",
+				"prior": 3,
+				"obsTime": "2022-11-04T04:00:00Z",
+				"temp": 3.0,
+				"dewp": -1.0,
+				"wspd": 6,
+				"wdir": 190,
+				"ceil": 42,
+				"cover": "BKN",
+				"cldCvg1": "BKN",
+				"cldBas1": "42",
+				"visib": 15.00,
+				"fltcat": "VFR",
+				"altim": 1016.3,
+				"slp": 1018.1,
+				"rawOb": "CYCG 040400Z 19006KT 150V220 15SM BKN042 03/M01 A3001 RMK SC7 LAST STFD OBS/NXT 041300Z SLP181"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-117.634,
+					49.295
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983607697",
+			"properties": {
+				"data": "METAR",
+				"id": "CYYF",
+				"site": "Penticton Rgnl",
+				"prior": 3,
+				"obsTime": "2022-11-04T04:00:00Z",
+				"temp": 1.0,
+				"dewp": 0.0,
+				"wspd": 11,
+				"wgst": 17,
+				"wdir": 170,
+				"ceil": 20,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "20",
+				"visib": 3.00,
+				"fltcat": "MVFR",
+				"altim": 1015.7,
+				"slp": 1017.4,
+				"wx": "-SN",
+				"rawOb": "CYYF 040400Z 17011G17KT 3SM -SN OVC020 01/M00 A2999 RMK SN4SC4 SLP174"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-119.606,
+					49.460
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983594607",
+			"properties": {
+				"data": "METAR",
+				"id": "KBLI",
+				"site": "Bellingham Intl",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 5.6,
+				"dewp": 3.9,
+				"wspd": 12,
+				"wdir": 160,
+				"ceil": 19,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "19",
+				"cldCvg2": "BKN",
+				"cldBas2": "24",
+				"cldCvg3": "OVC",
+				"cldBas3": "36",
+				"visib": 6.00,
+				"fltcat": "MVFR",
+				"altim": 1013.0,
+				"slp": 1013.8,
+				"wx": "BR",
+				"rawOb": "KBLI 040353Z 16012KT 6SM BR BKN019 BKN024 OVC036 06/04 A2991 RMK AO2 RAB20E49 SLP138 P0000 T00560039"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-122.541,
+					48.799
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983594789",
+			"properties": {
+				"data": "METAR",
+				"id": "KHQM",
+				"site": "Hoquiam/Bowerman Arp",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 9.4,
+				"dewp": 7.2,
+				"wspd": 12,
+				"wgst": 22,
+				"wdir": 160,
+				"ceil": 8,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "8",
+				"visib": 4.00,
+				"fltcat": "IFR",
+				"altim": 1014.3,
+				"slp": 1014.4,
+				"wx": "-RA BR",
+				"rawOb": "KHQM 040353Z AUTO 16012G22KT 4SM -RA BR OVC008 09/07 A2995 RMK AO2 CIG 007V012 SLP144 P0019 T00940072"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-123.931,
+					46.973
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983597867",
+			"properties": {
+				"data": "METAR",
+				"id": "KAST",
+				"site": "Astoria Rgnl",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:55:00Z",
+				"temp": 8.9,
+				"dewp": 6.7,
+				"wspd": 19,
+				"wgst": 28,
+				"wdir": 170,
+				"ceil": 15,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "15",
+				"visib": 8.00,
+				"fltcat": "MVFR",
+				"altim": 1015.7,
+				"slp": 1015.5,
+				"wx": "-RA",
+				"rawOb": "KAST 040355Z AUTO 17019G28KT 8SM -RA OVC015 09/07 A2999 RMK AO2 PK WND 16028/0355 SLP155 P0004 T00890067 $"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-123.883,
+					46.157
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983609801",
+			"properties": {
+				"data": "METAR",
+				"id": "KUIL",
+				"site": "Quillayute State Arp",
+				"prior": 3,
+				"obsTime": "2022-11-04T04:13:00Z",
+				"temp": 8.3,
+				"dewp": 7.8,
+				"wspd": 5,
+				"wdir": 0,
+				"ceil": 8,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "8",
+				"cldCvg2": "OVC",
+				"cldBas2": "13",
+				"visib": 3.00,
+				"fltcat": "IFR",
+				"altim": 1010.2,
+				"wx": "RA BR",
+				"rawOb": "KUIL 040413Z AUTO VRB05KT 3SM RA BR BKN008 OVC013 08/08 A2983 RMK AO2 CIG 006V011 P0005 T00830078"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-124.558,
+					47.937
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983592603",
+			"properties": {
+				"data": "METAR",
+				"id": "KP69",
+				"site": "Lowell",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:52:00Z",
+				"temp": 2.8,
+				"dewp": 1.1,
+				"wspd": 0,
+				"wdir": 0,
+				"altim": 1021.4,
+				"slp": 1023.0,
+				"rawOb": "KP69 040352Z AUTO 00000KT 03/01 A3016 RMK AO1 SLP230 T00280011"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-115.597,
+					46.144
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983598561",
+			"properties": {
+				"data": "METAR",
+				"id": "KSLE",
+				"site": "Salem Muni",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:56:00Z",
+				"temp": 8.3,
+				"dewp": 3.9,
+				"wspd": 15,
+				"wgst": 23,
+				"wdir": 180,
+				"ceil": 39,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "39",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1020.7,
+				"slp": 1020.6,
+				"rawOb": "KSLE 040356Z AUTO 18015G23KT 10SM OVC039 08/04 A3014 RMK AO2 RAB12E22 SLP206 P0000 T00830039"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-123.001,
+					44.905
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983610879",
+			"properties": {
+				"data": "METAR",
+				"id": "KMLP",
+				"site": "Mullan Pass",
+				"prior": 3,
+				"obsTime": "2022-11-04T04:14:00Z",
+				"temp": -6.7,
+				"dewp": -7.8,
+				"wspd": 8,
+				"wgst": 19,
+				"wdir": 250,
+				"ceil": 3,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "3",
+				"visib": 3.00,
+				"fltcat": "LIFR",
+				"altim": 1012.6,
+				"wx": "-SN BR",
+				"rawOb": "KMLP 040414Z AUTO 25008G19KT 220V300 3SM -SN BR OVC003 M07/M08 A2990 RMK AO2 P0000 T10671078"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-115.671,
+					47.455
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983586469",
+			"properties": {
+				"data": "METAR",
+				"id": "KMYL",
+				"site": "McCall Muni",
+				"prior": 3,
+				"obsTime": "2022-11-04T03:51:00Z",
+				"temp": -1.7,
+				"dewp": -6.1,
+				"wspd": 0,
+				"wdir": 0,
+				"ceil": 85,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "85",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1018.4,
+				"slp": 1021.9,
+				"rawOb": "KMYL 040351Z AUTO 00000KT 10SM OVC085 M02/M06 A3007 RMK AO2 SLP219 T10171061"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-116.100,
+					44.894
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983605107",
+			"properties": {
+				"data": "METAR",
+				"id": "KS34",
+				"site": "Plains Arpt",
+				"prior": 4,
+				"obsTime": "2022-11-04T03:55:00Z",
+				"temp": 2.0,
+				"dewp": -34.0,
+				"wspd": 0,
+				"wdir": 0,
+				"visib": 10.00,
+				"altim": 1016.7,
+				"rawOb": "KS34 040355Z AUTO 00000KT 10SM 02/M34 A3002 RMK Plains "
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-114.907,
+					47.474
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983612103",
+			"properties": {
+				"data": "METAR",
+				"id": "K63S",
+				"site": "Colville Muni",
+				"prior": 4,
+				"obsTime": "2022-11-04T04:15:00Z",
+				"temp": 1.0,
+				"dewp": 0.0,
+				"wspd": 0,
+				"wdir": 0,
+				"ceil": 27,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "27",
+				"cldCvg2": "BKN",
+				"cldBas2": "34",
+				"cldCvg3": "OVC",
+				"cldBas3": "90",
+				"visib": 10.00,
+				"fltcat": "MVFR",
+				"altim": 1016.7,
+				"rawOb": "K63S 040415Z AUTO 00000KT 10SM BKN027 BKN034 OVC090 01/M00 A3002 RMK A01"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-117.884,
+					48.544
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983607299",
+			"properties": {
+				"data": "METAR",
+				"id": "CWJR",
+				"site": "Creston(AUTO)",
+				"prior": 4,
+				"obsTime": "2022-11-04T04:00:00Z",
+				"temp": 2.1,
+				"dewp": -1.0,
+				"wspd": 6,
+				"wdir": 150,
+				"slp": 1017.8,
+				"rawOb": "CWJR 040400Z AUTO 15006KT 02/M01 RMK AO1 SLP178 T00211010 58012"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-116.483,
+					49.040
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983611709",
+			"properties": {
+				"data": "METAR",
+				"id": "KJSY",
+				"site": "Joseph/State Arpt",
+				"prior": 4,
+				"obsTime": "2022-11-04T04:15:00Z",
+				"temp": -1.8,
+				"dewp": -4.0,
+				"ceil": 80,
+				"cover": "OVC",
+				"cldCvg1": "SCT",
+				"cldBas1": "70",
+				"cldCvg2": "BKN",
+				"cldBas2": "80",
+				"cldCvg3": "OVC",
+				"cldBas3": "95",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1018.4,
+				"rawOb": "KJSY 040415Z AUTO 10SM SCT070 BKN080 OVC095 M02/M04 A3007 RMK AO2 T10181040 TSNO"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-117.254,
+					45.356
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983613081",
+			"properties": {
+				"data": "METAR",
+				"id": "KSZT",
+				"site": "Sandpoint Arpt",
+				"prior": 4,
+				"obsTime": "2022-11-04T04:15:00Z",
+				"temp": 1.0,
+				"dewp": 0.0,
+				"wspd": 7,
+				"wdir": 230,
+				"ceil": 47,
+				"cover": "OVC",
+				"cldCvg1": "SCT",
+				"cldBas1": "35",
+				"cldCvg2": "BKN",
+				"cldBas2": "47",
+				"cldCvg3": "OVC",
+				"cldBas3": "65",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1017.0,
+				"rawOb": "KSZT 040415Z AUTO 23007KT 10SM SCT035 BKN047 OVC065 01/00 A3003 RMK AO2"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-116.567,
+					48.294
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983598343",
+			"properties": {
+				"data": "METAR",
+				"id": "KLGD",
+				"site": "La Grande/Union Cnty",
+				"prior": 4,
+				"obsTime": "2022-11-04T03:56:00Z",
+				"temp": 2.2,
+				"dewp": -2.8,
+				"wspd": 0,
+				"wdir": 0,
+				"ceil": 70,
+				"cover": "BKN",
+				"cldCvg1": "BKN",
+				"cldBas1": "70",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1020.1,
+				"slp": 1022.0,
+				"rawOb": "KLGD 040356Z AUTO 00000KT 10SM BKN070 02/M03 A3012 RMK AO2 SLP220 T00221028 FZRANO"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-118.009,
+					45.291
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983593725",
+			"properties": {
+				"data": "METAR",
+				"id": "KALW",
+				"site": "Walla Walla Rgnl",
+				"prior": 4,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 5.6,
+				"dewp": 0.0,
+				"wspd": 5,
+				"wdir": 240,
+				"ceil": 50,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "50",
+				"visib": 10.00,
+				"fltcat": "VFR",
+				"altim": 1019.7,
+				"slp": 1020.5,
+				"rawOb": "KALW 040353Z AUTO 24005KT 10SM OVC050 06/00 A3011 RMK AO2 SLP205 T00560000"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-118.286,
+					46.095
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983593697",
+			"properties": {
+				"data": "METAR",
+				"id": "KCLM",
+				"site": "Port Angeles Intl",
+				"prior": 4,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 5.6,
+				"dewp": 3.9,
+				"wspd": 0,
+				"wdir": 0,
+				"ceil": 65,
+				"cover": "OVC",
+				"cldCvg1": "SCT",
+				"cldBas1": "8",
+				"cldCvg2": "SCT",
+				"cldBas2": "26",
+				"cldCvg3": "OVC",
+				"cldBas3": "65",
+				"visib": 8.00,
+				"fltcat": "VFR",
+				"altim": 1010.9,
+				"slp": 1010.9,
+				"wx": "-RA",
+				"rawOb": "KCLM 040353Z AUTO 00000KT 8SM -RA SCT008 SCT026 OVC065 06/04 A2985 RMK AO2 SLP109 P0001 T00560039 $"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-123.507,
+					48.122
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983607277",
+			"properties": {
+				"data": "METAR",
+				"id": "CYYJ",
+				"site": "Victoria Intl",
+				"prior": 4,
+				"obsTime": "2022-11-04T04:00:00Z",
+				"temp": 6.0,
+				"dewp": 6.0,
+				"wspd": 15,
+				"wgst": 21,
+				"wdir": 130,
+				"ceil": 11,
+				"cover": "OVC",
+				"cldCvg1": "FEW",
+				"cldBas1": "5",
+				"cldCvg2": "BKN",
+				"cldBas2": "11",
+				"cldCvg3": "OVC",
+				"cldBas3": "19",
+				"visib": 6.00,
+				"fltcat": "MVFR",
+				"altim": 1011.3,
+				"slp": 1011.5,
+				"wx": "-RA BR",
+				"rawOb": "CYYJ 040400Z 13015G21KT 6SM -RA BR FEW005 BKN011 OVC019 06/06 A2986 RMK SF1SF5NS3 SF TR SLP115"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-123.433,
+					48.642
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983595805",
+			"properties": {
+				"data": "METAR",
+				"id": "KOLM",
+				"site": "Olympia Rgnl",
+				"prior": 4,
+				"obsTime": "2022-11-04T03:54:00Z",
+				"temp": 5.6,
+				"dewp": 4.4,
+				"wspd": 15,
+				"wgst": 24,
+				"wdir": 190,
+				"ceil": 11,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "11",
+				"cldCvg2": "OVC",
+				"cldBas2": "16",
+				"visib": 3.00,
+				"fltcat": "MVFR",
+				"altim": 1015.3,
+				"slp": 1015.3,
+				"wx": "-RA BR",
+				"rawOb": "KOLM 040354Z AUTO 19015G24KT 3SM -RA BR BKN011 OVC016 06/04 A2998 RMK AO2 PK WND 18026/0337 SLP153 P0005 T00560044"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-122.905,
+					46.977
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983601339",
+			"properties": {
+				"data": "METAR",
+				"id": "KTMK",
+				"site": "Tillamook Arpt",
+				"prior": 4,
+				"obsTime": "2022-11-04T03:55:00Z",
+				"temp": 8.0,
+				"dewp": 6.0,
+				"wspd": 8,
+				"wgst": 16,
+				"wdir": 150,
+				"ceil": 22,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "22",
+				"visib": 5.00,
+				"fltcat": "MVFR",
+				"altim": 1019.0,
+				"wx": "-DZ",
+				"rawOb": "KTMK 040355Z AUTO 15008G16KT 5SM -DZ OVC022 08/06 A3009 RMK AO2"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-123.814,
+					45.421
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983598061",
+			"properties": {
+				"data": "METAR",
+				"id": "KNUW",
+				"site": "Whidbey Island(NAS)",
+				"prior": 4,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 5.6,
+				"dewp": 3.9,
+				"wspd": 21,
+				"wgst": 28,
+				"wdir": 130,
+				"ceil": 15,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "15",
+				"cldCvg2": "BKN",
+				"cldBas2": "27",
+				"cldCvg3": "OVC",
+				"cldBas3": "50",
+				"visib": 10.00,
+				"fltcat": "MVFR",
+				"altim": 1013.6,
+				"slp": 1013.6,
+				"wx": "-RA",
+				"rawOb": "KNUW 040353Z 13021G28KT 10SM -RA BKN015 BKN027 OVC050 06/04 A2993 RMK AO2 PK WND 12031/0314 SLP136 P0002 T00560039 VISNO $"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-122.664,
+					48.355
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983594793",
+			"properties": {
+				"data": "METAR",
+				"id": "KPAE",
+				"site": "Everett/Paine Fld",
+				"prior": 4,
+				"obsTime": "2022-11-04T03:53:00Z",
+				"temp": 5.0,
+				"dewp": 3.3,
+				"wspd": 15,
+				"wgst": 27,
+				"wdir": 160,
+				"ceil": 8,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "8",
+				"visib": 8.00,
+				"fltcat": "IFR",
+				"altim": 1015.0,
+				"slp": 1015.1,
+				"wx": "-RA",
+				"rawOb": "KPAE 040353Z 16015G27KT 8SM -RA OVC008 05/03 A2997 RMK AO2 PK WND 15027/0346 CIG 004V013 SLP151 P0005 T00500033"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-122.283,
+					47.923
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983597657",
+			"properties": {
+				"data": "METAR",
+				"id": "KSMP",
+				"site": "Stampede Pass",
+				"prior": 4,
+				"obsTime": "2022-11-04T03:56:00Z",
+				"temp": -1.7,
+				"dewp": -2.8,
+				"wspd": 0,
+				"wdir": 0,
+				"ceil": 2,
+				"cover": "OVX",
+				"cldCvg1": "OVX",
+				"cldBas1": "0",
+				"visib": 0.50,
+				"fltcat": "LIFR",
+				"altim": 1013.6,
+				"slp": 1016.2,
+				"wx": "SN FZFG",
+				"rawOb": "KSMP 040356Z AUTO 00000KT 1/2SM SN FZFG VV002 M02/M03 A2993 RMK AO2 SLP162 P0011 T10171028"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-121.338,
+					47.276
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983614149",
+			"properties": {
+				"data": "METAR",
+				"id": "KS52",
+				"site": "Methow Valley State",
+				"prior": 4,
+				"obsTime": "2022-11-04T04:15:00Z",
+				"temp": -1.5,
+				"dewp": -2.0,
+				"wspd": 0,
+				"wdir": 0,
+				"ceil": 25,
+				"cover": "OVC",
+				"cldCvg1": "BKN",
+				"cldBas1": "25",
+				"cldCvg2": "OVC",
+				"cldBas2": "80",
+				"visib": 7.00,
+				"fltcat": "MVFR",
+				"altim": 1016.7,
+				"wx": "BR",
+				"rawOb": "KS52 040415Z AUTO 00000KT 7SM BR BKN025 OVC080 M01/M02 A3002 RMK AO2 T10151020"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-120.149,
+					48.426
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983604047",
+			"properties": {
+				"data": "METAR",
+				"id": "KEPH",
+				"site": "Ephrata Muni",
+				"prior": 4,
+				"obsTime": "2022-11-04T04:03:00Z",
+				"temp": 2.8,
+				"dewp": 1.1,
+				"wspd": 7,
+				"wdir": 180,
+				"ceil": 13,
+				"cover": "OVC",
+				"cldCvg1": "OVC",
+				"cldBas1": "13",
+				"visib": 10.00,
+				"fltcat": "MVFR",
+				"altim": 1017.7,
+				"wx": "-RA",
+				"rawOb": "KEPH 040403Z AUTO 18007KT 10SM -RA OVC013 03/01 A3005 RMK AO2 P0000 T00280011"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-119.516,
+					47.308
+				]
+			}
+		},
+		{
+			"type": "Feature",
+			"id": "983606507",
+			"properties": {
+				"data": "METAR",
+				"id": "CWYY",
+				"site": "Osoyoos(AUTO8)",
+				"prior": 4,
+				"obsTime": "2022-11-04T04:00:00Z",
+				"temp": 1.3,
+				"dewp": -0.4,
+				"wspd": 5,
+				"wdir": 160,
+				"slp": 1017.9,
+				"rawOb": "CWYY 040400Z AUTO 16005KT 01/M00 RMK AO1 8PAST HR 8025 SLP179 P0003 T00131004 50045"
+			},
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					-119.441,
+					49.028
+				]
+			}
+		}
+	]
+}
