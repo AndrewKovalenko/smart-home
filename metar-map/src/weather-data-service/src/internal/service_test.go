@@ -24,17 +24,19 @@ func TestWeatherServiceParsesResponseProperly(t *testing.T) {
 		t.Error(err)
 	}
 
-	if len(stationsToCheck) != len(stationsFlightCategories) {
+	if len(stationsToCheck) > len(stationsFlightCategories) {
 		t.Error("not all stations were found")
 	}
 
-	for _, stationData := range stationsFlightCategories {
-		if !contains(stationsToCheck, stationData.StationId) {
-			t.Errorf("station data for %s is missing", stationData.StationId)
+	for _, stationName := range stationsToCheck {
+		flightCategory, namePresentInAtResult := stationsFlightCategories[stationName]
+
+		if !namePresentInAtResult {
+			t.Errorf("station data for %s is missing", stationName)
 		}
 
-		if stationData.FlightCategory == undefinedFlightCategory {
-			t.Errorf("no flight cathegory for station %s", stationData.StationId)
+		if flightCategory == undefinedFlightCategory {
+			t.Errorf("no flight cathegory for station %s", stationName)
 		}
 	}
 
