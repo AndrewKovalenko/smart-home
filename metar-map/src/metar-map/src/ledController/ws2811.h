@@ -1,7 +1,7 @@
-#include <FastLED.h>
-
 #ifndef LEDSTRIP_H
 #define LEDSTRIP_H
+
+#include <FastLED.h>
 
 #define NUMBER_OF_LEDS 50
 

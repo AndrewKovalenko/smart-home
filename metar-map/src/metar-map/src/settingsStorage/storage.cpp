@@ -21,21 +21,20 @@ bool areCredentialsBlank(WiFiCredentials credentials)
 
 void saveWiFiCredentials(WiFiCredentials credentials)
 {
-  EEPROM.begin(READ_BUFFER_SIZE);
-  credentials.crc = calculateCRC(String(credentials.ssid) + String(credentials.password));
+    EEPROM.begin(READ_BUFFER_SIZE);
+    credentials.crc = calculateCRC(String(credentials.ssid) + String(credentials.password));
 
-  EEPROM.put(EEPROM_CREDENTIALS_ADDRESS, credentials);
+    EEPROM.put(EEPROM_CREDENTIALS_ADDRESS, credentials);
 
-  EEPROM.commit();
-  EEPROM.end();  
+    EEPROM.commit();
+    EEPROM.end();
 }
 
-WiFiCredentials* readWifiCredentials()
+WiFiCredentials readWifiCredentials()
 {
-    WiFiCredentials* credentials = new WiFiCredentials();
-
+    WiFiCredentials credentials;
     EEPROM.begin(READ_BUFFER_SIZE);
-    EEPROM.get(EEPROM_CREDENTIALS_ADDRESS, *credentials);
+    EEPROM.get(EEPROM_CREDENTIALS_ADDRESS, credentials);
     EEPROM.end();
 
     return credentials;

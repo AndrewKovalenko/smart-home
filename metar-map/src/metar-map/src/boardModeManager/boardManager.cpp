@@ -2,35 +2,35 @@
 #include "../weather/weatherColorCodes.h"
 #include "../httpClient/http-client.h"
 #include "../weather/weatherDataRetriever.h"
-#include "../settingsStorage/storage.h"
-#include "../settingsStorage/storage.h"
 #include "../weather/weatherStation.h"
 #include "../wifiAccessPoint/accessPoint.h"
 #include "../wifiAccessPoint/configurationHttpServer.h"
 #include "boardManager.h"
 #include "stationsToLedsMapping.h"
-#include <FastLED.h>
+// #include <FastLED.h>
+
+#define NUM_LEDS 50
+// CRGB leds[NUM_LEDS];
 
 #define WIFI_RECONNECT_DELAY 1000
 #define MAX_CONNECTION_ATTEMPTS 15
+#define LED_DATA_PIN 5
 
 BoardManager::BoardManager(String baseUrl)
 {
   weatherReadingUrl = buildWeatherRetrievingUrl(baseUrl, metarStations, NUMBER_OF_STATIONS);
   httpServer = NULL;
   // ledStrip = WS2811LedStrip();
-  _boardMode = readMode();
+  _credentials = readWifiCredentials();
+  _boardMode = areCredentialsBlank(_credentials) ? WiFiSetup : WeatherClient;
 }
 
-BoardMode BoardManager::readMode()
+WiFiCredentials BoardManager::getWifiCredentials()
 {
-  WiFiCredentials *credentialsSaved = readWifiCredentials();
-  Serial.println(credentialsSaved->ssid);
-  Serial.println(credentialsSaved->password);
-
-  BoardMode boardMode = areCredentialsBlank(*credentialsSaved) ? WiFiSetup : WeatherClient;
-  delete credentialsSaved;
-  return boardMode;
+  WiFiCredentials credentialsSaved = readWifiCredentials();
+  Serial.println(credentialsSaved.ssid);
+  Serial.println(credentialsSaved.password);
+  return credentialsSaved;
 }
 
 BoardMode BoardManager::boardMode()
@@ -56,8 +56,8 @@ void BoardManager::connectToWiFiNetwork()
 {
   Serial.println("Connecting to network");
   uint8_t connectionAttempts = 0;
-  WiFiCredentials *savedCredentials = readWifiCredentials();
-  WiFi.begin(savedCredentials->ssid, savedCredentials->password);
+  WiFiCredentials savedCredentials = readWifiCredentials();
+  WiFi.begin(savedCredentials.ssid, savedCredentials.password);
 
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -68,108 +68,139 @@ void BoardManager::connectToWiFiNetwork()
     if (connectionAttempts > MAX_CONNECTION_ATTEMPTS)
     {
       resetCredentialsStorage();
-      delete savedCredentials;
       ESP.restart();
     }
   }
+
+  // FastLED.addLeds<WS2811, 3, RGB>(leds, NUM_LEDS);
 }
 
 void BoardManager::displayWeatherOnTheMap()
 {
-  CRGBArray<50> leds;
-  FastLED.addLeds<WS2811, 5>(leds, 50);
-  FastLED.setBrightness(60);
-  Serial.println("Weather URL: " + weatherReadingUrl);
-  String weatherDataJson = makeGetCall(weatherReadingUrl);
-  const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
-  parseResponse(weatherDataJson, metarStations, numberOfStations);
+  // for (uint8_t i = 0; i < NUM_LEDS; i++)
+  // {
+  //   leds[i] = CRGB::Black;
+  //   Serial.println("Setting led " + String(i) + " to black");
+  // }
+  // FastLED.show();
 
-  for (uint8_t i = 0; i < 50; i++)
-  {
-    //   bool ledSet = false;
+  // for (uint8_t i = 0; i < NUM_LEDS; i++)
+  // {
+  //   leds[i] = CRGB::Red;
+  //   FastLED.show();
+  //   Serial.println("Setting led " + String(i) + " to red");
+  //   delay(500);
+  // }
+  // CRGBArray<50> leds;
+  // FastLED.addLeds<WS2811, LED_DATA_PIN>(leds, 50);
+  // FastLED.setBrightness(60);
+  // Serial.println("Weather URL: " + weatherReadingUrl);
+  // String weatherDataJson = makeGetCall(weatherReadingUrl);
+  // const uint8_t numberOfStations = (uint8_t)(sizeof(metarStations) / sizeof(metarStations[0]));
+  // Serial.println("Response");
+  // Serial.println(weatherDataJson);
+  // parseResponse(weatherDataJson, metarStations, numberOfStations);
 
-    //   for (uint8_t j = 0; j < numberOfStations; j++)
-    //   {
-    //     if (i == metarStations[j].ledNumber)
-    //     {
-    //       LedColor colorForCurrentStation;
+  // for (uint8_t i = 0; i < 50; i++)
+  // {
+  //   bool ledSet = false;
 
-    //       switch (metarStations[j].weather[0])
-    //       {
-    //       case 'V':
-    //         colorForCurrentStation = VFR_COLOR;
-    //         break;
+  //   for (uint8_t j = 0; j < numberOfStations; j++)
+  //   {
+  //     if (i == metarStations[j].ledNumber)
+  //     {
+  //       LedColor colorForCurrentStation;
 
-    //       case 'M':
-    //         colorForCurrentStation = MVFR_COLOR;
-    //         break;
+  //       switch (metarStations[j].weather[0])
+  //       {
+  //       case 'V':
+  //         Serial.println("Setting " + String(i) + " to VFR");
+  //         colorForCurrentStation = VFR_COLOR;
+  //         break;
 
-    //       case 'I':
-    //         colorForCurrentStation = IFR_COLOR;
-    //         break;
+  //       case 'M':
+  //         Serial.println("Setting " + String(i) + " to MVFR");
+  //         colorForCurrentStation = MVFR_COLOR;
+  //         break;
 
-    //       case 'L':
-    //         colorForCurrentStation = LIFR_COLOR;
-    //         break;
+  //       case 'I':
+  //         Serial.println("Setting " + String(i) + " to IFR");
+  //         colorForCurrentStation = IFR_COLOR;
+  //         break;
 
-    //       default:
-    //         colorForCurrentStation = NO_DATA_COLOR;
-    //       }
+  //       case 'L':
+  //         Serial.println("Setting " + String(i) + " to LIFR");
+  //         colorForCurrentStation = LIFR_COLOR;
+  //         break;
 
-    //       ledStrip.setLedColor(i, colorForCurrentStation);
-    //       ledSet = true;
-    //       break;
-    //     }
-    //   }
+  //       default:
+  //         Serial.println("Setting " + String(i) + " to ERROR");
+  //         colorForCurrentStation = NO_DATA_COLOR;
+  //       }
 
-    //   if (!ledSet)
-    //   {
-    // ledStrip.setLedColor(i, OFF_COLOR);
-    //   }
-  }
-  // ledStrip.apply();
+  //       ledStrip.setLedColor(i, colorForCurrentStation);
+  //       ledSet = true;
+  //       break;
+  //     }
+  //   }
 
-  for (uint8_t i = 0; i < 50; i++)
-  {
-    bool ledSet = false;
+  //   if (!ledSet)
+  //   {
+  //     Serial.println("Setting " + String(i) + " to OFF");
+  //     ledStrip.setLedColor(i, OFF_COLOR);
+  //   }
 
-    for (uint8_t j = 0; j < 26; j++)
-    {
-      if (i == metarStations[j].ledNumber)
-      {
-        CRGB colorForCurrentStation;
-        switch (metarStations[j].weather[0])
-        {
-        case 'V':
-          colorForCurrentStation = CRGB(34, 197, 1);
-          break;
+  //   Serial.println("Applying");
+  //   ledStrip.apply();
+  // }
 
-        case 'M':
-          colorForCurrentStation = CRGB(31, 112, 219);
-          break;
+  // for (uint8_t i = 0; i < 50; i++)
+  // {
+  //   bool ledSet = false;
 
-        case 'I':
-          colorForCurrentStation = CRGB(253, 0, 0);
-          break;
+  //   for (uint8_t j = 0; j < 26; j++)
+  //   {
+  //     if (i == metarStations[j].ledNumber)
+  //     {
+  //       CRGB colorForCurrentStation;
+  //       switch (metarStations[j].weather[0])
+  //       {
+  //       case 'V':
+  //         Serial.println("Setting " + String(i) + " to VFR");
+  //         colorForCurrentStation = CRGB(34, 197, 1);
+  //         break;
 
-        case 'L':
-          colorForCurrentStation = CRGB(251, 63, 255);
-          break;
+  //       case 'M':
+  //         Serial.println("Setting " + String(i) + " to MVFR");
+  //         colorForCurrentStation = CRGB(31, 112, 219);
+  //         break;
 
-        default:
-          colorForCurrentStation = CRGB(255, 255, 0);
-        }
-        leds[i] = colorForCurrentStation;
-        ledSet = true;
-        break;
-      }
-    }
+  //       case 'I':
+  //         Serial.println("Setting " + String(i) + " to IFR");
+  //         colorForCurrentStation = CRGB(253, 0, 0);
+  //         break;
 
-    if (!ledSet)
-    {
-      leds[i] = CRGB(0, 0, 0);
-    }
+  //       case 'L':
+  //         Serial.println("Setting " + String(i) + " to LIFR");
+  //         colorForCurrentStation = CRGB(251, 63, 255);
+  //         break;
 
-    FastLED.show();
-  }
+  //       default:
+  //         Serial.println("Setting " + String(i) + " to ERROR");
+  //         colorForCurrentStation = CRGB(255, 255, 0);
+  //       }
+  //       leds[i] = colorForCurrentStation;
+  //       ledSet = true;
+  //       break;
+  //     }
+  //   }
+
+  //   if (!ledSet)
+  //   {
+  //     Serial.println("Setting " + String(i) + " to OFF");
+  //     leds[i] = CRGB(0, 0, 0);
+  //   }
+
+  //   FastLED.show();
+  // }
 }

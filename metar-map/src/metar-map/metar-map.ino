@@ -4,6 +4,10 @@
 #include "src/configuration.h"
 #include "src/boardModeManager/boardManager.h"
 
+#include <FastLED.h>
+#define NUM_LEDS 50
+CRGB leds[NUM_LEDS];
+
 #define BOARD_BAUD 115200
 // Seattle TAC URL example
 // https://www.aviationweather.gov/adds/dataserver_current/httpparam?datasource=metars&requestType=retrieve&format=csv&mostRecentForEachStation=constraint&hoursBeforeNow=1.25&stationString=%20KEAT%20KENL%20KSMP%20KPLU%20KRNT%20KBFI%20KSEA%20KTIW%20KTCM%20KGRF%20KPWT%20KOLM%20KSHN%20KHQM%20KUIL%20KCLM%20CYYJ%20KFHR%20KORS%20KBLI%20KBVS%20KNUW%20K0S9%20KPAE%20KAWO%20KS52
@@ -17,28 +21,47 @@ const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
 
 void setup()
 {
+  Serial.println(" ------------- BEGIN Setup -------------");
   Serial.begin(BOARD_BAUD);
   Serial.println();
-
-  if (boardManager.readMode() == WeatherClient)
+  FastLED.addLeds<WS2811, 3, RGB>(leds, NUM_LEDS);
+  if (boardManager.boardMode() == WeatherClient)
   {
-    boardManager.connectToWiFiNetwork();
+    Serial.println("Read weather");
+    // boardManager.connectToWiFiNetwork();
   }
   else
   {
-    boardManager.startInWiFiSetupMode();
+    Serial.println("Setup wifi");
+    // boardManager.startInWiFiSetupMode();
   }
+  Serial.println("------------- END Setup -------------");
 }
 
 void loop()
 {
-  if (boardManager.boardMode() == WeatherClient)
+  Serial.println("------------- BEGIN Loop -------------");
+  for (uint8_t i = 0; i < NUM_LEDS; i++)
   {
-    boardManager.displayWeatherOnTheMap();
-    delay(WEATHER_REFRESH_RATE);
+    leds[i] = CRGB::Black;
+    FastLED.show();
   }
-  else
+
+  for (uint8_t i = 0; i < NUM_LEDS; i++)
   {
-    boardManager.handleHttpClient();
+    leds[i] = CRGB::Red;
+    FastLED.show();
+    delay(500);
   }
+  Serial.println("-------------- END Loop -------------");
+
+  // if (boardManager.boardMode() == WeatherClient)
+  // {
+  //   boardManager.displayWeatherOnTheMap();
+  //   delay(WEATHER_REFRESH_RATE);
+  // }
+  // else
+  // {
+  //   boardManager.handleHttpClient();
+  // }
 }

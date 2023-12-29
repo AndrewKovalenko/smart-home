@@ -14,10 +14,9 @@ struct WiFiCredentials
     uint16_t crc;
 };
 
-
 bool areCredentialsBlank(WiFiCredentials credentials);
 void resetCredentialsStorage();
-WiFiCredentials* readWifiCredentials();
+WiFiCredentials readWifiCredentials();
 void saveWiFiCredentials(WiFiCredentials credentials);
 
-#endif 
+#endif

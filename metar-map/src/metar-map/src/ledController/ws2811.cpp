@@ -1,11 +1,11 @@
 #include "ws2811.h"
 
-#define DATA_PIN 5
+#define DATA_PIN 3
 #define DEFAULT_BRIGHTNESS 60
 
 WS2811LedStrip::WS2811LedStrip()
 {
-    FastLED.addLeds<WS2811, DATA_PIN>(leds, NUMBER_OF_LEDS); 
+    FastLED.addLeds<WS2811, DATA_PIN, RGB>(leds, NUMBER_OF_LEDS);
     FastLED.setBrightness(DEFAULT_BRIGHTNESS);
 }
 
