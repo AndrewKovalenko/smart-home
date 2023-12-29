@@ -1,12 +1,9 @@
+// requires STRICTLY FastLed 3.2.10
 #include <Arduino.h>
 #include <EEPROM.h>
 #include "src/settingsStorage/crc16.h"
 #include "src/configuration.h"
 #include "src/boardModeManager/boardManager.h"
-
-#include <FastLED.h>
-#define NUM_LEDS 50
-CRGB leds[NUM_LEDS];
 
 #define BOARD_BAUD 115200
 // Seattle TAC URL example
@@ -24,16 +21,16 @@ void setup()
   Serial.println(" ------------- BEGIN Setup -------------");
   Serial.begin(BOARD_BAUD);
   Serial.println();
-  FastLED.addLeds<WS2811, 3, RGB>(leds, NUM_LEDS);
+
   if (boardManager.boardMode() == WeatherClient)
   {
     Serial.println("Read weather");
-    // boardManager.connectToWiFiNetwork();
+    boardManager.connectToWiFiNetwork();
   }
   else
   {
     Serial.println("Setup wifi");
-    // boardManager.startInWiFiSetupMode();
+    boardManager.startInWiFiSetupMode();
   }
   Serial.println("------------- END Setup -------------");
 }
@@ -41,27 +38,14 @@ void setup()
 void loop()
 {
   Serial.println("------------- BEGIN Loop -------------");
-  for (uint8_t i = 0; i < NUM_LEDS; i++)
+  if (boardManager.boardMode() == WeatherClient)
   {
-    leds[i] = CRGB::Black;
-    FastLED.show();
+    boardManager.displayWeatherOnTheMap();
+    delay(WEATHER_REFRESH_RATE);
   }
-
-  for (uint8_t i = 0; i < NUM_LEDS; i++)
+  else
   {
-    leds[i] = CRGB::Red;
-    FastLED.show();
-    delay(500);
+    boardManager.handleHttpClient();
   }
   Serial.println("-------------- END Loop -------------");
-
-  // if (boardManager.boardMode() == WeatherClient)
-  // {
-  //   boardManager.displayWeatherOnTheMap();
-  //   delay(WEATHER_REFRESH_RATE);
-  // }
-  // else
-  // {
-  //   boardManager.handleHttpClient();
-  // }
 }
