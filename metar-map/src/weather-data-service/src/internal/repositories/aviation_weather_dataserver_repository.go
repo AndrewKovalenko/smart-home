@@ -12,7 +12,9 @@ import (
 	"weatherdataservice/internal/models"
 )
 
-const metarServerUrlTemplate = "https://aviationweather.gov/api/data/metar?ids=%sE&format=json"
+const metarServerUrlTemplate = "https://aviationweather.gov/api/data/metar?ids=%s&format=json&hours=0"
+
+// const metarServerUrlTemplate = "https://aviationweather.gov/api/data/metar?ids=%s&format=json&hours=0"
 const broken = "BCN"
 const overcast = "OVC"
 const unrestrictedVisibility = "10+"
