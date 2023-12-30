@@ -73,7 +73,7 @@ func parseVisibility(rawJsonVisibilityData json.RawMessage) int {
 	if utf8.Valid(rawJsonVisibilityData) {
 		stringifiedVisibility := string(rawJsonVisibilityData)
 
-		if stringifiedVisibility == unrestrictedVisibility {
+		if strings.Contains(stringifiedVisibility, unrestrictedVisibility) {
 			return maxVisibility
 		}
 
