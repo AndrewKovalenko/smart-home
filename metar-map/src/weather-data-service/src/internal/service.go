@@ -1,104 +1,46 @@
 package internal
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
+	"slices"
 	"weatherdataservice/internal/models"
 	"weatherdataservice/internal/repositories"
 )
 
-const stationNameProperty = "id"
-const flightCategoryProperty = "fltcat"
-const undefinedFlightCategory = "undefined"
+const LowIFR = "LIFR"
+const IFR = "IFR"
+const MarginalVFR = "MVFR"
+const VFR = "VFR"
 
-func parseWeatherData(response []byte) (map[string]string, error) {
-	var weatherData models.AviationWeatherAPIResponse
-	parsingError := json.Unmarshal(response, &weatherData)
+func determineFlightCategory(visibility int, cloudLayers []uint) string {
+	lowestCloudLayerHight := slices.Min(cloudLayers)
 
-	if parsingError != nil {
-		return nil, errors.New("unable to parse aw response")
+	if lowestCloudLayerHight < 500 || visibility < 1 {
+		return LowIFR
 	}
 
-	result := make(map[string]string)
-
-	for _, stationData := range weatherData.StationsData {
-		stationName, stationNamePresent := stationData.Properties[stationNameProperty]
-
-		stationNameString := fmt.Sprintf("%v", stationName)
-		if !stationNamePresent {
-			continue
-		}
-
-		flightCategory, flightCategoryPresent := stationData.Properties[flightCategoryProperty]
-
-		if !flightCategoryPresent {
-			flightCategory = undefinedFlightCategory
-		}
-
-		result[stationNameString] = fmt.Sprintf("%v", flightCategory)
+	if lowestCloudLayerHight < 1000 || visibility < 3 {
+		return IFR
 	}
 
-	return result, nil
-}
-
-func extractCategoriesForRequestedStations(
-	flightCategories map[string]string,
-	requestedStations []string,
-	stationOverrides map[string]string,
-) ([]models.StationFlightCategory, error) {
-	result := make([]models.StationFlightCategory, 0)
-
-	for _, stationName := range requestedStations {
-		var categoryToUse string
-
-		if reportedCategory, categoryExist := flightCategories[stationName]; categoryExist {
-			categoryToUse = reportedCategory
-		} else {
-			categoryToUse = undefinedFlightCategory
-		}
-
-		if overrideStation, overrideExist := stationOverrides[stationName]; overrideExist {
-			if overrideStationCategory, recordExists := flightCategories[overrideStation]; recordExists {
-				categoryToUse = overrideStationCategory
-			} else {
-				categoryToUse = undefinedFlightCategory
-			}
-		}
-
-		stationFlightCategoryModel := models.StationFlightCategory{
-			StationId:      stationName,
-			FlightCategory: categoryToUse,
-		}
-
-		result = append(result, stationFlightCategoryModel)
+	if lowestCloudLayerHight < 3000 || visibility < 5 {
+		return MarginalVFR
 	}
 
-	return result, nil
+	return VFR
 }
 
 func GetWeather(requestedStations []string) ([]models.StationFlightCategory, error) {
 	metars, err := repositories.GetMetarsForStations(requestedStations)
+	result := make([]models.StationFlightCategory, len(requestedStations))
 
 	if err != nil {
 		return nil, err
 	}
 
-	flightCategories, err := parseWeatherData(response)
-
-	if err != nil {
-		return nil, err
+	for i, metar := range metars {
+		result[i].StationId = metar.StationId
+		result[i].FlightCategory = determineFlightCategory(metar.Visibility, metar.CloudLayers)
 	}
 
-	serviceConfig, err := repositories.GetServiceConfig()
-
-	if err != nil {
-		return extractCategoriesForRequestedStations(flightCategories, requestedStations, nil)
-	}
-
-	return extractCategoriesForRequestedStations(
-		flightCategories,
-		requestedStations,
-		serviceConfig.StationOverrides,
-	)
+	return result, nil
 }
