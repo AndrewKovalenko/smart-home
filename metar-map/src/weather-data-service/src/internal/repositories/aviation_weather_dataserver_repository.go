@@ -33,6 +33,32 @@ type weatherDataServerResponse struct {
 	Clouds     []cloudLayer    `json:"clouds"`
 }
 
+func getStationsFromMetars(metars []weatherDataServerResponse) []string {
+	stationIds := make([]string, len(metars))
+
+	for i, metar := range metars {
+		stationIds[i] = metar.StationId
+	}
+
+	return stationIds
+}
+
+func missingStations(received, requested []string) []string {
+	result := []string{}
+
+	receivedStationSet := make(map[string]bool, len(received))
+	for _, receivedStationId := range requested {
+		receivedStationSet[receivedStationId] = true
+	}
+
+	for _, requestedStationId := range requested {
+		if !receivedStationSet[requestedStationId] {
+			result = append(result, requestedStationId)
+		}
+	}
+	return result
+}
+
 func getMetarData(stations []string) ([]weatherDataServerResponse, error) {
 	dataServerUrl := fmt.Sprintf(metarServerUrlTemplate, strings.Join(stations, ","))
 	response, err := http.Get(dataServerUrl)
@@ -98,14 +124,24 @@ func GetMetarsForStations(stations []string) ([]models.Metar, error) {
 		return result, err
 	}
 
-	if len(stations) != len(metarData) {
-		return result, errors.New("Data server returned inconsistent data")
-	}
-
 	for i, metar := range metarData {
 		result[i].StationId = metar.StationId
 		result[i].CloudLayers = extractCloudLayers(metar.Clouds)
 		result[i].Visibility = parseVisibility(metar.Visibility)
+	}
+
+	if len(stations) != len(metarData) {
+		stationIdsReceived := getStationsFromMetars(metarData)
+		stationsMissingData := missingStations(stationIdsReceived, stations)
+		firstUnfilledStationIndex := len(metarData)
+
+		for i, stationId := range stationsMissingData {
+			unfilledItemIndex := firstUnfilledStationIndex + i
+			result[unfilledItemIndex].StationId = stationId
+			result[unfilledItemIndex].Visibility = UnknownVisibility
+			result[unfilledItemIndex].CloudLayers = []uint{}
+		}
+
 	}
 
 	return result, nil
