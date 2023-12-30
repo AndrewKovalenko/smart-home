@@ -78,7 +78,7 @@ func extractCategoriesForRequestedStations(
 }
 
 func GetWeather(requestedStations []string) ([]models.StationFlightCategory, error) {
-	response, err := repositories.GetWeatherData()
+	metars, err := repositories.GetMetarsForStations(requestedStations)
 
 	if err != nil {
 		return nil, err
