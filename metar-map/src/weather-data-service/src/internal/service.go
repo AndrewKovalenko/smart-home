@@ -6,23 +6,27 @@ import (
 	"weatherdataservice/internal/repositories"
 )
 
-const LowIFR = "LIFR"
-const IFR = "IFR"
-const MarginalVFR = "MVFR"
-const VFR = "VFR"
-
 func determineFlightCategory(visibility int, cloudLayers []uint) string {
-	lowestCloudLayerHight := slices.Min(cloudLayers)
+	if visibility == repositories.UnknownVisibility {
+		return ERROR
+	}
 
-	if lowestCloudLayerHight < 500 || visibility < 1 {
+	var lowestCloudLayerHight uint
+	if len(cloudLayers) > 0 {
+		lowestCloudLayerHight = slices.Min(cloudLayers)
+	} else {
+		lowestCloudLayerHight = stratosphere
+	}
+
+	if lowestCloudLayerHight < lowIFRCeiling || visibility < lowIFRVisibility {
 		return LowIFR
 	}
 
-	if lowestCloudLayerHight < 1000 || visibility < 3 {
+	if lowestCloudLayerHight < ifrCeiling || visibility < ifrVisibility {
 		return IFR
 	}
 
-	if lowestCloudLayerHight < 3000 || visibility < 5 {
+	if lowestCloudLayerHight < marginalVFRCeiling || visibility < marginalVFRVisibility {
 		return MarginalVFR
 	}
 
