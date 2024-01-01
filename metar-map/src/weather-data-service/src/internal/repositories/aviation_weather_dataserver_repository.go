@@ -95,7 +95,7 @@ func extractCloudLayers(clouds []cloudLayer) []uint {
 	return result
 }
 
-func parseVisibility(rawJsonVisibilityData json.RawMessage) int {
+func parseVisibility(rawJsonVisibilityData json.RawMessage) float32 {
 	if utf8.Valid(rawJsonVisibilityData) {
 		stringifiedVisibility := string(rawJsonVisibilityData)
 
@@ -103,13 +103,13 @@ func parseVisibility(rawJsonVisibilityData json.RawMessage) int {
 			return maxVisibility
 		}
 
-		visibilityValue, err := strconv.Atoi(stringifiedVisibility)
+		visibilityValue, err := strconv.ParseFloat(stringifiedVisibility, 2)
 
 		if err != nil {
 			return UnknownVisibility
 		}
 
-		return visibilityValue
+		return float32(visibilityValue)
 	}
 
 	return maxVisibility

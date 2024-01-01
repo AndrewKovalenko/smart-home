@@ -2,6 +2,6 @@ package models
 
 type Metar struct {
 	StationId   string
-	Visibility  int
+	Visibility  float32
 	CloudLayers []uint
 }

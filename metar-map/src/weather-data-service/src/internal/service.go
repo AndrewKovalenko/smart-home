@@ -6,7 +6,7 @@ import (
 	"weatherdataservice/internal/repositories"
 )
 
-func determineFlightCategory(visibility int, cloudLayers []uint) string {
+func determineFlightCategory(visibility float32, cloudLayers []uint) string {
 	if visibility == repositories.UnknownVisibility {
 		return ERROR
 	}
