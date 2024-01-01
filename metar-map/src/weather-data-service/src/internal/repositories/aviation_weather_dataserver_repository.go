@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"unicode/utf8"
-	"weatherdataservice/internal/models"
+	"weatherdataservice/cmd/standalone_service/models"
 )
 
 const metarServerUrlTemplate = "https://aviationweather.gov/api/data/metar?ids=%s&format=json&hours=0"

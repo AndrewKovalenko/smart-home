@@ -2,7 +2,7 @@ package internal
 
 import (
 	"slices"
-	"weatherdataservice/internal/models"
+	"weatherdataservice/cmd/standalone_service/models"
 	"weatherdataservice/internal/repositories"
 )
 

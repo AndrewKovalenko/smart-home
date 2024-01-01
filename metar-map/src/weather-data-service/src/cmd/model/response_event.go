@@ -1,6 +1,6 @@
 package model
 
-import standalone_service_models "weatherdataservice/internal/models"
+import standalone_service_models "weatherdataservice/cmd/standalone_service/models"
 
 // NOTE: response event format
 // {
