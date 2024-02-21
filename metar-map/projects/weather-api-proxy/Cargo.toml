@@ -1,0 +1,6 @@
+[workspace]
+resolver = "2"
+package.edition = "2021"
+
+
+members = ["crates/standalone-http-server"]

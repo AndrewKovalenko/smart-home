@@ -1,0 +1,11 @@
+[package]
+edition.workspace = true
+
+name = "standalone-http-server"
+version = "0.1.0"
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.7.4"
+serde = "1.0.197"
+tokio = { version = "1.36.0", features = ["full"] }
