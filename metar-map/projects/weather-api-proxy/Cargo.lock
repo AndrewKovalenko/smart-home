@@ -481,6 +481,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "proxy_application"
+version = "0.1.0"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "quote"
 version = "1.0.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -610,10 +617,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "standalone-http-server"
+name = "standalone_http_server"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "proxy_application",
  "serde",
  "tokio",
 ]

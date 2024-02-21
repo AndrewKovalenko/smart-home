@@ -2,5 +2,7 @@
 resolver = "2"
 package.edition = "2021"
 
-
-members = ["crates/standalone-http-server"]
+members = [
+  "crates/launchers/standalone_http_server",
+  "crates/proxy_application",
+]
