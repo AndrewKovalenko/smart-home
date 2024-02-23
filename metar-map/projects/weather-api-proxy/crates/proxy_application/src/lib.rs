@@ -10,5 +10,3 @@ pub mod dtos {
 pub mod repositories {
     pub mod weather_data_repository;
 }
-
-mod config;

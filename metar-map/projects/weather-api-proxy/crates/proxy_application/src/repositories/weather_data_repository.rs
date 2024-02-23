@@ -31,7 +31,7 @@ mod tests {
         let station_ids = TEST_STATION_IDS.split(",").collect::<Vec<&str>>();
         let weather_data_request = get_weather_data_for_stations(&station_ids);
 
-        assert!(matches!(weather_data_request, Result::Ok(_)))
-
+        assert!(matches!(weather_data_request, Result::Ok(_)));
+        assert_eq!(station_ids.len(), weather_data_request.unwrap().len());
     }
 }
