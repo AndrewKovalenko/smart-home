@@ -44,7 +44,9 @@ async fn get_weather_categories_for_stations(
         .split(STATION_ID_SEPARATOR)
         .collect::<Vec<&str>>();
 
-    let weather_categories = get_weather_category_for_stations(station_ids.as_slice());
+    let weather_categories = get_weather_category_for_stations(station_ids.as_slice())
+        .await
+        .unwrap();
 
     (StatusCode::OK, Json(weather_categories))
 }
