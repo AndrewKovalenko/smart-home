@@ -13,7 +13,7 @@ pub(crate) struct CloudLayer {
     pub coverage_type: String,
 
     #[serde(rename = "base")]
-    pub bases_altitude: u16,
+    pub bases_altitude: Option<u16>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -96,7 +96,7 @@ mod tests {
         ));
 
         assert_eq!(weather_record.sky_coverage.len(), 1);
-        assert_eq!(weather_record.sky_coverage[0].bases_altitude, 700);
+        assert_eq!(weather_record.sky_coverage[0].bases_altitude.unwrap(), 700);
         assert_eq!(weather_record.sky_coverage[0].coverage_type, "BKN");
     }
 
