@@ -1,13 +1,16 @@
-use crate::dtos::weather_category::WeatherCategory;
+use anyhow::Ok;
 
-pub fn get_weather_category_for_stations<'a>(station_ids: &[&'a str]) -> Vec<WeatherCategory> {
-    let weather_categories = station_ids
+use crate::dtos::weather_category::WeatherCategory;
+use crate::repositories::weather_data_repository::get_weather_data_for_stations;
+
+pub async fn get_weather_category_for_stations<'a>(
+    station_ids: &[&'a str],
+) -> Result<Vec<WeatherCategory>, anyhow::Error> {
+    let weather_data_records = get_weather_data_for_stations(station_ids).await?;
+    let station_weather_categories = weather_data_records
         .iter()
-        .map(|station_id| WeatherCategory {
-            station_id: String::from(*station_id),
-            weather_category: String::from("VFR"),
-        })
+        .map(WeatherCategory::from)
         .collect();
 
-    weather_categories
+    Ok(station_weather_categories)
 }

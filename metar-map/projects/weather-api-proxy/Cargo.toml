@@ -6,3 +6,6 @@ members = [
   "crates/launchers/standalone_http_server",
   "crates/proxy_application",
 ]
+
+[workspace.dependencies]
+tokio = { version = "1.36.0", features = ["full"] }

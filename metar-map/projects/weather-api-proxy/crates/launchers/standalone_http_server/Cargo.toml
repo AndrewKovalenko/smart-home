@@ -6,8 +6,8 @@ version = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+tokio.workspace = true
 axum = "0.7.4"
 serde = "1.0.197"
-tokio = { version = "1.36.0", features = ["full"] }
 
 proxy_application = { path = "../../proxy_application" }
