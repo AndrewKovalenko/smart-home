@@ -29,7 +29,7 @@ pub(crate) struct WeatherServerRecord {
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::*;
     use serde_json;
 
