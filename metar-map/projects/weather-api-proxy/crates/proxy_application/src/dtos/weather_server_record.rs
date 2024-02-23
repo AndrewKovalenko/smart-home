@@ -1,4 +1,34 @@
-use serde::Deserialize;
+use serde::{de, Deserialize, Deserializer};
+
+#[derive(Debug, PartialEq)]
+enum SkyCoverage {
+    Clear,
+    Few,
+    Scattered,
+    Broken,
+    Overcast,
+    Obscured,
+}
+
+impl<'de> Deserialize<'de> for SkyCoverage {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        let value = s.as_str();
+        match value {
+            "CLR" => Ok(SkyCoverage::Clear),
+            "FEW" => Ok(SkyCoverage::Few),
+            "SCT" => Ok(SkyCoverage::Scattered),
+            "BKN" => Ok(SkyCoverage::Broken),
+            "OVC" => Ok(SkyCoverage::Overcast),
+            "OVX" => Ok(Self::Obscured),
+            _ => Err(anyhow::anyhow!("unknown sky coverage type {}", value))
+                .map_err(de::Error::custom),
+        }
+    }
+}
 
 #[derive(Deserialize, Debug)]
 #[serde(untagged)]
@@ -10,7 +40,7 @@ pub(crate) enum WeatherServerVisibility {
 #[derive(Deserialize, Debug)]
 pub(crate) struct CloudLayer {
     #[serde(rename = "cover")]
-    pub coverage_type: String,
+    pub coverage_type: SkyCoverage,
 
     #[serde(rename = "base")]
     pub bases_altitude: Option<u16>,
@@ -97,7 +127,10 @@ mod tests {
 
         assert_eq!(weather_record.sky_coverage.len(), 1);
         assert_eq!(weather_record.sky_coverage[0].bases_altitude.unwrap(), 700);
-        assert_eq!(weather_record.sky_coverage[0].coverage_type, "BKN");
+        assert_eq!(
+            weather_record.sky_coverage[0].coverage_type,
+            SkyCoverage::Broken
+        );
     }
 
     const VISIBILITY_MISSING_WEATHER_SAMPLE: &str = r#"
