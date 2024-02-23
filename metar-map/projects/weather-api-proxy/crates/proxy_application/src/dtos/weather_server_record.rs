@@ -157,5 +157,18 @@ mod tests {
     }
 
     #[test]
-    fn successful_parse_array_of_weather_records() {}
+    fn successful_parse_array_of_weather_records() {
+        let multiple_stations_sample = format!(
+            "[{}, {}]",
+            COMPLETE_DATA_SAMPLE, VISIBILITY_MISSING_WEATHER_SAMPLE
+        );
+
+        let weather_data_parsing_result: Result<Vec<WeatherServerRecord>, _> =
+            serde_json::from_str(&multiple_stations_sample);
+
+        assert!(matches!(weather_data_parsing_result, Result::Ok(_)));
+
+        let weather_data_records = weather_data_parsing_result.unwrap();
+        assert_eq!(weather_data_records.len(), 2);
+    }
 }
