@@ -5,11 +5,11 @@ use reqwest;
 const STATIONS_URL_SEPARATOR: &str = ",";
 
 pub(crate) async fn get_weather_data_for_stations(
-    stationIds: &[&str],
+    station_ids: &[&str],
 ) -> anyhow::Result<Vec<WeatherServerRecord>> {
     let weather_server_request_url = format!(
         "https://aviationweather.gov/api/data/metar?ids={}&format=json&hours=0",
-        stationIds.join(STATIONS_URL_SEPARATOR)
+        station_ids.join(STATIONS_URL_SEPARATOR)
     );
     let weather_data_server_response = reqwest::get(weather_server_request_url).await?;
 
