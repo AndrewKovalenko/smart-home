@@ -3,6 +3,7 @@ resolver = "2"
 package.edition = "2021"
 
 members = [
+  "crates/launchers/metar_data_processor",
   "crates/launchers/standalone_http_server",
   "crates/proxy_application",
 ]
