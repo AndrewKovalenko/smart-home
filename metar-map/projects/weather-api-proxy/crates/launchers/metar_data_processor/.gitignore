@@ -11,4 +11,4 @@ __queuestorage__
 __azurite_db*__.json
 
 # generated binaries
-handler
+function_handler

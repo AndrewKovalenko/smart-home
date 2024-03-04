@@ -14,7 +14,7 @@
   },
   "customHandler": {
     "description": {
-      "defaultExecutablePath": "handler",
+      "defaultExecutablePath": "function_handler",
       "workingDirectory": "",
       "arguments": []
     },
