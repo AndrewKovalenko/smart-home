@@ -1,7 +1,7 @@
 use serde::{de, Deserialize, Deserializer};
 
 #[derive(Debug, PartialEq)]
-enum SkyCoverage {
+pub(crate) enum SkyCoverage {
     Clear,
     Few,
     Scattered,

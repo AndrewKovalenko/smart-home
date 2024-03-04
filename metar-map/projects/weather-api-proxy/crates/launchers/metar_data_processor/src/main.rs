@@ -7,7 +7,7 @@ use axum::{
 };
 
 use proxy_application::{
-    dtos::weather_category::WeatherCategory,
+    dtos::weather_category::WeatherCategoryData,
     services::weather_service::get_weather_category_for_stations,
 };
 
@@ -36,7 +36,7 @@ async fn main() {
 
 async fn get_weather_categories_for_stations(
     query_parameters: Query<HashMap<String, String>>,
-) -> (StatusCode, Json<Vec<WeatherCategory>>) {
+) -> (StatusCode, Json<Vec<WeatherCategoryData>>) {
     let station_ids_query_parameter = query_parameters.get(STATIONS_PARAMETER_NAME);
 
     if station_ids_query_parameter == Option::None
