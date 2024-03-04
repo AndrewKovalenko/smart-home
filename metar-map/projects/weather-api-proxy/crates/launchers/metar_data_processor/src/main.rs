@@ -25,7 +25,7 @@ async fn main() {
     };
 
     let web_app = Router::new().route(
-        "/getWeatherCategoriesForStations",
+        "/api/get_flight_category",
         get(get_weather_categories_for_stations),
     );
 
