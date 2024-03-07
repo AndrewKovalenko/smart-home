@@ -1,0 +1,10 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+
+[tasks.standalone]
+command = "cargo"
+args = ["build", "-p", "standalone_http_server"]
+
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
