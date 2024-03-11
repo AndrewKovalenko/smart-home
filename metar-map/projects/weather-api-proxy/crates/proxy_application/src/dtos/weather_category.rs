@@ -87,7 +87,9 @@ fn determine_weather_category(weather_record: &WeatherServerRecord) -> WeatherCa
 
 #[derive(Serialize)]
 pub struct WeatherCategoryData {
+    #[serde(rename = "stationId")]
     pub station_id: String,
+    #[serde(rename = "flightCategory")]
     pub weather_category: WeatherCategory,
 }
 

@@ -8,3 +8,22 @@ args = ["build", "-p", "standalone_http_server"]
 [tasks.clean]
 command = "cargo"
 args = ["clean"]
+
+[tasks.function-artifact]
+env = { TARGET_CC = "x86_64-linux-musl-gcc" }
+command = "cargo"
+args = [
+  "build",
+  "-p",
+  "get_flight_category",
+  "--release",
+  "--target",
+  "x86_64-unknown-linux-musl",
+]
+
+[tasks.copy-articaft]
+command = "cp"
+args = [
+  "../../../target/x86_64-unknown-linux-musl/release/get_flight_category",
+  "./function_handler",
+]
