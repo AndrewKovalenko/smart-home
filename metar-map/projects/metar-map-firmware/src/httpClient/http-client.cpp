@@ -50,11 +50,13 @@ void parseResponse(String response, WeatherStation *metars, uint8_t numberOfStat
 
 String makeGetCall(String url)
 {
-  WiFiClient client;
+  std::unique_ptr<BearSSL::WiFiClientSecure> client(new BearSSL::WiFiClientSecure);
+  client->setInsecure();
+
   HTTPClient https;
   String result;
 
-  if (https.begin(client, url))
+  if (https.begin(*client, url))
   {
     int httpCode = https.GET();
 
