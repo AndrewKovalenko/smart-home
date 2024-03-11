@@ -13,7 +13,7 @@
 // Box region url
 // https://aviationweather.gov/cgi-bin/json/MetarJSON.php?zoom=7&filter=prior&density=0&taf=0&bbox=-125.89991621094,44.800119886377,-114.85865644532,49.468498047905
 // http://192.168.0.55:8000/getFlightCategory/KEAT,KELN,KSMP,KPLU,KRNT,KBFI,KSEA,KTIW,KTCM,KGRF,KPWT,KOLM,KSHN,KHQM,KUIL,KCLM,CYYJ,KFHR,KORS,KBLI,KBVS,KNUW,K0S9,KPAE,KAWO,KS52
-// https://metar-map.azurewebsites.net/api/get_flight_category?stations=KEAT,KELN,KSMP,KPLU,KRNT,KBFI,KSEA,KTIW,KTCM,KGRF,KPWT,KOLM,KSHN,KHQM,KUIL,KCLM,CYYJ,KFHR,KORS,KBLI,KBVS,KNUW,K0S9,KPAE,KAWO,KS52
+// https://metar-map-apim.azure-api.net/metar-map/get_flight_category?stations=KEAT,KELN,KSMP,KPLU,KRNT,KBFI,KSEA,KTIW,KTCM,KGRF,KPWT,KOLM,KSHN,KHQM,KUIL,KCLM,CYYJ,KFHR,KORS,KBLI,KBVS,KNUW,K0S9,KPAE,KAWO,KS52
 BoardManager boardManager = BoardManager(WEATHER_URL_BASE);
 const uint32_t WEATHER_REFRESH_RATE = 1000 * 60 * 15; // 15 minutess
 
