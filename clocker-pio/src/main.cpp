@@ -4,7 +4,7 @@
 
 Adafruit_24bargraph bar = Adafruit_24bargraph();
 int led_number = 0;
-ezButton toggle_button(PD2);
+ezButton toggle_button(7);
 bool run_bargraph = false;
 uint64_t cycles = 0;
 
@@ -21,8 +21,9 @@ void loop()
 
   if (toggle_button.isPressed())
   {
+    Serial.println("Pressed");
     run_bargraph = !run_bargraph;
-    Serial.println("Switch bargraph status");
+    Serial.println(run_bargraph);
   }
 
   if (run_bargraph && (cycles % 100 == 0))
@@ -41,18 +42,14 @@ void loop()
     }
   }
 
-  if (cycles % 10 == 0)
-  {
-    if (run_bargraph)
-    {
-      Serial.println("Running bargraph");
-    }
-    else
-    {
-      Serial.println("Bargraph is on pause");
-    }
-  }
-
   delay(10);
-  cycles++;
+
+  if (cycles > 18446744073709551000)
+  {
+    cycles = 0;
+  }
+  else
+  {
+    cycles++;
+  }
 }
