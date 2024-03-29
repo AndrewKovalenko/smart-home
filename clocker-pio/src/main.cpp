@@ -26,25 +26,32 @@ void loop()
     Serial.println(run_bargraph);
   }
 
-  if (run_bargraph && (cycles % 100 == 0))
+  int light_value = analogRead(A0);
+
+  if (cycles % 100 == 0)
   {
-    bar.setBar(led_number, LED_GREEN);
-    led_number++;
+    Serial.println("Light value: " + String(light_value));
 
-    Serial.println("Setting LED # " + led_number);
-
-    bar.writeDisplay();
-
-    if (led_number > 23)
+    if (run_bargraph)
     {
-      led_number = 0;
-      bar.clear();
+      bar.setBar(led_number, LED_GREEN);
+      led_number++;
+
+      Serial.println("Setting LED # " + String(led_number));
+
+      bar.writeDisplay();
+
+      if (led_number > 23)
+      {
+        led_number = 0;
+        bar.clear();
+      }
     }
   }
 
   delay(10);
 
-  if (cycles > 18446744073709551000)
+  if (cycles > 18446744073709551000ULL)
   {
     cycles = 0;
   }
