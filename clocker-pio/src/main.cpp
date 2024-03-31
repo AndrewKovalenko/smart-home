@@ -2,11 +2,24 @@
 #include <Adafruit_LEDBackpack.h>
 #include <ezButton.h>
 
+#define MAX_BRIGHTNESS 100
+#define MIN_BRIGHTNESS 15
+
 Adafruit_24bargraph bar = Adafruit_24bargraph();
 int led_number = 0;
 ezButton toggle_button(7);
 bool run_bargraph = false;
-uint64_t cycles = 0;
+unsigned long long cycles = 0;
+
+uint8_t getBrightness(int sensor_read)
+{
+  if (sensor_read > 1000)
+  {
+    return MAX_BRIGHTNESS;
+  }
+
+  return uint8_t(sensor_read / (1000 / 15));
+}
 
 void setup()
 {
@@ -26,14 +39,17 @@ void loop()
     Serial.println(run_bargraph);
   }
 
-  int light_value = analogRead(A0);
+  int light_strength = analogRead(A0);
+  uint8_t bargraph_brightness = getBrightness(light_strength);
 
   if (cycles % 100 == 0)
   {
-    Serial.println("Light value: " + String(light_value));
+    Serial.println("Light value: " + String(light_strength));
+    Serial.println("bargraph brightness: " + String(bargraph_brightness));
 
     if (run_bargraph)
     {
+      bar.setBrightness(bargraph_brightness);
       bar.setBar(led_number, LED_GREEN);
       led_number++;
 
