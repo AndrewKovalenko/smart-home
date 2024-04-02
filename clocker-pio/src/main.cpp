@@ -7,7 +7,7 @@
 
 Adafruit_24bargraph bar = Adafruit_24bargraph();
 int led_number = 0;
-ezButton toggle_button(7);
+ezButton toggle_button(7, INPUT);
 bool run_bargraph = false;
 unsigned long long cycles = 0;
 
